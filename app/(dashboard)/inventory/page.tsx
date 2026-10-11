@@ -387,7 +387,7 @@ export default function InventoryPage() {
           title="No inventory items yet"
           description="Add your first product or item to start tracking inventory."
         >
-          <Button onClick={() => openDrawer("inventory")} className="bg-emerald-600 hover:bg-emerald-700">
+          <Button onClick={() => openDrawer("inventory")} className="bg-brand-600 hover:bg-brand-700">
             New Item
           </Button>
         </EmptyState>
@@ -458,8 +458,8 @@ export default function InventoryPage() {
             <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
               <defs>
                 <linearGradient id="inGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--brand-600)" stopOpacity={0.15} />
+                  <stop offset="95%" stopColor="var(--brand-600)" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="outGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#ef4444" stopOpacity={0.15} />
@@ -471,7 +471,7 @@ export default function InventoryPage() {
               <YAxis tick={{ fontSize: 11 }} className="text-muted-foreground" />
               <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Area type="monotone" dataKey="in" name="In" stroke="#10b981" fill="url(#inGrad)" strokeWidth={1.5} />
+              <Area type="monotone" dataKey="in" name="In" stroke="var(--brand-600)" fill="url(#inGrad)" strokeWidth={1.5} />
               <Area type="monotone" dataKey="out" name="Out" stroke="#ef4444" fill="url(#outGrad)" strokeWidth={1.5} />
             </AreaChart>
           </ResponsiveContainer>
@@ -687,11 +687,11 @@ export default function InventoryPage() {
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className={cn(
                     "flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
-                    isLow ? "bg-amber-50 dark:bg-amber-950/40" : item.isActive ? "bg-emerald-50 dark:bg-emerald-950/40" : "bg-muted"
+                    isLow ? "bg-amber-50 dark:bg-amber-950/40" : item.isActive ? "bg-brand-50 dark:bg-brand-950/40" : "bg-muted"
                   )}>
                     <Package className={cn(
                       "size-4",
-                      isLow ? "text-amber-600 dark:text-amber-400" : item.isActive ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"
+                      isLow ? "text-amber-600 dark:text-amber-400" : item.isActive ? "text-brand-600 dark:text-brand-400" : "text-muted-foreground"
                     )} />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -719,7 +719,7 @@ export default function InventoryPage() {
                   </span>
                   <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
                     <motion.div
-                      className={cn("h-full rounded-full", isLow ? "bg-amber-500" : "bg-emerald-500")}
+                      className={cn("h-full rounded-full", isLow ? "bg-amber-500" : "bg-brand-500")}
                       initial={{ width: 0 }}
                       animate={{ width: `${stockPercent}%` }}
                       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
@@ -729,7 +729,7 @@ export default function InventoryPage() {
 
                 {/* Prices */}
                 <div className="hidden md:flex flex-col items-end gap-0.5 w-24">
-                  <span className="text-xs font-mono tabular-nums text-emerald-600 dark:text-emerald-400">{formatMoney(item.salePrice)}</span>
+                  <span className="text-xs font-mono tabular-nums text-brand-600 dark:text-brand-400">{formatMoney(item.salePrice)}</span>
                   <span className="text-[11px] font-mono tabular-nums text-muted-foreground">Cost {formatMoney(item.purchasePrice)}</span>
                 </div>
 
@@ -791,7 +791,7 @@ export default function InventoryPage() {
                       onClick={() => setBulkCategory(c)}
                       className={cn(
                         "rounded-md border px-2 py-1 text-xs transition-colors",
-                        bulkCategory === c ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300" : "hover:bg-muted"
+                        bulkCategory === c ? "border-brand-300 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300" : "hover:bg-muted"
                       )}
                     >
                       {c}
@@ -810,7 +810,7 @@ export default function InventoryPage() {
                 setBulkCategory("");
               }}
               disabled={bulkLoading}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               {bulkLoading ? "Saving..." : "Apply"}
             </Button>
@@ -854,7 +854,7 @@ export default function InventoryPage() {
                 setBulkAdjustReason("");
               }}
               disabled={bulkLoading}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               {bulkLoading ? "Saving..." : "Save new count"}
             </Button>
@@ -885,7 +885,7 @@ export default function InventoryPage() {
               <div className="rounded-lg border p-3 space-y-2">
                 <p className="text-sm font-medium">Import Results</p>
                 <div className="flex gap-4 text-sm">
-                  <span className="text-emerald-600">{importResult.created} created</span>
+                  <span className="text-brand-600">{importResult.created} created</span>
                   <span className="text-blue-600">{importResult.updated} updated</span>
                   {importResult.errors.length > 0 && (
                     <span className="text-red-600">{importResult.errors.length} errors</span>
@@ -906,7 +906,7 @@ export default function InventoryPage() {
             <Button
               onClick={handleImport}
               disabled={!importFile || importLoading}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               {importLoading ? "Importing..." : "Import"}
             </Button>

@@ -79,11 +79,11 @@ const TYPE_COLORS = {
     icon: "bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400",
   },
   both: {
-    bg: "bg-emerald-50 dark:bg-emerald-950/40",
-    border: "border-emerald-200 dark:border-emerald-800",
-    text: "text-emerald-700 dark:text-emerald-400",
-    bar: "bg-emerald-500",
-    icon: "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400",
+    bg: "bg-brand-50 dark:bg-brand-950/40",
+    border: "border-brand-200 dark:border-brand-800",
+    text: "text-brand-700 dark:text-brand-400",
+    bar: "bg-brand-500",
+    icon: "bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400",
   },
 } as const;
 
@@ -285,8 +285,8 @@ function QuickSetup({ orgId, onSeeded }: { orgId: string | null; onSeeded: () =>
   const recommendedName = profiles.find((p) => p.country === recommended)?.countryName;
 
   return (
-    <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-center dark:border-emerald-800/40 dark:bg-emerald-950/20">
-      <div className="mx-auto flex size-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400">
+    <div className="rounded-lg border border-brand-200 bg-brand-50 p-6 text-center dark:border-brand-800/40 dark:bg-brand-950/20">
+      <div className="mx-auto flex size-12 items-center justify-center rounded-xl bg-brand-100 text-brand-600 dark:bg-brand-900/50 dark:text-brand-400">
         <Sparkles className="size-5" />
       </div>
       <h3 className="mt-3 text-base font-semibold">Add your country&apos;s tax rates</h3>
@@ -311,7 +311,7 @@ function QuickSetup({ orgId, onSeeded }: { orgId: string | null; onSeeded: () =>
         <Button
           onClick={handleSeed}
           disabled={seeding || (profiles.length > 0 && !country)}
-          className="bg-emerald-600 hover:bg-emerald-700"
+          className="bg-brand-600 hover:bg-brand-700"
         >
           <Sparkles className="mr-1.5 size-3.5" />
           {seeding ? "Setting up..." : "Quick setup: add my country's tax rates"}
@@ -357,7 +357,7 @@ function CreateTaxRateDialog({ open, setOpen, onCreated, orgId }: { open: boolea
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+        <Button size="sm" className="bg-brand-600 hover:bg-brand-700">
           <Plus className="mr-1.5 size-3.5" />Add Tax Rate
         </Button>
       </SheetTrigger>
@@ -372,7 +372,7 @@ function CreateTaxRateDialog({ open, setOpen, onCreated, orgId }: { open: boolea
             recoverable={recoverable} setRecoverable={setRecoverable}
             components={components} setComponents={setComponents}
           />
-          <Button type="submit" disabled={saving} className="w-full bg-emerald-600 hover:bg-emerald-700">{saving ? "Creating..." : "Create"}</Button>
+          <Button type="submit" disabled={saving} className="w-full bg-brand-600 hover:bg-brand-700">{saving ? "Creating..." : "Create"}</Button>
         </form>
       </SheetContent>
     </Sheet>
@@ -507,7 +507,7 @@ export default function TaxRatesPage() {
                       <div className="flex items-center gap-2">
                         <p className="text-sm font-medium">{rate.name}</p>
                         {rate.isDefault && (
-                          <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800 text-[10px]" variant="outline">
+                          <Badge className="bg-brand-50 text-brand-700 border-brand-200 dark:bg-brand-950/40 dark:text-brand-400 dark:border-brand-800 text-[10px]" variant="outline">
                             Default
                           </Badge>
                         )}
@@ -564,7 +564,7 @@ export default function TaxRatesPage() {
           </form>
           <SheetFooter>
             <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
-            <Button onClick={handleEdit} disabled={editSaving} className="bg-emerald-600 hover:bg-emerald-700">{editSaving ? "Saving..." : "Save Changes"}</Button>
+            <Button onClick={handleEdit} disabled={editSaving} className="bg-brand-600 hover:bg-brand-700">{editSaving ? "Saving..." : "Save Changes"}</Button>
           </SheetFooter>
         </SheetContent>
       </Sheet>

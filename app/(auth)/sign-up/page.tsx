@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, safeCallbackUrl } from "@/lib/utils";
 
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -51,7 +51,18 @@ interface ProvidersConfig {
 }
 
 export default function SignUpPage() {
+  return (
+    <Suspense>
+      <SignUpContent />
+    </Suspense>
+  );
+}
+
+function SignUpContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Set when sign-up starts from a flow that should resume afterwards (e.g. an invite link)
+  const callbackUrl = safeCallbackUrl(searchParams.get("callbackUrl"), "");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -100,7 +111,7 @@ export default function SignUpPage() {
         throw new Error("Failed to sign in after registration");
       }
 
-      router.push("/onboarding");
+      router.push(callbackUrl || "/onboarding");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");
       setLoading(false);
@@ -159,7 +170,7 @@ export default function SignUpPage() {
                 type="button"
                 variant="outline"
                 className="h-11 rounded-lg text-sm font-medium"
-                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                onClick={() => signIn("google", { callbackUrl: callbackUrl || "/dashboard" })}
               >
                 <GoogleIcon className="size-4" />
                 Google
@@ -170,7 +181,7 @@ export default function SignUpPage() {
                 type="button"
                 variant="outline"
                 className="h-11 rounded-lg text-sm font-medium"
-                onClick={() => signIn("apple", { callbackUrl: "/dashboard" })}
+                onClick={() => signIn("apple", { callbackUrl: callbackUrl || "/dashboard" })}
               >
                 <AppleIcon className="size-4" />
                 Apple
@@ -249,7 +260,7 @@ export default function SignUpPage() {
 
         <Button
           type="submit"
-          className="h-11 w-full rounded-lg bg-emerald-600 shadow-md shadow-emerald-600/15 transition-all hover:bg-emerald-500 hover:shadow-lg hover:shadow-emerald-600/20 active:scale-[0.98]"
+          className="h-11 w-full rounded-lg bg-brand-600 shadow-md shadow-brand-600/15 transition-all hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-600/20 active:scale-[0.98]"
           disabled={loading}
         >
           {loading ? (
@@ -271,8 +282,8 @@ export default function SignUpPage() {
       >
         Already have an account?{" "}
         <Link
-          href="/sign-in"
-          className="font-medium text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
+          href={callbackUrl ? `/sign-in?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/sign-in"}
+          className="font-medium text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300"
         >
           Sign in
         </Link>

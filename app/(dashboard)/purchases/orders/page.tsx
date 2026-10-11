@@ -49,7 +49,7 @@ const statusColors: Record<string, string> = {
   partial:
     "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
   received:
-    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   closed:
     "border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300",
   void: "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
@@ -298,9 +298,9 @@ export default function PurchaseOrdersPage() {
                 step: "3",
                 label: "Receive Goods",
                 desc: "Mark items as received and track delivery against the order",
-                color: "text-emerald-600 dark:text-emerald-400",
-                bg: "bg-emerald-50 dark:bg-emerald-950/40",
-                top: "bg-emerald-500",
+                color: "text-brand-600 dark:text-brand-400",
+                bg: "bg-brand-50 dark:bg-brand-950/40",
+                top: "bg-brand-500",
               },
             ].map(({ icon: Icon, step, label, desc, color, bg, top }) => (
               <div key={step} className="relative flex flex-col items-center py-6 px-3 sm:py-8 sm:px-5 text-center border-b sm:border-b-0 border-r-0 sm:border-r last:border-b-0 sm:last:border-r-0">
@@ -345,7 +345,7 @@ export default function PurchaseOrdersPage() {
               <Button
                 onClick={() => openDrawer("purchaseOrder")}
                 size="lg"
-                className="mt-6 bg-emerald-600 hover:bg-emerald-700"
+                className="mt-6 bg-brand-600 hover:bg-brand-700"
               >
                 <Plus className="mr-2 size-4" />
                 New Purchase Order
@@ -368,7 +368,7 @@ export default function PurchaseOrdersPage() {
           <Button
             size="sm"
             onClick={() => openDrawer("purchaseOrder")}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
           >
             <Plus className="mr-2 size-4" />
             New purchase order
@@ -394,10 +394,10 @@ export default function PurchaseOrdersPage() {
           </div>
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-              <span className="size-1.5 rounded-full bg-emerald-500" />
+              <span className="size-1.5 rounded-full bg-brand-500" />
               Received
             </p>
-            <p className="text-lg sm:text-2xl font-bold font-mono tabular-nums tracking-tight text-emerald-600 dark:text-emerald-400">
+            <p className="text-lg sm:text-2xl font-bold font-mono tabular-nums tracking-tight text-brand-600 dark:text-brand-400">
               {formatMoney(countsData?.counts.received?.amount || 0)}
             </p>
           </div>

@@ -33,7 +33,7 @@ interface GoodsReceiptDetail {
 
 const statusColors: Record<string, string> = {
   draft: "",
-  received: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+  received: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   billed: "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300",
   void: "border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300",
 };
@@ -162,7 +162,7 @@ export default function GoodsReceiptDetailPage() {
         </div>
         <div className="rounded-lg border p-4">
           <div className="flex items-center gap-2">
-            <PackageCheck className="size-3.5 text-emerald-600" />
+            <PackageCheck className="size-3.5 text-brand-600" />
             <p className="text-xs text-muted-foreground">Items received</p>
           </div>
           <p className="text-sm font-medium mt-1">

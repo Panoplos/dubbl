@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, safeCallbackUrl } from "@/lib/utils";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -63,7 +63,7 @@ interface ProvidersConfig {
 function SignInContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = safeCallbackUrl(searchParams.get("callbackUrl"), "/dashboard");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -119,7 +119,10 @@ function SignInContent() {
 
     try {
       const seedRes = await fetch("/api/auth/dev-login", { method: "POST" });
-      if (!seedRes.ok) throw new Error("Failed to seed dev user");
+      if (!seedRes.ok) {
+        const data = await seedRes.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to set up the dev account");
+      }
       const { credentials, organizationId } = await seedRes.json();
 
       localStorage.setItem("activeOrgId", organizationId);
@@ -292,7 +295,7 @@ function SignInContent() {
 
         <Button
           type="submit"
-          className="h-11 w-full rounded-lg bg-emerald-600 shadow-md shadow-emerald-600/15 transition-all hover:bg-emerald-500 hover:shadow-lg hover:shadow-emerald-600/20 active:scale-[0.98]"
+          className="h-11 w-full rounded-lg bg-brand-600 shadow-md shadow-brand-600/15 transition-all hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-600/20 active:scale-[0.98]"
           disabled={loading}
         >
           {loading ? (
@@ -315,8 +318,8 @@ function SignInContent() {
         >
           Don&apos;t have an account?{" "}
           <Link
-            href="/sign-up"
-            className="font-medium text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
+            href={callbackUrl === "/dashboard" ? "/sign-up" : `/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+            className="font-medium text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300"
           >
             Sign up
           </Link>

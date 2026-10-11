@@ -110,4 +110,4 @@ const notifTitle: React.CSSProperties = { fontSize: "14px", fontWeight: 600, col
 const notifBody: React.CSSProperties = { fontSize: "13px", color: "#6b7280", margin: "0 0 4px", lineHeight: "20px" };
 const notifTime: React.CSSProperties = { fontSize: "11px", color: "#9ca3af", margin: 0 };
 const buttonSection: React.CSSProperties = { textAlign: "center" as const, margin: "24px 0 0" };
-const button: React.CSSProperties = { backgroundColor: "#059669", borderRadius: "8px", color: "#fff", fontSize: "14px", fontWeight: 600, textDecoration: "none", textAlign: "center" as const, padding: "12px 32px" };
+const button: React.CSSProperties = { backgroundColor: "#171717", borderRadius: "8px", color: "#fff", fontSize: "14px", fontWeight: 600, textDecoration: "none", textAlign: "center" as const, padding: "12px 32px" };

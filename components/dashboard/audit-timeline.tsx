@@ -15,21 +15,21 @@ interface AuditTimelineProps {
 }
 
 const ACTION_COLORS: Record<string, string> = {
-  create: "bg-green-500",
+  create: "bg-brand-500",
   update: "bg-blue-500",
   delete: "bg-red-500",
   post: "bg-purple-500",
   void: "bg-orange-500",
-  approve: "bg-emerald-500",
+  approve: "bg-brand-500",
 };
 
 const ACTION_BADGE_COLORS: Record<string, string> = {
-  create: "border-green-200 bg-green-50 text-green-700",
+  create: "border-brand-200 bg-brand-50 text-brand-700",
   update: "border-blue-200 bg-blue-50 text-blue-700",
   delete: "border-red-200 bg-red-50 text-red-700",
   post: "border-purple-200 bg-purple-50 text-purple-700",
   void: "border-orange-200 bg-orange-50 text-orange-700",
-  approve: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  approve: "border-brand-200 bg-brand-50 text-brand-700",
 };
 
 export function AuditTimeline({ entries }: AuditTimelineProps) {

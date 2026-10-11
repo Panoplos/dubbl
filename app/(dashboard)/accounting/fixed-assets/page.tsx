@@ -32,7 +32,7 @@ interface FixedAsset {
 
 const statusColors: Record<string, string> = {
   active:
-    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   fully_depreciated:
     "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
   disposed:
@@ -81,7 +81,7 @@ function DepreciationBar({
       )}
     >
       <div
-        className="bg-emerald-500 h-full transition-all"
+        className="bg-brand-500 h-full transition-all"
         style={{ width: `${nbvPct}%` }}
       />
       <div
@@ -356,8 +356,8 @@ export default function FixedAssetsPage() {
                   step: "3",
                   label: "Track value",
                   sub: "Watch current values and record the drop each month",
-                  color: "bg-emerald-500",
-                  ring: "ring-emerald-200 dark:ring-emerald-900",
+                  color: "bg-brand-500",
+                  ring: "ring-brand-200 dark:ring-brand-900",
                 },
               ].map(({ step, label, sub, color, ring }, i) => (
                 <div
@@ -393,7 +393,7 @@ export default function FixedAssetsPage() {
             <Button
               onClick={() => openDrawer("fixedAsset")}
               size="lg"
-              className="mt-5 bg-emerald-600 hover:bg-emerald-700"
+              className="mt-5 bg-brand-600 hover:bg-brand-700"
             >
               <Plus className="mr-2 size-4" />
               Add item
@@ -482,7 +482,7 @@ export default function FixedAssetsPage() {
             <Button
               size="sm"
               onClick={() => openDrawer("fixedAsset")}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               <Plus className="mr-2 size-4" />
               Add item
@@ -503,7 +503,7 @@ export default function FixedAssetsPage() {
             </div>
             <div className="h-2.5 w-full rounded-full overflow-hidden flex bg-muted">
               <div
-                className="bg-emerald-500 h-full transition-all"
+                className="bg-brand-500 h-full transition-all"
                 style={{ width: `${nbvPct}%` }}
               />
               <div
@@ -516,7 +516,7 @@ export default function FixedAssetsPage() {
             </div>
             <div className="flex items-center gap-6 text-xs">
               <div className="flex items-center gap-1.5">
-                <span className="inline-block size-2 rounded-full bg-emerald-500" />
+                <span className="inline-block size-2 rounded-full bg-brand-500" />
                 <span className="text-muted-foreground">
                   Current value · {formatMoney(totalNBV)}
                 </span>

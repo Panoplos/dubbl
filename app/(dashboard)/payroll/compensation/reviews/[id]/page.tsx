@@ -37,7 +37,7 @@ interface ReviewEntry {
 const statusColors: Record<string, string> = {
   draft: "",
   in_progress: "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300",
-  completed: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+  completed: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
 };
 
 export default function ReviewDetailPage() {
@@ -100,7 +100,7 @@ export default function ReviewDetailPage() {
         </div>
         <div className="rounded-xl border bg-card p-4">
           <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Proposed Total</p>
-          <p className="mt-1 text-2xl font-bold font-mono tabular-nums truncate text-emerald-600 dark:text-emerald-400">{formatMoney(totalProposed)}</p>
+          <p className="mt-1 text-2xl font-bold font-mono tabular-nums truncate text-brand-600 dark:text-brand-400">{formatMoney(totalProposed)}</p>
         </div>
         <div className="rounded-xl border bg-card p-4">
           <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Total Increase</p>
@@ -128,7 +128,7 @@ export default function ReviewDetailPage() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">Proposed</p>
-                    <p className="text-sm font-mono tabular-nums font-medium text-emerald-600 dark:text-emerald-400">{formatMoney(e.proposedSalary)}</p>
+                    <p className="text-sm font-mono tabular-nums font-medium text-brand-600 dark:text-brand-400">{formatMoney(e.proposedSalary)}</p>
                   </div>
                   {e.adjustmentPercent !== null && (
                     <Badge variant="outline" className="text-[10px]">+{e.adjustmentPercent?.toFixed(1)}%</Badge>

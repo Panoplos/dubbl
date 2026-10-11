@@ -109,7 +109,7 @@ const logoSection: React.CSSProperties = {
 const logoText: React.CSSProperties = {
   fontSize: "22px",
   fontWeight: 800,
-  color: "#059669",
+  color: "#171717",
   margin: 0,
   letterSpacing: "-0.5px",
   lineHeight: "26px",

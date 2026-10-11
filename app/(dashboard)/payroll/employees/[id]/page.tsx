@@ -348,13 +348,13 @@ export default function EmployeeDetailPage() {
           <div className={cn(
             "flex size-10 items-center justify-center rounded-xl",
             isActive
-              ? "bg-emerald-50 dark:bg-emerald-950/40"
+              ? "bg-brand-50 dark:bg-brand-950/40"
               : "bg-muted"
           )}>
             <Users className={cn(
               "size-5",
               isActive
-                ? "text-emerald-600 dark:text-emerald-400"
+                ? "text-brand-600 dark:text-brand-400"
                 : "text-muted-foreground"
             )} />
           </div>
@@ -363,7 +363,7 @@ export default function EmployeeDetailPage() {
               <h1 className="text-lg font-semibold">{emp.name}</h1>
               <Badge variant="outline" className={
                 isActive
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                  ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300"
                   : ""
               }>
                 {isActive ? "Active" : "Inactive"}
@@ -589,7 +589,7 @@ export default function EmployeeDetailPage() {
                       className={cn(
                         "text-[11px]",
                         d.isActive
-                          ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                          ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300"
                           : ""
                       )}
                     >
@@ -661,7 +661,7 @@ export default function EmployeeDetailPage() {
                   size="sm"
                   onClick={handleSaveTaxConfig}
                   disabled={taxSaving}
-                  className="bg-emerald-600 hover:bg-emerald-700"
+                  className="bg-brand-600 hover:bg-brand-700"
                 >
                   <Save className="mr-1.5 size-3.5" />
                   {taxSaving ? "Saving..." : "Save Tax Config"}
@@ -756,7 +756,7 @@ export default function EmployeeDetailPage() {
                     </div>
                     <div className="h-2 w-full rounded-full bg-muted">
                       <div
-                        className="h-2 rounded-full bg-emerald-500 transition-all"
+                        className="h-2 rounded-full bg-brand-500 transition-all"
                         style={{
                           width: `${Math.min(
                             100,
@@ -787,7 +787,7 @@ export default function EmployeeDetailPage() {
             size="sm"
             onClick={handleSave}
             disabled={saving}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
           >
             <Save className="mr-1.5 size-3.5" />
             {saving ? "Saving..." : "Save Changes"}

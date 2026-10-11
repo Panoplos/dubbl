@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
-import { GrainGradient } from "@paper-design/shaders-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +28,7 @@ import {
 } from "@/lib/data/business-types";
 import { INDUSTRIES, type Industry } from "@/lib/data/industries";
 import { REFERRAL_SOURCES, type ReferralSource } from "@/lib/data/referral-sources";
+import { BrandGrain } from "@/components/shared/brand-grain";
 
 const STEPS = [
   { label: "Organization", icon: Building2 },
@@ -216,7 +216,7 @@ export function OnboardingWizard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
       </div>
     );
   }
@@ -239,19 +239,7 @@ export function OnboardingWizard() {
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-black/5 dark:shadow-black/40">
         {/* Grain gradient banner */}
         <div className="relative overflow-hidden">
-          <GrainGradient
-            className="pointer-events-none !absolute !inset-0 !rounded-none"
-            width="100%"
-            height="100%"
-            colors={["#d1fae5", "#a7f3d0", "#6ee7b7", "#34d399", "#10b981", "#34d399", "#a7f3d0"]}
-            colorBack="#34d399"
-            softness={1}
-            intensity={0.8}
-            noise={0.9}
-            shape="wave"
-            scale={3.5}
-            speed={0.2}
-          />
+          <BrandGrain tone="charcoal" />
           <div className="relative flex items-center justify-center gap-3 py-5">
             <div className="flex items-center gap-2">
               {STEPS.map((s, i) => {
@@ -357,7 +345,7 @@ export function OnboardingWizard() {
               <Button
                 onClick={goNext}
                 disabled={!canProceed()}
-                className="gap-1.5 bg-emerald-600 shadow-md shadow-emerald-600/15 hover:bg-emerald-500"
+                className="gap-1.5 bg-brand-600 shadow-md shadow-brand-600/15 hover:bg-brand-700"
               >
                 Next
                 <ArrowRight className="size-4" />
@@ -366,7 +354,7 @@ export function OnboardingWizard() {
               <Button
                 onClick={handleComplete}
                 disabled={submitting}
-                className="gap-1.5 bg-emerald-600 shadow-md shadow-emerald-600/15 hover:bg-emerald-500"
+                className="gap-1.5 bg-brand-600 shadow-md shadow-brand-600/15 hover:bg-brand-700"
               >
                 {submitting ? "Setting up..." : "Complete Setup"}
                 {!submitting && <Check className="size-4" />}
@@ -459,7 +447,7 @@ function StepCountry({
             onClick={() => onSelect(c.code)}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
               selected === c.code
-                ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                ? "bg-brand-500/10 text-brand-700 dark:text-brand-400"
                 : "hover:bg-muted/60"
             }`}
           >
@@ -513,7 +501,7 @@ function StepBusinessType({
             onClick={() => onSelect(t.code)}
             className={`flex w-full flex-col rounded-lg px-3 py-2.5 text-left transition-colors ${
               selected === t.code
-                ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                ? "bg-brand-500/10 text-brand-700 dark:text-brand-400"
                 : "hover:bg-muted/60"
             }`}
           >
@@ -554,7 +542,7 @@ function StepIndustry({
             onClick={() => onSelect(selected === ind.code ? "" : ind.code)}
             className={`rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
               selected === ind.code
-                ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                ? "bg-brand-500/10 text-brand-700 dark:text-brand-400"
                 : "hover:bg-muted/60"
             }`}
           >
@@ -594,7 +582,7 @@ function StepReferral({
             onClick={() => onSelect(selected === src.code ? "" : src.code)}
             className={`rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
               selected === src.code
-                ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                ? "bg-brand-500/10 text-brand-700 dark:text-brand-400"
                 : "hover:bg-muted/60"
             }`}
           >

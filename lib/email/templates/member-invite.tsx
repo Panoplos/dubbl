@@ -103,7 +103,7 @@ const buttonSection: React.CSSProperties = {
   marginTop: "24px",
 };
 const button: React.CSSProperties = {
-  backgroundColor: "#059669",
+  backgroundColor: "#171717",
   borderRadius: "8px",
   color: "#fff",
   fontSize: "14px",

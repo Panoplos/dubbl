@@ -304,7 +304,7 @@ export default function BankTransactionsPage() {
           </div>
           <Button
             size="sm"
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
             disabled={!batchAccountId || batchSaving}
             loading={batchSaving}
             onClick={applyBatchCategorize}

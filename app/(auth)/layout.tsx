@@ -6,7 +6,7 @@ import { Logo } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Container } from "@/components/shared/container";
 import { OrbitalDecoration } from "@/components/shared/orbital-decoration";
-import { GrainGradient } from "@paper-design/shaders-react";
+import { BrandGrain } from "@/components/shared/brand-grain";
 import { BookOpen, Server, Code2, ArrowUpRight } from "lucide-react";
 
 const features = [
@@ -82,37 +82,9 @@ export default function AuthLayout({
           <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-black/5 dark:shadow-black/40">
             {/* Mobile grain gradient banner */}
             <div className="relative overflow-hidden lg:hidden">
-              <GrainGradient
-                className="pointer-events-none !absolute !inset-0 !rounded-none"
-                width="100%"
-                height="100%"
-                colors={["#d1fae5", "#a7f3d0", "#6ee7b7", "#34d399", "#10b981", "#34d399", "#a7f3d0"]}
-                colorBack="#34d399"
-                softness={1}
-                intensity={0.8}
-                noise={0.9}
-                shape="wave"
-                scale={3.5}
-                speed={0.2}
-              />
+              <BrandGrain tone="charcoal" />
               <div className="relative flex flex-col items-center gap-1.5 py-8">
-                <svg
-                  viewBox="0 0 40 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-auto"
-                >
-                  <path
-                    d="M18 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10h-8V4z"
-                    fill="white"
-                    fillOpacity="0.35"
-                  />
-                  <path
-                    d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z"
-                    fill="white"
-                    fillOpacity="0.9"
-                  />
-                </svg>
+                <Logo className="h-8 w-auto text-white" />
                 <span className="text-lg font-bold tracking-tight text-white">
                   dubbl
                 </span>
@@ -125,20 +97,8 @@ export default function AuthLayout({
             <div className="grid lg:grid-cols-[1.2fr_1fr]">
               {/* ---- Left: grain gradient showcase ---- */}
               <div className="relative hidden overflow-hidden border-r border-white/10 lg:block">
-                {/* Green grain gradient background */}
-                <GrainGradient
-                  className="pointer-events-none !absolute !inset-0 !rounded-none"
-                  width="100%"
-                  height="100%"
-                  colors={["#d1fae5", "#a7f3d0", "#6ee7b7", "#34d399", "#10b981", "#34d399", "#a7f3d0"]}
-                  colorBack="#34d399"
-                  softness={1}
-                  intensity={0.8}
-                  noise={0.9}
-                  shape="wave"
-                  scale={3.5}
-                  speed={0.2}
-                />
+                {/* Charcoal grain gradient background */}
+                <BrandGrain tone="charcoal" />
 
                 {/* Subtle depth vignette */}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,transparent_30%,rgba(0,0,0,0.1)_100%)]" />
@@ -206,9 +166,9 @@ export default function AuthLayout({
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6, delay: 0.15 }}
                   >
-                    {/* Pulsing emerald glow */}
+                    {/* Pulsing glow */}
                     <motion.div
-                      className="absolute -inset-10 rounded-full bg-emerald-400/20 blur-3xl"
+                      className="absolute -inset-10 rounded-full bg-white/10 blur-3xl"
                       animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.95, 1.05, 0.95] }}
                       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     />
@@ -216,23 +176,7 @@ export default function AuthLayout({
                     {/* Frosted card */}
                     <div className="relative rounded-2xl border border-white/20 bg-white/10 px-10 py-8 shadow-2xl shadow-black/10 backdrop-blur-xl">
                       <div className="flex flex-col items-center gap-3">
-                        <svg
-                          viewBox="0 0 40 32"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-10 w-auto"
-                        >
-                          <path
-                            d="M18 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10h-8V4z"
-                            fill="white"
-                            fillOpacity="0.35"
-                          />
-                          <path
-                            d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z"
-                            fill="white"
-                            fillOpacity="0.9"
-                          />
-                        </svg>
+                        <Logo className="h-10 w-auto text-white" />
                         <span className="text-2xl font-bold tracking-tight text-white">
                           dubbl
                         </span>

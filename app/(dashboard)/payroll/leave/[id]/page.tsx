@@ -37,7 +37,7 @@ interface LeaveRequestDetail {
 
 const statusColors: Record<string, string> = {
   pending: "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
-  approved: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+  approved: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   rejected: "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
   cancelled: "border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300",
 };
@@ -155,7 +155,7 @@ export default function LeaveRequestDetailPage() {
         </div>
         {req.status === "pending" && (
           <div className="flex items-center gap-2">
-            <Button size="sm" onClick={handleApprove} disabled={approving} className="bg-emerald-600 hover:bg-emerald-700">
+            <Button size="sm" onClick={handleApprove} disabled={approving} className="bg-brand-600 hover:bg-brand-700">
               <CheckCircle className="mr-1.5 size-3.5" /> Approve
             </Button>
             <Button size="sm" variant="destructive" onClick={() => setRejectOpen(true)} disabled={approving}>

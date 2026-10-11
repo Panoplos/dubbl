@@ -78,7 +78,7 @@ export function DateRangeFilter({ startDate, endDate, onDateChange }: DateRangeF
           variant={active === p.value ? "default" : "outline"}
           size="sm"
           onClick={() => handlePreset(p.value)}
-          className={active === p.value ? "bg-emerald-600 hover:bg-emerald-700" : ""}
+          className={active === p.value ? "bg-brand-600 hover:bg-brand-700" : ""}
         >
           {p.label}
         </Button>

@@ -28,11 +28,11 @@ export function LegalPageLayout({
   return (
     <>
       {/* Hero header */}
-      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-emerald-50/50 via-background to-background pt-28 pb-12 dark:from-emerald-950/20">
+      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-brand-50/50 via-background to-background pt-28 pb-12 dark:from-brand-950/20">
         {/* Gradient mesh */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(16,185,129,0.08),transparent)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(0,0,0,0.04),transparent)]" />
         <Container className="relative">
-          <div className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400">
+          <div className="inline-flex items-center rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-800 dark:bg-brand-950/50 dark:text-brand-400">
             {badge}
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -61,14 +61,14 @@ export function LegalPageLayout({
                 className="scroll-mt-24 border-b border-border pb-8 mb-8 last:border-0 last:pb-0 last:mb-0"
               >
                 <div className="mb-4 flex items-center gap-3">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand-100 text-sm font-semibold text-brand-700 dark:bg-brand-950/50 dark:text-brand-400">
                     {i + 1}
                   </span>
                   <h2 className="text-xl font-semibold text-foreground">
                     {section.title}
                   </h2>
                 </div>
-                <div className="text-[15px] leading-relaxed text-muted-foreground [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:ml-5 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ol]:mb-3 [&_ol]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_strong]:font-semibold [&_strong]:text-foreground [&_a]:text-emerald-600 [&_a]:underline [&_a]:underline-offset-2 dark:[&_a]:text-emerald-400">
+                <div className="text-[15px] leading-relaxed text-muted-foreground [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:ml-5 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ol]:mb-3 [&_ol]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_strong]:font-semibold [&_strong]:text-foreground [&_a]:text-brand-600 [&_a]:underline [&_a]:underline-offset-2 dark:[&_a]:text-brand-400">
                   {section.content}
                 </div>
               </div>
@@ -90,10 +90,10 @@ export function Callout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="my-4 rounded-xl border border-emerald-200/50 bg-emerald-50/50 p-4 dark:border-emerald-800/30 dark:bg-emerald-950/20">
+    <div className="my-4 rounded-xl border border-brand-200/50 bg-brand-50/50 p-4 dark:border-brand-800/30 dark:bg-brand-950/20">
       <div className="mb-2 flex items-center gap-2">
-        <Icon className="size-4 text-emerald-600 dark:text-emerald-400" />
-        <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+        <Icon className="size-4 text-brand-600 dark:text-brand-400" />
+        <span className="text-sm font-semibold text-brand-700 dark:text-brand-400">
           {title}
         </span>
       </div>

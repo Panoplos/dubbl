@@ -55,7 +55,7 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
             className={cn(
               "font-mono tabular-nums font-medium",
               entry.dataKey === "inflows"
-                ? "text-emerald-600"
+                ? "text-brand-600"
                 : entry.dataKey === "outflows"
                 ? "text-red-600"
                 : ""
@@ -157,12 +157,12 @@ export function CashFlowWidget() {
                   <linearGradient id="inflowGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop
                       offset="5%"
-                      stopColor="#10b981"
+                      stopColor="var(--brand-600)"
                       stopOpacity={0.3}
                     />
                     <stop
                       offset="95%"
-                      stopColor="#10b981"
+                      stopColor="var(--brand-600)"
                       stopOpacity={0}
                     />
                   </linearGradient>
@@ -206,7 +206,7 @@ export function CashFlowWidget() {
                 <Area
                   type="monotone"
                   dataKey="inflows"
-                  stroke="#10b981"
+                  stroke="var(--brand-600)"
                   fill="url(#inflowGrad)"
                   strokeWidth={2}
                 />
@@ -232,7 +232,7 @@ export function CashFlowWidget() {
           <div className="mt-4 grid grid-cols-3 gap-4 border-t pt-4">
             <div className="text-center">
               <p className="text-xs text-muted-foreground">Expected In</p>
-              <p className="text-sm font-bold font-mono tabular-nums text-emerald-600">
+              <p className="text-sm font-bold font-mono tabular-nums text-brand-600">
                 {formatMoney(forecast.totalInflows)}
               </p>
             </div>
@@ -248,7 +248,7 @@ export function CashFlowWidget() {
                 className={cn(
                   "text-sm font-bold font-mono tabular-nums",
                   forecast.netForecast >= 0
-                    ? "text-emerald-600"
+                    ? "text-brand-600"
                     : "text-red-600"
                 )}
               >

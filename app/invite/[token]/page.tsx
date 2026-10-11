@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Loader2, CheckCircle2, XCircle, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
@@ -18,6 +19,7 @@ interface InviteInfo {
 export default function InviteAcceptPage() {
   const { token } = useParams<{ token: string }>();
   const router = useRouter();
+  const { status: sessionStatus } = useSession();
   const [state, setState] = useState<State>("loading");
   const [info, setInfo] = useState<InviteInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -90,8 +92,10 @@ export default function InviteAcceptPage() {
     if (orgId) {
       localStorage.setItem("activeOrgId", orgId);
     }
-    router.push("/");
+    router.push("/dashboard");
   }
+
+  const returnTo = encodeURIComponent(`/invite/${token}`);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -100,7 +104,7 @@ export default function InviteAcceptPage() {
           {/* Logo */}
           <div className="flex items-center gap-2.5 mb-8">
             <Logo className="h-7 w-9" />
-            <span className="text-lg font-bold tracking-tight text-emerald-600">dubbl</span>
+            <span className="text-lg font-bold tracking-tight text-brand-600">dubbl</span>
           </div>
 
           {state === "loading" && (
@@ -125,8 +129,8 @@ export default function InviteAcceptPage() {
               </div>
 
               <div className="rounded-lg bg-muted/50 p-4 flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-950/50">
-                  <Users className="size-5 text-emerald-600 dark:text-emerald-400" />
+                <div className="flex size-10 items-center justify-center rounded-lg bg-brand-100 dark:bg-brand-950/50">
+                  <Users className="size-5 text-brand-600 dark:text-brand-400" />
                 </div>
                 <div>
                   <p className="text-sm font-medium">{info.orgName}</p>
@@ -134,19 +138,40 @@ export default function InviteAcceptPage() {
                 </div>
               </div>
 
-              <Button
-                onClick={handleAccept}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
-                size="lg"
-              >
-                Accept Invitation
-              </Button>
+              {sessionStatus === "unauthenticated" ? (
+                <div className="space-y-3">
+                  <Button
+                    onClick={() => router.push(`/sign-up?callbackUrl=${returnTo}`)}
+                    className="w-full bg-brand-600 hover:bg-brand-700"
+                    size="lg"
+                  >
+                    Create an account to join
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => router.push(`/sign-in?callbackUrl=${returnTo}`)}
+                    className="w-full"
+                    size="lg"
+                  >
+                    I already have an account
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  onClick={handleAccept}
+                  disabled={sessionStatus === "loading"}
+                  className="w-full bg-brand-600 hover:bg-brand-700"
+                  size="lg"
+                >
+                  Accept Invitation
+                </Button>
+              )}
             </div>
           )}
 
           {state === "accepting" && (
             <div className="flex flex-col items-center py-8">
-              <Loader2 className="size-8 text-emerald-600 animate-spin" />
+              <Loader2 className="size-8 text-brand-600 animate-spin" />
               <p className="mt-4 text-sm text-muted-foreground">Joining organization...</p>
             </div>
           )}
@@ -154,8 +179,8 @@ export default function InviteAcceptPage() {
           {state === "success" && (
             <div className="space-y-6">
               <div className="flex flex-col items-center text-center">
-                <div className="flex size-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/50">
-                  <CheckCircle2 className="size-6 text-emerald-600" />
+                <div className="flex size-12 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-950/50">
+                  <CheckCircle2 className="size-6 text-brand-600" />
                 </div>
                 <h1 className="mt-4 text-xl font-semibold">You&apos;re in!</h1>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -164,7 +189,7 @@ export default function InviteAcceptPage() {
               </div>
               <Button
                 onClick={goToDashboard}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                className="w-full bg-brand-600 hover:bg-brand-700"
                 size="lg"
               >
                 Go to Dashboard
@@ -185,7 +210,7 @@ export default function InviteAcceptPage() {
                 <Button variant="outline" className="flex-1" onClick={() => router.push("/")}>
                   Go Home
                 </Button>
-                <Button className="flex-1 bg-emerald-600 hover:bg-emerald-700" onClick={() => router.push("/sign-in")}>
+                <Button className="flex-1 bg-brand-600 hover:bg-brand-700" onClick={() => router.push(`/sign-in?callbackUrl=${returnTo}`)}>
                   Sign In
                 </Button>
               </div>

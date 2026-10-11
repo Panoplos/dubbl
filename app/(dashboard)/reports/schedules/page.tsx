@@ -237,7 +237,7 @@ export default function ReportSchedulesPage() {
             setDialogOpen(true);
           }}
           size="sm"
-          className="bg-emerald-600 hover:bg-emerald-700"
+          className="bg-brand-600 hover:bg-brand-700"
           disabled={!hasSavedReports}
         >
           <Plus className="mr-2 size-4" />
@@ -280,7 +280,7 @@ export default function ReportSchedulesPage() {
               setDialogOpen(true);
             }}
             size="sm"
-            className="mt-4 bg-emerald-600 hover:bg-emerald-700"
+            className="mt-4 bg-brand-600 hover:bg-brand-700"
           >
             <Plus className="mr-2 size-4" />
             Email a report automatically
@@ -332,7 +332,7 @@ export default function ReportSchedulesPage() {
                         variant="outline"
                         className={
                           s.isActive
-                            ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                            ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300"
                             : "border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
                         }
                       >
@@ -492,7 +492,7 @@ export default function ReportSchedulesPage() {
             <Button
               onClick={handleCreate}
               disabled={submitting}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               {submitting && <Loader2 className="mr-2 size-4 animate-spin" />}
               Schedule it

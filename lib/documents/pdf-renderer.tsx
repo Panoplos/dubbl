@@ -350,8 +350,8 @@ function InvoiceDocument({ invoice: inv, org, contact, template, labels }: Invoi
           <Link src="https://dubbl.dev" style={{ textDecoration: "none" }}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
               <Svg viewBox="0 0 40 32" width={10} height={8}>
-                <Path d="M18 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10h-8V4z" fill="#d1d5db" />
-                <Path d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z" fill="#9ca3af" />
+                <Path d="M18 4v.19a11.5 11.5 0 0 1 5.5 9.81v4a11.5 11.5 0 0 1-5.5 9.81V28h8a10 10 0 0 0 10-10v-4A10 10 0 0 0 26 4h-8z" fill="#c4c4c0" />
+                <Path d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z" fill="#c4c4c0" />
               </Svg>
               <Text style={{ fontSize: 7, color: "#d1d5db", letterSpacing: 0.5 }}>dubbl</Text>
             </View>

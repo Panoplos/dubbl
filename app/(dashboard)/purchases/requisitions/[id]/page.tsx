@@ -57,7 +57,7 @@ const statusColors: Record<string, string> = {
   submitted:
     "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300",
   approved:
-    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   rejected:
     "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
   converted:
@@ -249,7 +249,7 @@ export default function RequisitionDetailPage() {
             size="sm"
             onClick={handleSubmit}
             disabled={acting}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
           >
             <Send className="mr-2 size-4" />
             Submit
@@ -261,7 +261,7 @@ export default function RequisitionDetailPage() {
               size="sm"
               onClick={handleApprove}
               disabled={acting}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               <Check className="mr-2 size-4" />
               Approve
@@ -283,7 +283,7 @@ export default function RequisitionDetailPage() {
             size="sm"
             onClick={handleConvert}
             disabled={acting}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
           >
             <FileText className="mr-2 size-4" />
             Create a purchase order

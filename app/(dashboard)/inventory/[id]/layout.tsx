@@ -235,13 +235,13 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
               "flex size-10 items-center justify-center rounded-xl",
               isLowStock
                 ? "bg-amber-50 dark:bg-amber-950/40"
-                : "bg-emerald-50 dark:bg-emerald-950/40"
+                : "bg-brand-50 dark:bg-brand-950/40"
             )}>
               <Package className={cn(
                 "size-5",
                 isLowStock
                   ? "text-amber-600 dark:text-amber-400"
-                  : "text-emerald-600 dark:text-emerald-400"
+                  : "text-brand-600 dark:text-brand-400"
               )} />
             </div>
             <div>
@@ -254,7 +254,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
                 )}
                 <Badge variant="outline" className={
                   item.isActive
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                    ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300"
                     : ""
                 }>
                   {item.isActive ? "Shown" : "Hidden"}
@@ -319,7 +319,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
                 <motion.div
                   className={cn(
                     "h-full rounded-full",
-                    isLowStock ? "bg-amber-500" : "bg-emerald-500"
+                    isLowStock ? "bg-amber-500" : "bg-brand-500"
                   )}
                   initial={{ width: 0 }}
                   animate={{ width: `${stockPercent}%` }}
@@ -352,7 +352,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
             <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Selling price</p>
-            <p className="mt-1.5 text-2xl font-bold font-mono tabular-nums truncate text-emerald-600 dark:text-emerald-400">
+            <p className="mt-1.5 text-2xl font-bold font-mono tabular-nums truncate text-brand-600 dark:text-brand-400">
               {formatMoney(item.salePrice)}
             </p>
             <p className="mt-1 text-[11px] text-muted-foreground">
@@ -368,7 +368,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
             <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Profit margin</p>
             <p className={cn(
               "mt-1.5 text-2xl font-bold font-mono tabular-nums truncate",
-              margin > 0 ? "text-emerald-600 dark:text-emerald-400" : margin < 0 ? "text-red-600" : ""
+              margin > 0 ? "text-brand-600 dark:text-brand-400" : margin < 0 ? "text-red-600" : ""
             )}>
               {item.purchasePrice > 0 ? `${margin.toFixed(1)}%` : "-"}
             </p>
@@ -446,7 +446,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
             </div>
             <SheetFooter>
               <Button variant="outline" onClick={() => setAdjustOpen(false)}>Cancel</Button>
-              <Button onClick={handleAdjust} className="bg-emerald-600 hover:bg-emerald-700">
+              <Button onClick={handleAdjust} className="bg-brand-600 hover:bg-brand-700">
                 Save new count
               </Button>
             </SheetFooter>
@@ -490,7 +490,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
             </div>
             <SheetFooter>
               <Button variant="outline" onClick={() => setWriteDownOpen(false)}>Cancel</Button>
-              <Button onClick={handleWriteDown} disabled={writeDownBusy} className="bg-emerald-600 hover:bg-emerald-700">
+              <Button onClick={handleWriteDown} disabled={writeDownBusy} className="bg-brand-600 hover:bg-brand-700">
                 Write down value
               </Button>
             </SheetFooter>

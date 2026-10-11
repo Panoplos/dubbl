@@ -175,7 +175,7 @@ function AddCurrencySheet({
           <Button
             onClick={handleCreate}
             disabled={saving}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
           >
             {saving ? "Adding..." : "Add Currency"}
           </Button>
@@ -293,7 +293,7 @@ function AddRateSheet({
           <Button
             onClick={handleCreate}
             disabled={saving}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
           >
             {saving ? "Creating..." : "Create"}
           </Button>
@@ -426,7 +426,7 @@ export default function CurrenciesPage() {
         </Button>
         <Button
           size="sm"
-          className="bg-emerald-600 hover:bg-emerald-700"
+          className="bg-brand-600 hover:bg-brand-700"
           onClick={() => setSheetOpen(true)}
         >
           <Plus className="mr-1.5 size-3.5" />
@@ -436,14 +436,14 @@ export default function CurrenciesPage() {
 
       {/* Base Currency Card */}
       {baseCurrency && (
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 dark:border-emerald-800/40 dark:bg-emerald-950/20 p-4">
-          <p className="text-[11px] font-medium uppercase tracking-wide text-emerald-700/70 dark:text-emerald-400/70">
+        <div className="rounded-lg border border-brand-200 bg-brand-50 dark:border-brand-800/40 dark:bg-brand-950/20 p-4">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-brand-700/70 dark:text-brand-400/70">
             Organization Base Currency
           </p>
-          <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
+          <p className="mt-1 text-2xl font-bold tabular-nums text-brand-700 dark:text-brand-300">
             {baseCurrency}
           </p>
-          <p className="mt-1 text-[12px] text-emerald-600/60 dark:text-emerald-400/50">
+          <p className="mt-1 text-[12px] text-brand-600/60 dark:text-brand-400/50">
             All exchange rates are relative to this base currency
           </p>
         </div>
@@ -459,11 +459,11 @@ export default function CurrenciesPage() {
             {exchangeRates.length}
           </p>
         </div>
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 dark:border-emerald-800/40 dark:bg-emerald-950/20 p-4">
-          <p className="text-[11px] font-medium uppercase tracking-wide text-emerald-700/70 dark:text-emerald-400/70">
+        <div className="rounded-lg border border-brand-200 bg-brand-50 dark:border-brand-800/40 dark:bg-brand-950/20 p-4">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-brand-700/70 dark:text-brand-400/70">
             Currency Pairs
           </p>
-          <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
+          <p className="mt-1 text-2xl font-bold tabular-nums text-brand-700 dark:text-brand-300">
             {new Set(
               exchangeRates.map((r) => `${r.baseCurrency}/${r.targetCurrency}`)
             ).size}
@@ -507,7 +507,7 @@ export default function CurrenciesPage() {
                   <p
                     className={`mt-1 text-xl font-bold tabular-nums ${
                       fxReport.summary.netUnrealizedGainLoss >= 0
-                        ? "text-emerald-600 dark:text-emerald-400"
+                        ? "text-brand-600 dark:text-brand-400"
                         : "text-red-600 dark:text-red-400"
                     }`}
                   >
@@ -521,7 +521,7 @@ export default function CurrenciesPage() {
                   <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
                     Gains
                   </p>
-                  <p className="mt-1 text-xl font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                  <p className="mt-1 text-xl font-bold tabular-nums text-brand-600 dark:text-brand-400">
                     {formatMoney(
                       fxReport.summary.totalUnrealizedGain,
                       fxReport.defaultCurrency
@@ -561,7 +561,7 @@ export default function CurrenciesPage() {
                     <span
                       className={`font-mono text-sm tabular-nums ${
                         (item.unrealizedGainLoss ?? 0) >= 0
-                          ? "text-emerald-600 dark:text-emerald-400"
+                          ? "text-brand-600 dark:text-brand-400"
                           : "text-red-600 dark:text-red-400"
                       }`}
                     >

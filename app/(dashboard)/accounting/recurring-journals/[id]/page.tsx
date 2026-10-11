@@ -40,7 +40,7 @@ interface RecurringJournalDetail {
 
 const statusColors: Record<string, string> = {
   active:
-    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   paused:
     "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
   completed:
@@ -184,7 +184,7 @@ export default function RecurringJournalDetailPage() {
             size="sm"
             onClick={handlePostNow}
             loading={posting}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-brand-600 hover:bg-brand-700"
             title="Post any entries that are due right now"
           >
             <Zap className="mr-2 size-4" />Post entries due now

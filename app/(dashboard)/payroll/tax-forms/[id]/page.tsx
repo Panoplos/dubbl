@@ -38,7 +38,7 @@ const statusBadge = (status: string) => {
       return (
         <Badge
           variant="default"
-          className="bg-emerald-600 hover:bg-emerald-700"
+          className="bg-brand-600 hover:bg-brand-700"
         >
           filed
         </Badge>

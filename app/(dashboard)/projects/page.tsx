@@ -48,7 +48,7 @@ interface Project {
 }
 
 const statusColors: Record<string, string> = {
-  active: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  active: "border-brand-200 bg-brand-50 text-brand-700",
   completed: "border-blue-200 bg-blue-50 text-blue-700",
   on_hold: "border-amber-200 bg-amber-50 text-amber-700",
   cancelled: "border-red-200 bg-red-50 text-red-700",
@@ -114,7 +114,7 @@ const columns: Column<Project>[] = [
           {r.estimatedHours > 0 && (
             <div className="flex items-center gap-1.5">
               <div className="h-1 w-16 rounded-full bg-muted">
-                <div className={cn("h-full rounded-full", pct > 100 ? "bg-red-500" : "bg-emerald-500")} style={{ width: `${Math.min(pct, 100)}%` }} />
+                <div className={cn("h-full rounded-full", pct > 100 ? "bg-red-500" : "bg-brand-500")} style={{ width: `${Math.min(pct, 100)}%` }} />
               </div>
               <span className="text-[10px] text-muted-foreground">{pct}%</span>
             </div>
@@ -150,7 +150,7 @@ const columns: Column<Project>[] = [
       return (
         <div className="flex -space-x-1.5">
           {r.members.slice(0, 3).map((m) => (
-            <div key={m.id} className="size-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[9px] font-medium ring-2 ring-white" title={m.member.user.name || m.member.user.email}>
+            <div key={m.id} className="size-6 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-[9px] font-medium ring-2 ring-white" title={m.member.user.name || m.member.user.email}>
               {(m.member.user.name || m.member.user.email)[0].toUpperCase()}
             </div>
           ))}
@@ -210,7 +210,7 @@ export default function ProjectsPage() {
           >
             <Button
               onClick={() => openDrawer("project")}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               <Plus className="mr-2 size-4" />
               New Project
@@ -239,7 +239,7 @@ export default function ProjectsPage() {
             <Button
               size="sm"
               onClick={() => openDrawer("project")}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-brand-600 hover:bg-brand-700"
             >
               <Plus className="mr-2 size-4" />
               New Project

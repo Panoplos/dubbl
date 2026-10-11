@@ -138,8 +138,8 @@ export const activityTypeConfig: Record<ActivityItem["type"], {
   payment: {
     label: "Payment",
     icon: Banknote,
-    color: "text-emerald-600 dark:text-emerald-400",
-    bg: "bg-emerald-50 dark:bg-emerald-950/40",
+    color: "text-brand-600 dark:text-brand-400",
+    bg: "bg-brand-50 dark:bg-brand-950/40",
     href: (id) => `/payments/${id}`,
   },
   bill: {
@@ -476,7 +476,7 @@ export default function ContactDetailLayout({ children }: { children: React.Reac
                           </span>
                         )}
                       </span>
-                      <span className="shrink-0 text-xs text-emerald-600">
+                      <span className="shrink-0 text-xs text-brand-600">
                         Merge in
                       </span>
                     </button>

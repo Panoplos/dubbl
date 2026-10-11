@@ -364,8 +364,8 @@ export function generateDocumentHtml(
     <span style="font-size:10px;color:#6b7280;">${footerSummary}</span>
     <a href="https://dubbl.dev" style="text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
       <svg viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-        <path d="M18 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10h-8V4z" fill="#d1d5db"/>
-        <path d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z" fill="#9ca3af"/>
+        <path d="M18 4v.19a11.5 11.5 0 0 1 5.5 9.81v4a11.5 11.5 0 0 1-5.5 9.81V28h8a10 10 0 0 0 10-10v-4A10 10 0 0 0 26 4h-8z" fill="#c4c4c0"/>
+        <path d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z" fill="#c4c4c0"/>
       </svg>
       <span style="font-size:9px;color:#d1d5db;letter-spacing:0.5px;">dubbl</span>
     </a>
@@ -593,8 +593,8 @@ export function generateInvoiceHtml(
     <span style="font-size:10px;color:#6b7280;">${invoice.invoiceNumber} · ${formatMoney(amountDue, invoice.currencyCode)} due ${invoice.dueDate}</span>
     <a href="https://dubbl.dev" style="text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
       <svg viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-        <path d="M18 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10h-8V4z" fill="#d1d5db"/>
-        <path d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z" fill="#9ca3af"/>
+        <path d="M18 4v.19a11.5 11.5 0 0 1 5.5 9.81v4a11.5 11.5 0 0 1-5.5 9.81V28h8a10 10 0 0 0 10-10v-4A10 10 0 0 0 26 4h-8z" fill="#c4c4c0"/>
+        <path d="M4 4h8a10 10 0 0 1 10 10v4a10 10 0 0 1-10 10H4V4z" fill="#c4c4c0"/>
       </svg>
       <span style="font-size:9px;color:#d1d5db;letter-spacing:0.5px;">dubbl</span>
     </a>

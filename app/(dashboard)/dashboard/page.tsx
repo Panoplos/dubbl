@@ -21,7 +21,6 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
-import { GrainGradient } from "@paper-design/shaders-react";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
 import { ActivityFeed } from "@/components/dashboard/activity-feed";
@@ -35,6 +34,7 @@ import { cn } from "@/lib/utils";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { CashFlowWidget } from "@/components/dashboard/cash-flow-widget";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
+import { BrandGrain } from "@/components/shared/brand-grain";
 
 const GREETINGS_MORNING = [
   "Good morning",
@@ -159,7 +159,7 @@ const columns: Column<Entry>[] = [
         variant="outline"
         className={
           r.status === "posted"
-            ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400"
+            ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-400"
             : r.status === "void"
             ? "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400"
             : ""
@@ -182,7 +182,7 @@ const columns: Column<Entry>[] = [
 ];
 
 const BUCKET_COLORS = [
-  "bg-emerald-500",
+  "bg-brand-500",
   "bg-amber-500",
   "bg-orange-500",
   "bg-red-400",
@@ -239,7 +239,7 @@ function KpiItem({ label, value, good }: { label: string; value: string; good: b
     <div className="text-center">
       <p className={cn(
         "text-lg font-bold font-mono tabular-nums",
-        good ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
+        good ? "text-brand-600 dark:text-brand-400" : "text-red-600 dark:text-red-400"
       )}>
         {value}
       </p>
@@ -464,39 +464,18 @@ export default function DashboardPage() {
           >
             {/* Section A: Greeting Banner */}
             <div className="relative overflow-hidden rounded-2xl">
-              <GrainGradient
-                className="pointer-events-none !absolute !inset-0 !rounded-none"
-                width="100%"
-                height="100%"
-                colors={[
-                  "#d1fae5",
-                  "#a7f3d0",
-                  "#6ee7b7",
-                  "#34d399",
-                  "#10b981",
-                  "#34d399",
-                  "#a7f3d0",
-                ]}
-                colorBack="#34d399"
-                softness={1}
-                intensity={0.8}
-                noise={0.9}
-                shape="wave"
-                scale={3.5}
-                speed={0.2}
-              />
+              <BrandGrain />
               <div className="relative p-5 sm:p-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-emerald-950">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
                   {greeting}{firstName ? `, ${firstName}` : ""}
                 </h2>
-                <p className="mt-1 max-w-lg text-sm text-emerald-950/70">
+                <p className="mt-1 max-w-lg text-sm text-foreground/70">
                   Here is your financial overview. Jump into any section to get
                   started or continue where you left off.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   <Button
                     size="sm"
-                    className="bg-emerald-950 text-white hover:bg-emerald-900"
                     onClick={() => router.push("/accounting/accounts")}
                   >
                     <Landmark className="mr-1.5 size-3.5" />
@@ -504,7 +483,7 @@ export default function DashboardPage() {
                   </Button>
                   <Button
                     size="sm"
-                    className="bg-emerald-950/10 text-emerald-950 hover:bg-emerald-950/20 border-0"
+                    className="bg-foreground/10 text-foreground hover:bg-foreground/15 border-0"
                     onClick={() => openDrawer("entry")}
                   >
                     <BookOpen className="mr-1.5 size-3.5" />
@@ -512,7 +491,7 @@ export default function DashboardPage() {
                   </Button>
                   <Button
                     size="sm"
-                    className="bg-emerald-950/10 text-emerald-950 hover:bg-emerald-950/20 border-0"
+                    className="bg-foreground/10 text-foreground hover:bg-foreground/15 border-0"
                     onClick={() => openDrawer("invoice")}
                   >
                     <FileText className="mr-1.5 size-3.5" />
@@ -520,7 +499,7 @@ export default function DashboardPage() {
                   </Button>
                   <Button
                     size="sm"
-                    className="bg-emerald-950/10 text-emerald-950 hover:bg-emerald-950/20 border-0"
+                    className="bg-foreground/10 text-foreground hover:bg-foreground/15 border-0"
                     onClick={() => router.push("/contacts")}
                   >
                     <Users className="mr-1.5 size-3.5" />
@@ -542,7 +521,7 @@ export default function DashboardPage() {
                   <X className="size-4" />
                 </button>
                 <div className="flex items-center gap-2">
-                  <Rocket className="size-4 text-emerald-600" />
+                  <Rocket className="size-4 text-brand-600" />
                   <h3 className="text-sm font-semibold">Getting started</h3>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -574,7 +553,7 @@ export default function DashboardPage() {
                     <button
                       key={step.href}
                       onClick={() => router.push(step.href)}
-                      className="flex items-start gap-3 rounded-lg border bg-background p-3 text-left transition-colors hover:border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                      className="flex items-start gap-3 rounded-lg border bg-background p-3 text-left transition-colors hover:border-brand-300 hover:bg-brand-50 dark:hover:bg-brand-950/30"
                     >
                       <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-muted-foreground/40" />
                       <div className="min-w-0 flex-1">
@@ -686,7 +665,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="h-2 rounded-full bg-muted">
                       <div
-                        className="h-full rounded-full bg-emerald-500 transition-all"
+                        className="h-full rounded-full bg-brand-500 transition-all"
                         style={{ width: `${revenuePct}%` }}
                       />
                     </div>
@@ -713,7 +692,7 @@ export default function DashboardPage() {
                       className={cn(
                         "font-mono text-sm tabular-nums font-semibold",
                         pnl.netIncome >= 0
-                          ? "text-emerald-600 dark:text-emerald-400"
+                          ? "text-brand-600 dark:text-brand-400"
                           : "text-red-600 dark:text-red-400"
                       )}
                     >

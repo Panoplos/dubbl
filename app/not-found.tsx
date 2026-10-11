@@ -25,14 +25,14 @@ export default function NotFound() {
       {/* Background effects */}
       <div className="pointer-events-none absolute inset-0">
         {/* Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98112_1px,transparent_1px),linear-gradient(to_bottom,#10b98112_1px,transparent_1px)] bg-[size:48px_48px] dark:bg-[linear-gradient(to_right,#10b98106_1px,transparent_1px),linear-gradient(to_bottom,#10b98106_1px,transparent_1px)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0000000a_1px,transparent_1px),linear-gradient(to_bottom,#0000000a_1px,transparent_1px)] bg-[size:48px_48px] dark:bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)]" />
 
         {/* Radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(16,185,129,0.15),transparent_70%)] dark:bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(16,185,129,0.08),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(0,0,0,0.05),transparent_70%)] dark:bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(255,255,255,0.05),transparent_70%)]" />
 
         {/* Pulsing center glow */}
         <motion.div
-          className="absolute left-1/2 top-1/2 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/[0.06] blur-[100px] dark:bg-emerald-500/[0.03]"
+          className="absolute left-1/2 top-1/2 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/[0.06] blur-[100px] dark:bg-brand-500/[0.03]"
           animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -53,18 +53,18 @@ export default function NotFound() {
           <ellipse cx="400" cy="400" rx="380" ry="380" stroke="url(#r1)" strokeWidth="0.8" />
           <ellipse cx="400" cy="400" rx="280" ry="280" stroke="url(#r2)" strokeWidth="0.6" />
           <ellipse cx="400" cy="400" rx="180" ry="180" stroke="url(#r1)" strokeWidth="0.5" />
-          <circle cx="400" cy="20" r="3" fill="#10b981" opacity="0.4" />
-          <circle cx="680" cy="400" r="2.5" fill="#10b981" opacity="0.3" />
+          <circle cx="400" cy="20" r="3" fill="var(--brand-600)" opacity="0.4" />
+          <circle cx="680" cy="400" r="2.5" fill="var(--brand-600)" opacity="0.3" />
           <defs>
             <linearGradient id="r1" x1="0" y1="0" x2="800" y2="800">
-              <stop stopColor="#10b981" stopOpacity="0.25" />
-              <stop offset="0.5" stopColor="#10b981" stopOpacity="0.08" />
-              <stop offset="1" stopColor="#10b981" stopOpacity="0.25" />
+              <stop stopColor="var(--brand-600)" stopOpacity="0.25" />
+              <stop offset="0.5" stopColor="var(--brand-600)" stopOpacity="0.08" />
+              <stop offset="1" stopColor="var(--brand-600)" stopOpacity="0.25" />
             </linearGradient>
             <linearGradient id="r2" x1="800" y1="0" x2="0" y2="800">
-              <stop stopColor="#10b981" stopOpacity="0.2" />
-              <stop offset="0.5" stopColor="#10b981" stopOpacity="0.06" />
-              <stop offset="1" stopColor="#10b981" stopOpacity="0.2" />
+              <stop stopColor="var(--brand-600)" stopOpacity="0.2" />
+              <stop offset="0.5" stopColor="var(--brand-600)" stopOpacity="0.06" />
+              <stop offset="1" stopColor="var(--brand-600)" stopOpacity="0.2" />
             </linearGradient>
           </defs>
         </motion.svg>
@@ -74,13 +74,13 @@ export default function NotFound() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.3 }}
-          className="absolute -left-12 top-[15%] size-48 rounded-2xl border border-dashed border-emerald-500/15"
+          className="absolute -left-12 top-[15%] size-48 rounded-2xl border border-dashed border-brand-500/15"
         />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.5 }}
-          className="absolute -right-8 bottom-[20%] h-36 w-52 rounded-2xl border border-dashed border-emerald-500/15"
+          className="absolute -right-8 bottom-[20%] h-36 w-52 rounded-2xl border border-dashed border-brand-500/15"
         />
 
         {/* Edge fades */}
@@ -115,11 +115,11 @@ export default function NotFound() {
             <span className="bg-gradient-to-b from-foreground via-foreground/80 to-foreground/20 bg-clip-text text-transparent">
               4
             </span>
-            <span className="relative bg-gradient-to-b from-emerald-600 via-emerald-500 to-emerald-400/40 bg-clip-text text-transparent dark:from-emerald-400 dark:via-emerald-300 dark:to-emerald-300/30">
+            <span className="relative bg-gradient-to-b from-brand-600 via-brand-500 to-brand-400/40 bg-clip-text text-transparent dark:from-brand-400 dark:via-brand-300 dark:to-brand-300/30">
               0
               {/* Glowing dot inside the zero */}
               <motion.div
-                className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/60 blur-sm"
+                className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/60 blur-sm"
                 animate={{ scale: [1, 1.8, 1], opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
@@ -150,9 +150,9 @@ export default function NotFound() {
           <Link
             href="/"
             className={cn(
-              "group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-xl bg-emerald-600 px-8",
-              "text-sm font-semibold text-white shadow-lg shadow-emerald-600/25",
-              "transition-all duration-200 hover:bg-emerald-500 hover:shadow-xl hover:shadow-emerald-600/30",
+              "group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-xl bg-primary px-8",
+              "text-sm font-semibold text-primary-foreground shadow-lg shadow-black/15",
+              "transition-all duration-200 hover:bg-primary/90 hover:shadow-xl hover:shadow-black/20",
               "active:scale-[0.98]"
             )}
           >
@@ -180,7 +180,7 @@ export default function NotFound() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <span className="text-emerald-600/40 dark:text-emerald-400/40">HTTP</span>{" "}
+          <span className="text-brand-600/40 dark:text-brand-400/40">HTTP</span>{" "}
           404 Not Found
         </motion.p>
       </div>

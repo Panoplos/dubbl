@@ -154,7 +154,7 @@ export default function CashFlowForecastPage() {
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />
                     <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="3 3" />
-                    <Area type="monotone" dataKey="inflows" name="Inflows" stroke="#10b981" fill="none" strokeWidth={1.5} />
+                    <Area type="monotone" dataKey="inflows" name="Inflows" stroke="var(--brand-600)" fill="none" strokeWidth={1.5} />
                     <Area type="monotone" dataKey="outflows" name="Outflows" stroke="#ef4444" fill="none" strokeWidth={1.5} />
                     <Area type="monotone" dataKey="cumulative" name="Cumulative Net" stroke="#3b82f6" fill="url(#cumGrad)" strokeWidth={2} />
                   </AreaChart>
@@ -180,7 +180,7 @@ export default function CashFlowForecastPage() {
                     {weeks.map((w) => (
                       <tr key={w.weekOf} className="border-b last:border-b-0">
                         <td className="px-4 py-2">{w.weekOf}</td>
-                        <td className="px-4 py-2 text-right font-mono tabular-nums text-emerald-600">
+                        <td className="px-4 py-2 text-right font-mono tabular-nums text-brand-600">
                           {w.inflows > 0 ? formatMoney(w.inflows) : "-"}
                         </td>
                         <td className="px-4 py-2 text-right font-mono tabular-nums text-red-600">
@@ -188,7 +188,7 @@ export default function CashFlowForecastPage() {
                         </td>
                         <td className={cn(
                           "px-4 py-2 text-right font-mono tabular-nums font-medium",
-                          w.net >= 0 ? "text-emerald-600" : "text-red-600"
+                          w.net >= 0 ? "text-brand-600" : "text-red-600"
                         )}>
                           {formatMoney(w.net)}
                         </td>

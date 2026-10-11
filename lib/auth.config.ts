@@ -35,11 +35,25 @@ export const authConfig: NextAuthConfig = {
       if (
         pathname === "/" ||
         pathname.startsWith("/pricing") ||
+        pathname.startsWith("/terms") ||
+        pathname.startsWith("/privacy") ||
         pathname.startsWith("/sign-in") ||
         pathname.startsWith("/sign-up") ||
+        // Token-gated pages for customers and invitees (no dubbl account)
+        pathname.startsWith("/pay/") ||
+        pathname.startsWith("/portal/") ||
+        pathname.startsWith("/sign/") ||
+        pathname.startsWith("/invite/") ||
+        pathname.startsWith("/api/pay/") ||
+        pathname.startsWith("/api/portal/") ||
+        pathname.startsWith("/api/sign/") ||
+        /^\/api\/v1\/portal\/(?!access(\/|$)|invite(\/|$))[^/]+\//.test(pathname) ||
+        pathname === "/api/v1/invitations/info" ||
+        pathname === "/api/v1/invite-links/info" ||
         pathname.startsWith("/api/auth") ||
         pathname.startsWith("/api/health") ||
         pathname.startsWith("/api/stripe/webhook") ||
+        pathname.startsWith("/api/integrations/stripe/webhook") ||
         pathname.startsWith("/api/currencies") ||
         pathname === "/api/mcp" ||
         pathname.startsWith("/api/mcp/") ||
@@ -58,6 +72,7 @@ export const authConfig: NextAuthConfig = {
         pathname.endsWith(".png") ||
         pathname.endsWith(".jpg") ||
         pathname.endsWith(".webp") ||
+        pathname.endsWith(".avif") ||
         pathname.endsWith(".xml")
       ) {
         return true;

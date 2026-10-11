@@ -569,7 +569,7 @@ export default function BankRulesPage() {
               Automatically sort imported bank transactions into the right
               category.
               {rules.length > 0 && (
-                <span className="ml-2 inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+                <span className="ml-2 inline-flex items-center rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-950/40 dark:text-brand-400">
                   {rules.length} rule{rules.length === 1 ? "" : "s"}
                 </span>
               )}
@@ -650,7 +650,7 @@ export default function BankRulesPage() {
                     variant={rule.isActive ? "default" : "secondary"}
                     className={
                       rule.isActive
-                        ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400"
+                        ? "bg-brand-100 text-brand-700 hover:bg-brand-100 dark:bg-brand-950/40 dark:text-brand-400"
                         : ""
                     }
                   >

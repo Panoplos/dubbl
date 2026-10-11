@@ -265,10 +265,10 @@ export default function ReportsPage() {
                   <Link
                     key={report.href}
                     href={report.href}
-                    className="group rounded-xl border border-border/50 bg-card/80 backdrop-blur-sm p-4 sm:p-6 shadow-sm transition-all duration-150 hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5"
+                    className="group rounded-xl border border-border/50 bg-card/80 backdrop-blur-sm p-4 sm:p-6 shadow-sm transition-all duration-150 hover:border-brand-500/30 hover:shadow-lg hover:shadow-brand-500/5"
                   >
-                    <div className="flex size-9 sm:size-10 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-950/40">
-                      <report.icon className="size-4 sm:size-5 text-emerald-600 dark:text-emerald-400" />
+                    <div className="flex size-9 sm:size-10 items-center justify-center rounded-lg bg-brand-50 dark:bg-brand-950/40">
+                      <report.icon className="size-4 sm:size-5 text-brand-600 dark:text-brand-400" />
                     </div>
                     <h3 className="mt-3 sm:mt-4 text-sm font-semibold">{report.title}</h3>
                     <p className="mt-1 text-xs sm:text-sm text-muted-foreground">

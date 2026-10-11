@@ -184,11 +184,11 @@ export default function GeneralLedgerPage() {
       />
 
       {(dimension.costCenterId !== undefined || dimension.projectId !== undefined) && (
-        <div className="flex items-center justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[13px] dark:border-emerald-800 dark:bg-emerald-950/30">
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-[13px] dark:border-brand-800 dark:bg-brand-950/30">
           <span>
             Showing only transactions tagged to one {dimension.projectId !== undefined ? "project" : "department"}.
           </span>
-          <a href="/reports/general-ledger" className="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
+          <a href="/reports/general-ledger" className="font-medium text-brand-700 hover:underline dark:text-brand-400">
             Show all
           </a>
         </div>

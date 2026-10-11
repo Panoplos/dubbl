@@ -139,8 +139,8 @@ export function SignatureCanvas({ token }: Props) {
   if (success) {
     return (
       <div className="text-center py-6">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 mb-3">
-          <Check className="h-6 w-6 text-green-600 dark:text-green-400" />
+        <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/30 mb-3">
+          <Check className="h-6 w-6 text-brand-600 dark:text-brand-400" />
         </div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
           Signature Submitted

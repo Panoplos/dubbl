@@ -72,8 +72,8 @@ const ENTITY_ICONS: Record<string, LucideIcon> = {
 const ACTION_CONFIG: Record<string, { icon: LucideIcon; label: string; color: string; badgeClass: string }> = {
   create: {
     icon: Plus, label: "Created",
-    color: "text-emerald-600 dark:text-emerald-400",
-    badgeClass: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    color: "text-brand-600 dark:text-brand-400",
+    badgeClass: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   },
   update: {
     icon: Pencil, label: "Updated",
@@ -97,8 +97,8 @@ const ACTION_CONFIG: Record<string, { icon: LucideIcon; label: string; color: st
   },
   approve: {
     icon: Check, label: "Approved",
-    color: "text-emerald-600 dark:text-emerald-400",
-    badgeClass: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    color: "text-brand-600 dark:text-brand-400",
+    badgeClass: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   },
   send: {
     icon: Send, label: "Sent",
@@ -107,8 +107,8 @@ const ACTION_CONFIG: Record<string, { icon: LucideIcon; label: string; color: st
   },
   restore: {
     icon: RotateCcw, label: "Restored",
-    color: "text-teal-600 dark:text-teal-400",
-    badgeClass: "border-teal-200 bg-teal-50 text-teal-700 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-300",
+    color: "text-brand-600 dark:text-brand-400",
+    badgeClass: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   },
   purge: {
     icon: Eraser, label: "Purged",
@@ -430,8 +430,8 @@ export default function AuditLogPage() {
                           <div className="relative z-10 mt-1 shrink-0">
                             <div className={cn(
                               "flex size-[26px] items-center justify-center rounded-md ring-2 ring-background",
-                              actionConfig.badgeClass.includes("emerald")
-                                ? "bg-emerald-100 dark:bg-emerald-950/60"
+                              actionConfig.badgeClass.includes("brand")
+                                ? "bg-brand-100 dark:bg-brand-950/60"
                                 : actionConfig.badgeClass.includes("blue")
                                   ? "bg-blue-100 dark:bg-blue-950/60"
                                   : actionConfig.badgeClass.includes("red")

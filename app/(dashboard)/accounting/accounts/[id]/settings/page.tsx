@@ -214,7 +214,7 @@ export default function AccountSettingsPage() {
         <div className="h-px bg-border" />
 
         <div className="flex justify-end">
-          <Button type="submit" size="sm" loading={saving} className="bg-emerald-600 hover:bg-emerald-700">
+          <Button type="submit" size="sm" loading={saving} className="bg-brand-600 hover:bg-brand-700">
             Save changes
           </Button>
         </div>

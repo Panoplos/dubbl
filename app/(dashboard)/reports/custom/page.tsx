@@ -308,7 +308,7 @@ export default function CustomReportsPage() {
                       }}
                       className={`rounded-md border px-2 py-1 text-xs transition-colors ${
                         selected
-                          ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400"
+                          ? "border-brand-300 bg-brand-50 text-brand-700 dark:border-brand-700 dark:bg-brand-950/50 dark:text-brand-400"
                           : "border-border text-muted-foreground hover:bg-muted"
                       }`}
                     >

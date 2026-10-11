@@ -131,7 +131,7 @@ function PaymentPageContent() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
         <div className="w-full max-w-lg rounded-xl border bg-white dark:bg-gray-900 p-6 shadow-lg text-center">
-          <CheckCircle2 className="h-12 w-12 mx-auto text-green-500" />
+          <CheckCircle2 className="h-12 w-12 mx-auto text-brand-500" />
           <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
             Payment Successful
           </h2>
@@ -148,7 +148,7 @@ function PaymentPageContent() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
         <div className="w-full max-w-lg rounded-xl border bg-white dark:bg-gray-900 p-6 shadow-lg text-center">
-          <CheckCircle2 className="h-12 w-12 mx-auto text-green-500" />
+          <CheckCircle2 className="h-12 w-12 mx-auto text-brand-500" />
           <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
             Invoice Already Paid
           </h2>

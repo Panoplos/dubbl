@@ -93,8 +93,8 @@ const statusConfig: Record<string, { class: string; dot: string }> = {
     dot: "bg-blue-500",
   },
   approved: {
-    class: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
-    dot: "bg-emerald-500",
+    class: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
+    dot: "bg-brand-500",
   },
   rejected: {
     class: "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
@@ -137,7 +137,7 @@ function ReceiptViewer({ fileKey, fileName }: { fileKey: string; fileName: strin
   return (
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (v) loadUrl(); }}>
       <DialogTrigger asChild>
-        <button className="inline-flex items-center gap-1.5 text-emerald-600 hover:text-emerald-700 transition-colors group">
+        <button className="inline-flex items-center gap-1.5 text-brand-600 hover:text-brand-700 transition-colors group">
           {isImage ? <ImageIcon className="size-3.5" /> : <FileText className="size-3.5" />}
           <span className="max-w-[100px] truncate text-xs group-hover:underline">{fileName}</span>
         </button>
@@ -191,7 +191,7 @@ function ReceiptViewer({ fileKey, fileName }: { fileKey: string; fileName: strin
 
 function DrawerIcon({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-950/40 dark:text-brand-400">
       {children}
     </div>
   );
@@ -222,7 +222,7 @@ function DrawerFooter({
       <Button
         type="submit"
         disabled={saving}
-        className="bg-emerald-600 hover:bg-emerald-700"
+        className="bg-brand-600 hover:bg-brand-700"
       >
         {saving ? "Saving..." : label}
       </Button>
@@ -408,7 +408,7 @@ function EditExpenseDrawer({
                         <Label className="text-xs">Receipt</Label>
                         {item.receiptFileName ? (
                           <div className="flex items-center gap-2 rounded-lg border px-3 py-2">
-                            <FileText className="size-4 text-emerald-600 shrink-0" />
+                            <FileText className="size-4 text-brand-600 shrink-0" />
                             <span className="text-xs truncate flex-1">{item.receiptFileName}</span>
                             <button type="button" onClick={() => updateEditItem(index, { receiptFileKey: "", receiptFileName: "" })} className="text-muted-foreground hover:text-foreground">
                               <X className="size-3.5" />
@@ -648,7 +648,7 @@ export default function ExpenseDetailPage() {
                 <Button variant="outline" size="sm" onClick={() => setEditOpen(true)}>
                   <Pencil className="mr-2 size-3.5" />Edit
                 </Button>
-                <Button size="sm" onClick={handleSubmit} className="bg-emerald-600 hover:bg-emerald-700">
+                <Button size="sm" onClick={handleSubmit} className="bg-brand-600 hover:bg-brand-700">
                   <Send className="mr-2 size-3.5" />Submit
                 </Button>
                 <Button variant="outline" size="sm" onClick={handleDelete} className="text-red-600 hover:text-red-700">
@@ -661,7 +661,7 @@ export default function ExpenseDetailPage() {
                 <Button variant="outline" size="sm" onClick={handleRecall} title="Pull this back to a draft so you can change it">
                   <Undo2 className="mr-2 size-3.5" />Recall to edit
                 </Button>
-                <Button size="sm" onClick={handleApprove} className="bg-emerald-600 hover:bg-emerald-700">
+                <Button size="sm" onClick={handleApprove} className="bg-brand-600 hover:bg-brand-700">
                   <Check className="mr-2 size-3.5" />Approve
                 </Button>
                 <Dialog open={rejectOpen} onOpenChange={setRejectOpen}>
@@ -696,7 +696,7 @@ export default function ExpenseDetailPage() {
             {claim.status === "approved" && (
               <Dialog open={payOpen} onOpenChange={setPayOpen}>
                 <DialogTrigger asChild>
-                  <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                  <Button size="sm" className="bg-brand-600 hover:bg-brand-700">
                     <DollarSign className="mr-2 size-3.5" />Mark as Paid
                   </Button>
                 </DialogTrigger>
@@ -711,7 +711,7 @@ export default function ExpenseDetailPage() {
                       <Label>Payment Date</Label>
                       <Input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)} />
                     </div>
-                    <Button onClick={handlePay} className="w-full bg-emerald-600 hover:bg-emerald-700">Confirm Payment</Button>
+                    <Button onClick={handlePay} className="w-full bg-brand-600 hover:bg-brand-700">Confirm Payment</Button>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -721,7 +721,7 @@ export default function ExpenseDetailPage() {
                 <Button variant="outline" size="sm" onClick={() => setEditOpen(true)}>
                   <Pencil className="mr-2 size-3.5" />Edit
                 </Button>
-                <Button size="sm" onClick={handleSubmit} className="bg-emerald-600 hover:bg-emerald-700" title="Send it back for approval after fixing it">
+                <Button size="sm" onClick={handleSubmit} className="bg-brand-600 hover:bg-brand-700" title="Send it back for approval after fixing it">
                   <Send className="mr-2 size-3.5" />Resubmit
                 </Button>
                 <Button variant="outline" size="sm" onClick={handleDelete} className="text-red-600 hover:text-red-700">
@@ -733,7 +733,7 @@ export default function ExpenseDetailPage() {
         </div>
 
         {/* Gradient divider */}
-        <div className="h-px bg-gradient-to-r from-emerald-500/20 via-border to-transparent" />
+        <div className="h-px bg-gradient-to-r from-brand-500/20 via-border to-transparent" />
 
         {/* Timeline / status info */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">

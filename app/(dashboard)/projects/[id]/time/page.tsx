@@ -388,7 +388,7 @@ export default function TimePage() {
     { key: "duration", header: "Duration", className: "w-20 text-right", render: r => <span className="text-[13px] font-mono tabular-nums font-medium">{formatHours(r.minutes)}</span> },
     { key: "amount", header: "Amount", className: "w-24 text-right", render: r => <span className="text-[13px] font-mono tabular-nums">{formatMoney(Math.round((r.minutes / 60) * r.hourlyRate))}</span> },
     { key: "status", header: "", className: "w-20", render: r => {
-      if (r.invoiceId) return <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700 text-[9px] h-4">Invoiced</Badge>;
+      if (r.invoiceId) return <Badge variant="outline" className="border-brand-200 bg-brand-50 text-brand-700 text-[9px] h-4">Invoiced</Badge>;
       return <Badge variant="outline" className={cn("text-[9px] h-4", r.isBillable ? "border-blue-200 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600")}>{r.isBillable ? "Billable" : "Non-bill."}</Badge>;
     }},
   ];
@@ -470,14 +470,14 @@ export default function TimePage() {
         {/* Timer Card */}
         <div className={cn(
           "rounded-xl border bg-card p-4 sm:p-5 flex flex-col",
-          timerIsRunning && !timerIsPaused && "border-emerald-300 bg-gradient-to-b from-emerald-50/40 to-card dark:from-emerald-950/20",
+          timerIsRunning && !timerIsPaused && "border-brand-300 bg-gradient-to-b from-brand-50/40 to-card dark:from-brand-950/20",
           timerIsPaused && "border-amber-300 bg-gradient-to-b from-amber-50/30 to-card dark:from-amber-950/20",
         )}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <div className={cn(
                 "size-2 rounded-full",
-                timerIsRunning && !timerIsPaused && "bg-emerald-500 animate-pulse",
+                timerIsRunning && !timerIsPaused && "bg-brand-500 animate-pulse",
                 timerIsPaused && "bg-amber-500",
                 !timerIsRunning && "bg-muted-foreground/20",
               )} />
@@ -497,7 +497,7 @@ export default function TimePage() {
             <div className="flex items-baseline gap-1 select-none">
               <span className={cn(
                 "text-3xl sm:text-4xl font-bold font-mono tabular-nums tracking-tight transition-colors",
-                timerIsRunning && !timerIsPaused && "text-emerald-700 dark:text-emerald-400",
+                timerIsRunning && !timerIsPaused && "text-brand-700 dark:text-brand-400",
                 timerIsPaused && "text-amber-700 dark:text-amber-400",
                 !timerIsRunning && "text-muted-foreground/30",
               )}>
@@ -505,11 +505,11 @@ export default function TimePage() {
               </span>
               <span className={cn(
                 "text-xl sm:text-2xl font-light transition-colors",
-                timerIsRunning && !timerIsPaused ? "text-emerald-400 animate-pulse" : "text-muted-foreground/20",
+                timerIsRunning && !timerIsPaused ? "text-brand-400 animate-pulse" : "text-muted-foreground/20",
               )}>:</span>
               <span className={cn(
                 "text-3xl sm:text-4xl font-bold font-mono tabular-nums tracking-tight transition-colors",
-                timerIsRunning && !timerIsPaused && "text-emerald-700 dark:text-emerald-400",
+                timerIsRunning && !timerIsPaused && "text-brand-700 dark:text-brand-400",
                 timerIsPaused && "text-amber-700 dark:text-amber-400",
                 !timerIsRunning && "text-muted-foreground/30",
               )}>
@@ -517,11 +517,11 @@ export default function TimePage() {
               </span>
               <span className={cn(
                 "text-xl sm:text-2xl font-light transition-colors",
-                timerIsRunning && !timerIsPaused ? "text-emerald-400 animate-pulse" : "text-muted-foreground/20",
+                timerIsRunning && !timerIsPaused ? "text-brand-400 animate-pulse" : "text-muted-foreground/20",
               )}>:</span>
               <span className={cn(
                 "text-3xl sm:text-4xl font-bold font-mono tabular-nums tracking-tight transition-colors",
-                timerIsRunning && !timerIsPaused && "text-emerald-600 dark:text-emerald-500",
+                timerIsRunning && !timerIsPaused && "text-brand-600 dark:text-brand-500",
                 timerIsPaused && "text-amber-600 dark:text-amber-500",
                 !timerIsRunning && "text-muted-foreground/20",
               )}>
@@ -557,7 +557,7 @@ export default function TimePage() {
                 className={cn(
                   "flex items-center gap-1.5 text-[11px] rounded-md px-2 py-1 transition-colors w-fit",
                   timerBillable
-                    ? "text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-950/40"
+                    ? "text-brand-700 bg-brand-50 hover:bg-brand-100 dark:text-brand-400 dark:bg-brand-950/40"
                     : "text-muted-foreground bg-muted hover:bg-muted/80",
                 )}
               >
@@ -572,7 +572,7 @@ export default function TimePage() {
             {!timerIsRunning ? (
               <Button
                 size="sm"
-                className="flex-1 h-9 bg-emerald-600 hover:bg-emerald-700 gap-2 text-sm font-medium"
+                className="flex-1 h-9 bg-brand-600 hover:bg-brand-700 gap-2 text-sm font-medium"
                 onClick={startTimer}
               >
                 <Play className="size-3.5 fill-current" />
@@ -584,7 +584,7 @@ export default function TimePage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="flex-1 h-9 gap-2 text-sm border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                    className="flex-1 h-9 gap-2 text-sm border-brand-200 text-brand-700 hover:bg-brand-50"
                     onClick={resumeTimer}
                   >
                     <Play className="size-3.5 fill-current" />
@@ -603,7 +603,7 @@ export default function TimePage() {
                 )}
                 <Button
                   size="sm"
-                  className="flex-1 h-9 gap-2 text-sm bg-emerald-600 hover:bg-emerald-700"
+                  className="flex-1 h-9 gap-2 text-sm bg-brand-600 hover:bg-brand-700"
                   onClick={stopTimer}
                 >
                   <Square className="size-3 fill-current" />
@@ -663,7 +663,7 @@ export default function TimePage() {
                   cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}
                 />
                 <Bar dataKey="hours" fill="hsl(var(--muted))" radius={[4, 4, 0, 0]} name="total" />
-                <Bar dataKey="billable" fill="#10b981" radius={[4, 4, 0, 0]} name="billable" />
+                <Bar dataKey="billable" fill="var(--brand-600)" radius={[4, 4, 0, 0]} name="billable" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -712,7 +712,7 @@ export default function TimePage() {
               </span>
             )}
           </p>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 h-8" onClick={openAdd}>
+          <Button size="sm" className="bg-brand-600 hover:bg-brand-700 h-8" onClick={openAdd}>
             <Plus className="size-3.5" />Log Time
           </Button>
         </div>
@@ -779,7 +779,7 @@ export default function TimePage() {
                 "flex size-10 shrink-0 items-center justify-center rounded-xl",
                 drawerMode === "edit"
                   ? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
-                  : "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400",
+                  : "bg-brand-50 text-brand-600 dark:bg-brand-950/40 dark:text-brand-400",
               )}>
                 {drawerMode === "edit" ? <Pencil className="size-5" /> : <Clock className="size-5" />}
               </div>
@@ -867,7 +867,7 @@ export default function TimePage() {
               <Button
                 onClick={drawerMode === "edit" ? handleUpdate : handleAdd}
                 disabled={saving}
-                className={drawerMode === "edit" ? "bg-blue-600 hover:bg-blue-700" : "bg-emerald-600 hover:bg-emerald-700"}
+                className={drawerMode === "edit" ? "bg-blue-600 hover:bg-blue-700" : "bg-brand-600 hover:bg-brand-700"}
               >
                 {saving ? "Saving..." : drawerMode === "edit" ? "Update Entry" : "Add Entry"}
               </Button>
@@ -900,7 +900,7 @@ function StatCard({ label, value, sub, icon, accent }: {
       <div className="flex items-center gap-1.5 mb-1">
         <span className={cn(
           "text-muted-foreground/50",
-          accent === "emerald" && "text-emerald-500/60",
+          accent === "emerald" && "text-brand-500/60",
           accent === "amber" && "text-amber-500/60",
           accent === "blue" && "text-blue-500/60",
         )}>
@@ -910,7 +910,7 @@ function StatCard({ label, value, sub, icon, accent }: {
       </div>
       <p className={cn(
         "text-lg font-bold font-mono tabular-nums mt-0.5",
-        accent === "emerald" && "text-emerald-600",
+        accent === "emerald" && "text-brand-600",
         accent === "amber" && "text-amber-600",
         accent === "blue" && "text-blue-600",
       )}>{value}</p>

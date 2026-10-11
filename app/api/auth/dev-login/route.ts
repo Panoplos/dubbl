@@ -59,7 +59,47 @@ export async function POST() {
     );
   }
 
-  // Find or create dev user
+  try {
+    return await devLogin();
+  } catch (err) {
+    console.error("[dev-login]", err);
+    const unreachable = isConnectionError(err);
+    return NextResponse.json(
+      {
+        error: unreachable
+          ? "Can't reach the database. Start Postgres (docker compose up -d postgres), then run pnpm db:migrate."
+          : "Dev login failed. Is the database migrated? Run pnpm db:migrate (and pnpm db:seed for demo data).",
+      },
+      { status: unreachable ? 503 : 500 }
+    );
+  }
+}
+
+function isConnectionError(err: unknown): boolean {
+  for (let e: unknown = err; e && typeof e === "object"; e = (e as { cause?: unknown }).cause) {
+    const code = (e as { code?: string }).code;
+    if (code === "ECONNREFUSED" || code === "ENOTFOUND" || code === "ETIMEDOUT") return true;
+    if (e instanceof AggregateError && e.errors.some(isConnectionError)) return true;
+  }
+  return false;
+}
+
+async function devLogin() {
+  // Prefer the seeded demo account — it has a fully set-up org with sample data
+  const demoUser = await db.query.users.findFirst({
+    where: eq(users.email, DEMO_USER.email),
+  });
+  const demoMembership = demoUser
+    ? await db.query.member.findFirst({ where: eq(member.userId, demoUser.id) })
+    : null;
+  if (demoMembership) {
+    return NextResponse.json({
+      credentials: { email: DEMO_USER.email, password: DEMO_USER.password },
+      organizationId: demoMembership.organizationId,
+    });
+  }
+
+  // Otherwise find or create the quick dev user
   let user = await db.query.users.findFirst({
     where: eq(users.email, DEV_USER.email),
   });

@@ -175,7 +175,7 @@ export default function BankReconciliationStatusPage() {
                       <TableCell className="font-medium">
                         <Link
                           href={`/accounting/banking/${a.id}`}
-                          className="hover:text-emerald-600 hover:underline"
+                          className="hover:text-brand-600 hover:underline"
                         >
                           {a.accountName}
                         </Link>
@@ -214,7 +214,7 @@ export default function BankReconciliationStatusPage() {
                       </TableCell>
                       <TableCell>
                         {isClear ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">
                             <CheckCircle2 className="size-3" /> All caught up
                           </span>
                         ) : (

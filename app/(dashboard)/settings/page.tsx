@@ -517,7 +517,7 @@ export default function SettingsPage() {
           onClick={save}
           disabled={saving}
           size="sm"
-          className="bg-emerald-600 hover:bg-emerald-700"
+          className="bg-brand-600 hover:bg-brand-700"
         >
           {saving ? "Saving..." : "Save changes"}
         </Button>

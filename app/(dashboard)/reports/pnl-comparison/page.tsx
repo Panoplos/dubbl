@@ -127,8 +127,8 @@ export default function PnlComparisonPage() {
                 <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
                   <defs>
                     <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.15} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--brand-600)" stopOpacity={0.15} />
+                      <stop offset="95%" stopColor="var(--brand-600)" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="expensesGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#ef4444" stopOpacity={0.15} />
@@ -143,7 +143,7 @@ export default function PnlComparisonPage() {
                     formatter={(value) => [`$${Number(value).toFixed(2)}`]}
                   />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#10b981" fill="url(#revenueGrad)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="revenue" name="Revenue" stroke="var(--brand-600)" fill="url(#revenueGrad)" strokeWidth={2} />
                   <Area type="monotone" dataKey="expenses" name="Expenses" stroke="#ef4444" fill="url(#expensesGrad)" strokeWidth={2} />
                 </AreaChart>
               </ResponsiveContainer>
@@ -211,7 +211,7 @@ export default function PnlComparisonPage() {
                     {periods.map((p) => (
                       <td key={p.label} className={cn(
                         "px-4 py-2.5 text-right font-mono tabular-nums font-semibold",
-                        p.netIncome >= 0 ? "text-emerald-600" : "text-red-600"
+                        p.netIncome >= 0 ? "text-brand-600" : "text-red-600"
                       )}>
                         {formatMoney(p.netIncome)}
                       </td>
@@ -241,7 +241,7 @@ export default function PnlComparisonPage() {
 
 function ChangeCell({ amount, pct, inverted }: { amount: number; pct: number; inverted?: boolean }) {
   const positive = inverted ? amount < 0 : amount > 0;
-  const color = amount === 0 ? "text-muted-foreground" : positive ? "text-emerald-600" : "text-red-600";
+  const color = amount === 0 ? "text-muted-foreground" : positive ? "text-brand-600" : "text-red-600";
 
   return (
     <div className={cn("text-xs font-mono tabular-nums", color)}>

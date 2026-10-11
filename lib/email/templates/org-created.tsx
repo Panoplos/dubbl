@@ -101,7 +101,7 @@ const stepNumBadge: React.CSSProperties = {
   height: "24px",
   lineHeight: "24px",
   borderRadius: "50%",
-  backgroundColor: "#059669",
+  backgroundColor: "#171717",
   color: "#ffffff",
   fontSize: "12px",
   fontWeight: 700,
@@ -127,7 +127,7 @@ const buttonSection: React.CSSProperties = {
   marginTop: "24px",
 };
 const button: React.CSSProperties = {
-  backgroundColor: "#059669",
+  backgroundColor: "#171717",
   borderRadius: "8px",
   color: "#fff",
   fontSize: "14px",

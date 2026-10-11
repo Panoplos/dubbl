@@ -341,7 +341,7 @@ function IntegrationCard({
   onUpdateMapping: (field: string, value: string) => void;
 }) {
   const statusColor = {
-    active: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+    active: "bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-400",
     error: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
     disconnected: "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400",
   }[integration.status || "active"];

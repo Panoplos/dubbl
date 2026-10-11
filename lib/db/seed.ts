@@ -174,6 +174,14 @@ async function seed() {
     org = { id: resolvedMember.organizationId, name: resolvedMember.organization.name };
     console.log(`  Using existing user: ${resolvedMember.user.email}`);
     console.log(`  Using existing org: ${org.name}`);
+    // Finish setup on an org that never completed onboarding, so the seeded data is reachable
+    if (resolvedMember.organization.country === null) {
+      await db
+        .update(organization)
+        .set({ country: "United States", countryCode: "US", onboardingCompletedAt: new Date() })
+        .where(eq(organization.id, org.id));
+      console.log("  Marked org as onboarded (United States)");
+    }
   } else {
     console.log("  No existing user found, creating demo user...");
     const passwordHash = await bcrypt.hash("password123", 12);
@@ -200,8 +208,12 @@ async function seed() {
         id: "00000000-0000-0000-0000-000000000002",
         name: "Demo Company",
         slug: "demo-company",
+        // Without a country the dashboard sends the user back to onboarding
+        country: "United States",
+        countryCode: "US",
         defaultCurrency: "USD",
         fiscalYearStartMonth: 1,
+        onboardingCompletedAt: new Date(),
       })
       .returning();
 

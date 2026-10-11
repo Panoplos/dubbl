@@ -18,3 +18,18 @@ export function getErrorMessage(err: unknown, fallback = "Something went wrong")
   }
   return fallback;
 }
+
+/** Resolve a `callbackUrl` query param to a same-origin path, or `fallback` if it points off-site */
+export function safeCallbackUrl(value: string | null, fallback: string): string {
+  if (!value) return fallback;
+  if (value.startsWith("/") && !value.startsWith("//")) return value;
+  try {
+    const url = new URL(value);
+    if (typeof window !== "undefined" && url.origin === window.location.origin) {
+      return `${url.pathname}${url.search}${url.hash}`;
+    }
+  } catch {
+    // not a valid URL
+  }
+  return fallback;
+}

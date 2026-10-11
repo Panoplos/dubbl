@@ -47,24 +47,37 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --color-emerald-50: #ecfdf5;
-  --color-emerald-100: #d1fae5;
-  --color-emerald-200: #a7f3d0;
-  --color-emerald-300: #6ee7b7;
-  --color-emerald-400: #34d399;
-  --color-emerald-500: #10b981;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
-  --color-emerald-800: #065f46;
-  --color-emerald-900: #064e3b;
-  --color-emerald-950: #022c22;
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
 }
 
 :root {
+  /* Brand — charcoal scale. Light mode is a straight neutral ramp. */
+  --brand-50: #f6f6f5;
+  --brand-100: #ececea;
+  --brand-200: #dddddb;
+  --brand-300: #c2c2bf;
+  --brand-400: #91918e;
+  --brand-500: #5e5e5b;
+  --brand-600: #262625;
+  --brand-700: #171716;
+  --brand-800: #121211;
+  --brand-900: #0e0e0d;
+  --brand-950: #0a0a0a;
+
   /* Fumadocs theme */
   --color-fd-background: #ffffff;
   --color-fd-foreground: #0a0a0a;
-  --color-fd-primary: #059669;
+  --color-fd-primary: #171717;
   --color-fd-primary-foreground: #ffffff;
   --color-fd-secondary: #f5f5f5;
   --color-fd-secondary-foreground: #0a0a0a;
@@ -75,7 +88,7 @@
   --color-fd-card: #ffffff;
   --color-fd-card-foreground: #0a0a0a;
   --color-fd-border: #e5e5e5;
-  --color-fd-ring: #10b981;
+  --color-fd-ring: #a3a3a3;
   --color-fd-popover: #ffffff;
   --color-fd-popover-foreground: #0a0a0a;
 
@@ -86,7 +99,7 @@
   --card-foreground: #0a0a0a;
   --popover: #ffffff;
   --popover-foreground: #0a0a0a;
-  --primary: #10b981;
+  --primary: #171717;
   --primary-foreground: #ffffff;
   --secondary: #f5f5f5;
   --secondary-foreground: #0a0a0a;
@@ -97,21 +110,21 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: #e5e5e5;
   --input: #e5e5e5;
-  --ring: #10b981;
-  --chart-1: #10b981;
-  --chart-2: #059669;
-  --chart-3: #047857;
-  --chart-4: #34d399;
-  --chart-5: #6ee7b7;
+  --ring: #a3a3a3;
+  --chart-1: #171717;
+  --chart-2: #525252;
+  --chart-3: #737373;
+  --chart-4: #a3a3a3;
+  --chart-5: #d4d4d4;
   --content-bg: #F7F7F5;
   --sidebar: #FFFFFF;
   --sidebar-foreground: #6B7280;
-  --sidebar-primary: #10b981;
+  --sidebar-primary: #171717;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e5e7eb;
-  --sidebar-accent-foreground: #111827;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #10b981;
+  --sidebar-accent: #ececea;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-border: #E5E5E3;
+  --sidebar-ring: #a3a3a3;
 }
 
 @layer base {
@@ -242,12 +255,12 @@
   0%, 100% {
     opacity: 0.4;
     transform: scale(0.96);
-    filter: drop-shadow(0 0 0px rgba(16, 185, 129, 0));
+    filter: drop-shadow(0 0 0px rgba(0, 0, 0, 0));
   }
   50% {
     opacity: 1;
     transform: scale(1);
-    filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.2));
+    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.12));
   }
 }
 
@@ -492,9 +505,9 @@
 /* Gradient mesh background for hero sections */
 .gradient-mesh {
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(20, 184, 166, 0.08), transparent),
-    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(16, 185, 129, 0.06), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 0, 0, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(0, 0, 0, 0.03), transparent),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0, 0, 0, 0.025), transparent);
 }
 
 /* Glass card effect */
@@ -544,57 +557,79 @@
 /* Gradient mesh - dark mode */
 :is(.dark) .gradient-mesh {
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.1), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(20, 184, 166, 0.06), transparent),
-    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(16, 185, 129, 0.04), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.07), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(255, 255, 255, 0.035), transparent),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(255, 255, 255, 0.025), transparent);
 }
 
 
 .dark {
-  /* Fumadocs dark theme */
-  --color-fd-background: #0a0d0b;
-  --color-fd-foreground: #f0fdf4;
-  --color-fd-primary: #10b981;
-  --color-fd-primary-foreground: #ffffff;
-  --color-fd-secondary: #1a1f1c;
-  --color-fd-secondary-foreground: #f0fdf4;
-  --color-fd-accent: #1a1f1c;
-  --color-fd-accent-foreground: #f0fdf4;
-  --color-fd-muted: #1a1f1c;
-  --color-fd-muted-foreground: #94a3b8;
-  --color-fd-card: #111614;
-  --color-fd-card-foreground: #f0fdf4;
-  --color-fd-border: #2a2a2a;
-  --color-fd-ring: #10b981;
-  --color-fd-popover: #111614;
-  --color-fd-popover-foreground: #f0fdf4;
+  /*
+   * Brand — dark mode folds the ramp so existing light/dark class pairs keep
+   * working: tints (50–200) and shades (800–950) become subtle dark surfaces,
+   * mids (300–700) become light greys for text, icons and primary buttons.
+   */
+  --brand-50: #1a1a1a;
+  --brand-100: #222222;
+  --brand-200: #2e2e2e;
+  --brand-300: #e5e5e5;
+  --brand-400: #d4d4d4;
+  --brand-500: #a3a3a3;
+  --brand-600: #f0f0f0;
+  --brand-700: #d6d6d6;
+  --brand-800: #2a2a2a;
+  --brand-900: #1f1f1f;
+  --brand-950: #171717;
 
-  --background: #0a0d0b;
-  --foreground: #f0fdf4;
-  --card: #111614;
-  --card-foreground: #f0fdf4;
-  --popover: #111614;
-  --popover-foreground: #f0fdf4;
-  --primary: #10b981;
-  --primary-foreground: #ffffff;
-  --secondary: #1a1f1c;
-  --secondary-foreground: #f0fdf4;
-  --muted: #1a1f1c;
-  --muted-foreground: #94a3b8;
-  --accent: #0d2818;
-  --accent-foreground: #d1fae5;
-  --border: #1e2a24;
-  --input: #1e2a24;
-  --ring: #10b981;
-  --content-bg: #0a0d0b;
-  --sidebar: #061210;
-  --sidebar-foreground: rgba(255,255,255,0.75);
-  --sidebar-primary: #10b981;
-  --sidebar-primary-foreground: #ffffff;
+  /* Fumadocs dark theme */
+  --color-fd-background: #0a0a0a;
+  --color-fd-foreground: #fafafa;
+  --color-fd-primary: #fafafa;
+  --color-fd-primary-foreground: #0a0a0a;
+  --color-fd-secondary: #1a1a1a;
+  --color-fd-secondary-foreground: #fafafa;
+  --color-fd-accent: #1a1a1a;
+  --color-fd-accent-foreground: #fafafa;
+  --color-fd-muted: #1a1a1a;
+  --color-fd-muted-foreground: #a3a3a3;
+  --color-fd-card: #121212;
+  --color-fd-card-foreground: #fafafa;
+  --color-fd-border: #262626;
+  --color-fd-ring: #525252;
+  --color-fd-popover: #121212;
+  --color-fd-popover-foreground: #fafafa;
+
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #121212;
+  --card-foreground: #fafafa;
+  --popover: #121212;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fafafa;
+  --muted: #1a1a1a;
+  --muted-foreground: #a3a3a3;
+  --accent: #1f1f1f;
+  --accent-foreground: #fafafa;
+  --border: #262626;
+  --input: #262626;
+  --ring: #525252;
+  --chart-1: #fafafa;
+  --chart-2: #d4d4d4;
+  --chart-3: #a3a3a3;
+  --chart-4: #737373;
+  --chart-5: #525252;
+  --content-bg: #0a0a0a;
+  --sidebar: #0f0f0f;
+  --sidebar-foreground: rgba(255,255,255,0.7);
+  --sidebar-primary: #fafafa;
+  --sidebar-primary-foreground: #0a0a0a;
   --sidebar-accent: rgba(255,255,255,0.08);
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: rgba(255,255,255,0.06);
-  --sidebar-ring: #10b981;
+  --sidebar-ring: #525252;
 }
 
 /* Fix Fumadocs TOC bleeding on mobile */

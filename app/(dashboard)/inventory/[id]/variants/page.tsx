@@ -106,7 +106,7 @@ export default function InventoryItemVariantsPage() {
           description="Add variants for different sizes, colors, or configurations."
           compact
         >
-          <Button size="sm" onClick={() => setAddOpen(true)} className="bg-emerald-600 hover:bg-emerald-700">
+          <Button size="sm" onClick={() => setAddOpen(true)} className="bg-brand-600 hover:bg-brand-700">
             <Plus className="mr-1.5 size-3.5" />
             Add Variant
           </Button>
@@ -122,7 +122,7 @@ export default function InventoryItemVariantsPage() {
                   <Badge variant="outline" className={cn(
                     "text-[10px]",
                     v.isActive !== false
-                      ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                      ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300"
                       : ""
                   )}>
                     {v.isActive !== false ? "Active" : "Inactive"}
@@ -206,7 +206,7 @@ export default function InventoryItemVariantsPage() {
           </div>
           <SheetFooter>
             <Button variant="outline" onClick={() => setAddOpen(false)}>Cancel</Button>
-            <Button onClick={handleAdd} className="bg-emerald-600 hover:bg-emerald-700">
+            <Button onClick={handleAdd} className="bg-brand-600 hover:bg-brand-700">
               Add Variant
             </Button>
           </SheetFooter>

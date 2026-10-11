@@ -386,7 +386,7 @@ export default function RemindersPage() {
                       <TableRow key={log.id}>
                         <TableCell>
                           {log.status === "sent" && (
-                            <Badge variant="outline" className="text-[10px] gap-1 text-emerald-600 border-emerald-200">
+                            <Badge variant="outline" className="text-[10px] gap-1 text-brand-600 border-brand-200">
                               <CheckCircle2 className="size-3" /> Sent
                             </Badge>
                           )}

@@ -66,11 +66,11 @@ const TYPE_CONFIG: Record<string, { label: string; dot: string; bg: string; text
   },
   revenue: {
     label: "Revenue",
-    dot: "bg-emerald-500",
-    bg: "bg-emerald-500/10 dark:bg-emerald-500/15",
-    text: "text-emerald-700 dark:text-emerald-300",
-    border: "border-emerald-200 dark:border-emerald-800",
-    badgeClass: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    dot: "bg-brand-500",
+    bg: "bg-brand-500/10 dark:bg-brand-500/15",
+    text: "text-brand-700 dark:text-brand-300",
+    border: "border-brand-200 dark:border-brand-800",
+    badgeClass: "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   },
   expense: {
     label: "Expense",
@@ -176,10 +176,10 @@ export default function AccountDetailLayout({ children }: { children: React.Reac
           </div>
           <div>
             <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-              <ArrowDownRight className="size-3 text-emerald-500" />
+              <ArrowDownRight className="size-3 text-brand-500" />
               Total Debits
             </p>
-            <p className="mt-0.5 font-mono text-lg font-semibold tabular-nums text-emerald-600">
+            <p className="mt-0.5 font-mono text-lg font-semibold tabular-nums text-brand-600">
               {totalDebits > 0 ? formatMoney(Math.round(totalDebits * 100), cur) : "-"}
             </p>
           </div>

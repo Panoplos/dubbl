@@ -85,7 +85,7 @@ const tsStatusColors: Record<string, string> = {
   submitted:
     "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300",
   approved:
-    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   rejected:
     "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
 };
@@ -94,7 +94,7 @@ const leaveStatusColors: Record<string, string> = {
   pending:
     "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
   approved:
-    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300",
   rejected:
     "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
   cancelled:
@@ -726,7 +726,7 @@ export default function TimeLeavePage() {
             <p
               className={cn(
                 "mt-2 text-2xl font-bold font-mono tabular-nums truncate",
-                card.highlight && "text-emerald-600 dark:text-emerald-400",
+                card.highlight && "text-brand-600 dark:text-brand-400",
               )}
             >
               {card.value}
@@ -809,7 +809,7 @@ export default function TimeLeavePage() {
 
               <Button
                 size="sm"
-                className="bg-emerald-600 hover:bg-emerald-700"
+                className="bg-brand-600 hover:bg-brand-700"
                 onClick={() => setTsDrawerOpen(true)}
               >
                 <Plus className="mr-2 size-4" />
@@ -987,7 +987,7 @@ export default function TimeLeavePage() {
 
               <Button
                 size="sm"
-                className="bg-emerald-600 hover:bg-emerald-700"
+                className="bg-brand-600 hover:bg-brand-700"
                 onClick={() => setLeaveDrawerOpen(true)}
               >
                 <Plus className="mr-2 size-4" />
@@ -1159,7 +1159,7 @@ export default function TimeLeavePage() {
         <SheetContent className="sm:max-w-lg w-full p-0 flex flex-col">
           <SheetHeader className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 border-b space-y-3">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-950/40 dark:text-brand-400">
                 <Clock className="size-5" />
               </div>
               <div>
@@ -1221,7 +1221,7 @@ export default function TimeLeavePage() {
               <Button
                 type="submit"
                 disabled={savingTs}
-                className="bg-emerald-600 hover:bg-emerald-700"
+                className="bg-brand-600 hover:bg-brand-700"
               >
                 {savingTs ? "Creating..." : "Create Timesheet"}
               </Button>
@@ -1237,7 +1237,7 @@ export default function TimeLeavePage() {
         <SheetContent className="sm:max-w-lg w-full p-0 flex flex-col">
           <SheetHeader className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 border-b space-y-3">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-950/40 dark:text-brand-400">
                 <CalendarDays className="size-5" />
               </div>
               <div>
@@ -1349,7 +1349,7 @@ export default function TimeLeavePage() {
               <Button
                 type="submit"
                 disabled={savingLeave}
-                className="bg-emerald-600 hover:bg-emerald-700"
+                className="bg-brand-600 hover:bg-brand-700"
               >
                 {savingLeave ? "Submitting..." : "Submit Request"}
               </Button>

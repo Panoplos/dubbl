@@ -154,7 +154,7 @@ export default function EmployeesPage() {
     return (
       <ContentReveal className="space-y-6">
         {/* Visual empty state */}
-        <div className="relative overflow-hidden rounded-2xl border border-dashed border-emerald-200 dark:border-emerald-900/50">
+        <div className="relative overflow-hidden rounded-2xl border border-dashed border-brand-200 dark:border-brand-900/50">
           <div className="relative flex flex-col items-center py-16 px-6">
             {/* Floating avatar placeholders */}
             <div className="relative h-24 w-64 mb-6">
@@ -171,7 +171,7 @@ export default function EmployeesPage() {
                   className={cn(
                     "absolute flex items-center justify-center rounded-full font-semibold",
                     i === 1
-                      ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 ring-4 ring-emerald-100/50 dark:ring-emerald-900/30 text-base"
+                      ? "bg-brand-100 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 ring-4 ring-brand-100/50 dark:ring-brand-900/30 text-base"
                       : "bg-muted text-muted-foreground/40 text-xs ring-2 ring-muted/50"
                   )}
                   style={{
@@ -217,7 +217,7 @@ export default function EmployeesPage() {
               <Button
                 size="lg"
                 onClick={() => openDrawer("employee")}
-                className="bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20"
+                className="bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-600/20"
               >
                 <Plus className="mr-2 size-4" />
                 Add Employee
@@ -266,7 +266,7 @@ export default function EmployeesPage() {
 
           <Button
             size="sm"
-            className="h-8 text-xs gap-1.5 bg-emerald-600 hover:bg-emerald-700"
+            className="h-8 text-xs gap-1.5 bg-brand-600 hover:bg-brand-700"
             onClick={() => openDrawer("employee")}
           >
             <Plus className="size-3" />
@@ -373,7 +373,7 @@ export default function EmployeesPage() {
                       className={cn(
                         "text-[11px]",
                         emp.isActive
-                          ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                          ? "border-brand-200 bg-brand-50 text-brand-700 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-300"
                           : "border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
                       )}
                     >
