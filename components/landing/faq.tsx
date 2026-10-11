@@ -4,105 +4,92 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Container } from "@/components/shared/container";
-import { SectionHeader } from "@/components/shared/section-header";
+import { Eyebrow, Heading, Section } from "@/components/landing/ledger";
 
 const faqs = [
   {
     question: "Is dubbl really free?",
     answer:
-      "Yes. dubbl is open source under the Apache 2.0 license. You can self-host it for free with no feature limitations, no user caps, and no hidden costs.",
+      "Yes. dubbl is open source under the Apache 2.0 license, and self-hosting is free with no user caps and no locked features. Our hosted cloud has a free plan too — see pricing for what the paid plans add.",
   },
   {
     question: "Can I self-host dubbl?",
     answer:
-      "Absolutely. dubbl is designed for self-hosting. We provide Docker images, Helm charts, and comprehensive deployment guides for AWS, GCP, and bare metal.",
+      "Yes. dubbl runs on Node.js and PostgreSQL, and the self-hosting guide walks through a production setup with Docker Compose. Your data never has to leave your own servers.",
   },
   {
     question: "Does dubbl support multi-currency?",
     answer:
-      "Yes. dubbl supports transactions in any currency with automatic exchange rate conversion. Realized and unrealized gain/loss tracking is built in.",
+      "Yes. Record transactions in any ISO 4217 currency with exchange rates applied automatically, and track realized and unrealized gains and losses.",
   },
   {
-    question: "How does double-entry bookkeeping work in dubbl?",
+    question: "How does double-entry work in dubbl?",
     answer:
-      "Every transaction must have balanced debits and credits. This is enforced at the database level, meaning it's impossible to create an unbalanced entry. dubbl supports multi-leg journal entries for complex transactions.",
+      "Every journal entry must have equal debits and credits — unbalanced entries are rejected, whether they come from the app, the API or an AI agent. Entries can have as many lines as you need, and posted entries are voided rather than edited, so your history stays intact.",
   },
   {
     question: "Can I migrate from QuickBooks or Xero?",
     answer:
-      "Yes. dubbl supports CSV import with built-in column mapping for QuickBooks, Xero, FreshBooks, and Wave. You can import accounts, contacts, invoices, bills, journal entries, products, and bank transactions from any CSV file.",
+      "Yes. CSV import has built-in column mapping for QuickBooks, Xero, FreshBooks and Wave. You can bring in accounts, contacts, invoices, bills, journal entries, products and bank transactions.",
   },
   {
     question: "Is there an API?",
     answer:
-      "dubbl is API-first. Every feature available in the UI is also accessible via our REST API with comprehensive OpenAPI documentation. dubbl also supports the Model Context Protocol (MCP), allowing AI assistants to interact with your business data directly.",
-  },
-  {
-    question: "How do I contribute to dubbl?",
-    answer:
-      "We welcome contributions! Check out our GitHub repository for contributing guidelines, open issues labeled 'good first issue', and our development setup guide.",
-  },
-  {
-    question: "Is dubbl suitable for enterprise use?",
-    answer:
-      "Yes. dubbl includes features like audit trails, role-based access control, SSO/SAML support, and multi-tenant architecture. Beyond accounting, dubbl covers inventory management, project management, payroll, and CRM. Many companies use dubbl in production as their core business platform.",
+      "Yes. Everything in the app is available over a documented REST API, authenticated with API keys you create in settings. There is also an MCP server for AI agents.",
   },
   {
     question: "What is MCP support?",
     answer:
-      "MCP (Model Context Protocol) is an open standard that lets AI assistants interact with external tools and data. dubbl ships with 15 built-in MCP tool modules covering contacts, invoices, inventory, projects, and more. This means AI agents like Claude can read, create, and manage your business data directly through a structured protocol.",
+      "MCP (Model Context Protocol) is an open standard that lets AI assistants use external tools. dubbl's MCP server exposes 357 tools across 55 modules, so Claude, Cursor or any MCP client can read and update your books after you sign in and approve access.",
+  },
+  {
+    question: "Does it work for a team?",
+    answer:
+      "Yes. Invite your team with owner, admin or member roles, route bills and invoices through approvals, lock closed periods, and see who changed what in the audit log.",
+  },
+  {
+    question: "How do I contribute?",
+    answer:
+      "Everything happens on GitHub — open issues, discussions and pull requests are welcome. The contributing guide covers the local development setup.",
   },
 ];
 
 export function FAQ() {
   return (
-    <section className="py-16 md:py-20">
-      <Container>
-        <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
-          {/* Left column */}
-          <div>
-            <SectionHeader
-              badge="FAQs"
-              title="Frequently asked questions"
-              align="left"
-              className="mb-6"
-            />
-            <p className="text-sm text-muted-foreground">
-              Can&apos;t find what you&apos;re looking for? Reach out on{" "}
-              <a
-                href="https://github.com/dubbl-org/dubbl/discussions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-emerald-600 underline underline-offset-4 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
-              >
-                GitHub Discussions
-              </a>
-              .
-            </p>
-          </div>
-
-          {/* Right column */}
-          <div>
-            <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`item-${i}`}
-                  className="border-b border-border"
-                >
-                  <AccordionTrigger className="py-5 text-left text-base font-medium text-foreground hover:no-underline md:text-lg">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5 text-muted-foreground">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+    <Section className="py-20 lg:py-28">
+      <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+        <div>
+          <Eyebrow index="04">FAQ</Eyebrow>
+          <Heading lead="Questions." className="mt-5 max-w-[12ch]">
+            Answered.
+          </Heading>
+          <p className="mt-6 max-w-[34ch] text-[15px] leading-relaxed text-muted-foreground">
+            Something missing? Ask on{" "}
+            <a
+              href="https://github.com/dubbl-org/dubbl/discussions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              GitHub Discussions
+            </a>
+            .
+          </p>
         </div>
-      </Container>
-    </section>
+
+        <Accordion type="single" collapsible className="border-t border-border">
+          {faqs.map((faq, i) => (
+            <AccordionItem key={faq.question} value={`faq-${i}`} className="border-border last:border-b">
+              <AccordionTrigger className="gap-6 py-5 text-[15px] font-medium tracking-[-0.01em] text-foreground hover:no-underline">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="max-w-[60ch] pb-6 text-[15px] leading-relaxed text-muted-foreground">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </Section>
   );
 }
