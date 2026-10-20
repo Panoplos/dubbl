@@ -41,6 +41,13 @@ export const authConfig: NextAuthConfig = {
         pathname.startsWith("/api/health") ||
         pathname.startsWith("/api/stripe/webhook") ||
         pathname.startsWith("/api/currencies") ||
+        // Token-bearer public surfaces (routes validate the token themselves)
+        pathname.startsWith("/api/pay/") ||
+        pathname.startsWith("/api/portal/") ||
+        pathname.startsWith("/api/sign/") ||
+        pathname.startsWith("/pay/") ||
+        pathname.startsWith("/portal/") ||
+        pathname.startsWith("/sign/") ||
         pathname === "/api/mcp" ||
         pathname.startsWith("/api/mcp/") ||
         pathname.startsWith("/.well-known") ||

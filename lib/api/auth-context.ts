@@ -93,9 +93,10 @@ export async function getAuthContext(
     columns: { sessionRevokedAt: true },
   });
   if (user?.sessionRevokedAt) {
-    // JWT iat is in seconds, sessionRevokedAt is a Date
+    // JWT iat is in seconds, sessionRevokedAt is a Date. Fail closed: a token
+    // without an iat claim cannot be proven older than the revocation.
     const tokenIat = (session as unknown as { iat?: number }).iat;
-    if (tokenIat && tokenIat < Math.floor(user.sessionRevokedAt.getTime() / 1000)) {
+    if (!tokenIat || tokenIat < Math.floor(user.sessionRevokedAt.getTime() / 1000)) {
       throw new AuthError("Session expired. Please sign in again.", 401);
     }
   }

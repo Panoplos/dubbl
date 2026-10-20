@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { invoice } from "@/lib/db/schema";
 import { eq, and, isNull } from "drizzle-orm";
 import { stripe } from "@/lib/stripe";
+import { rateLimit, clientIp } from "@/lib/api/rate-limit";
 
 export async function POST(
   request: Request,
@@ -13,6 +14,10 @@ export async function POST(
   }
 
   const { token } = await params;
+
+  if (!rateLimit(`pay-checkout:${clientIp(request)}`, 20)) {
+    return NextResponse.json({ error: "Too many attempts, try again later" }, { status: 429 });
+  }
 
   const inv = await db.query.invoice.findFirst({
     where: and(

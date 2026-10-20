@@ -8,6 +8,11 @@ import { render } from "@react-email/render";
 import { createElement } from "react";
 import { WelcomeEmail } from "@/lib/email/templates/welcome";
 import { sendPlatformEmail } from "@/lib/email/resend-client";
+import { rateLimit, clientIp } from "@/lib/api/rate-limit";
+
+// Constant-work target for the existing-email path so response timing does not
+// distinguish registered from unregistered addresses. Bcrypt hash of random data.
+const DUMMY_HASH = "$2a$12$C6UzMDM.H6dfI/f/IKcEeO7Ff7UiLzQSKiF4TnCBmCY0YCAa5YQ9S";
 import { getSiteSetting } from "@/lib/site-settings";
 import { toAppUrl } from "@/lib/public-url";
 
@@ -19,6 +24,10 @@ const registerSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    if (!rateLimit(`register:${clientIp(request)}`, 10)) {
+      return NextResponse.json({ error: "Too many attempts, try again later" }, { status: 429 });
+    }
+
     const body = await request.json();
     const parsed = registerSchema.parse(body);
 
@@ -27,6 +36,9 @@ export async function POST(request: Request) {
       where: eq(users.email, parsed.email),
     });
     if (existing) {
+      // Equalize timing with the success path (which bcrypt-hashes) so this
+      // endpoint cannot be used to enumerate registered emails.
+      await bcrypt.compare(parsed.password, DUMMY_HASH);
       return NextResponse.json(
         { error: "Email already registered" },
         { status: 409 }
