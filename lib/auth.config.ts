@@ -49,6 +49,9 @@ export const authConfig: NextAuthConfig = {
         pathname.startsWith("/portal/") ||
         pathname.startsWith("/sign/") ||
         pathname.startsWith("/invite/") ||
+        // Read-only invite info behind an unguessable token; join/accept stay authed
+        pathname.startsWith("/api/v1/invite-links/info") ||
+        pathname.startsWith("/api/v1/invitations/info") ||
         pathname === "/api/mcp" ||
         pathname.startsWith("/api/mcp/") ||
         pathname.startsWith("/.well-known") ||
