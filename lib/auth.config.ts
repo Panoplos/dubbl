@@ -48,6 +48,7 @@ export const authConfig: NextAuthConfig = {
         pathname.startsWith("/pay/") ||
         pathname.startsWith("/portal/") ||
         pathname.startsWith("/sign/") ||
+        pathname.startsWith("/invite/") ||
         pathname === "/api/mcp" ||
         pathname.startsWith("/api/mcp/") ||
         pathname.startsWith("/.well-known") ||
