@@ -45,6 +45,7 @@ import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
+import { Markdown } from "@/components/shared/markdown";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
 import { formatMoney, minorUnitsToDecimal, decimalToCents } from "@/lib/money";
 import Link from "next/link";
@@ -755,7 +756,7 @@ export default function ExpenseDetailPage() {
         {claim.description && (
           <div className="rounded-lg border p-4">
             <p className="text-xs text-muted-foreground mb-1">Description</p>
-            <p className="text-sm">{claim.description}</p>
+            <Markdown content={claim.description} />
           </div>
         )}
 
