@@ -52,17 +52,17 @@ interface ProvidersConfig {
 
 function SignUpPageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Invite flow: /sign-up?next=/invite/<token>&invite=<token>. The invite lets
+  // registration through even when open registration is locked.
+  const inviteToken = searchParams.get("invite");
+  const nextPath = searchParams.get("next");
   const [name, setName] = useState("");
   const [email, setEmail] = useState(() => searchParams.get("email") ?? "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [providers, setProviders] = useState<ProvidersConfig | null>(null);
-  const searchParams = useSearchParams();
-  // Invite flow: /sign-up?next=/invite/<token>&invite=<token>. The invite lets
-  // registration through even when open registration is locked.
-  const inviteToken = searchParams.get("invite");
-  const nextPath = searchParams.get("next");
 
   useEffect(() => {
     fetch("/api/auth/providers-config")
