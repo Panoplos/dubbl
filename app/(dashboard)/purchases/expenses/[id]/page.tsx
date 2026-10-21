@@ -45,7 +45,7 @@ import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
-import { Markdown } from "@/components/shared/markdown";
+import { Markdown, MarkdownHint } from "@/components/shared/markdown";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
 import { formatMoney, minorUnitsToDecimal, decimalToCents } from "@/lib/money";
 import Link from "next/link";
@@ -359,6 +359,7 @@ function EditExpenseDrawer({
               <div className="space-y-2">
                 <Label>Description</Label>
                 <Textarea value={editDescription} onChange={(e) => setEditDescription(e.target.value)} rows={2} />
+                <MarkdownHint />
               </div>
             </div>
 

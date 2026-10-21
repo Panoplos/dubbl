@@ -4,6 +4,14 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils";
 
+export function MarkdownHint({ className }: { className?: string }) {
+  return (
+    <p className={cn("text-[11px] text-muted-foreground", className)}>
+      Markdown supported: <strong>**bold**</strong>, <em>*italic*</em>, lists, links, code
+    </p>
+  );
+}
+
 /**
  * Renders user-authored markdown as React elements. Raw HTML in the source is
  * dropped (react-markdown default) — this is user content, so it must never

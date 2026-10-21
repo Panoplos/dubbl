@@ -42,7 +42,7 @@ import {
 } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { Markdown } from "@/components/shared/markdown";
+import { Markdown, MarkdownHint } from "@/components/shared/markdown";
 import { CircleDashed } from "lucide-react";
 import {
   useProject,
@@ -335,6 +335,7 @@ export default function TasksPage() {
               <div className="space-y-2">
                 <Label>Description</Label>
                 <Textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Details, notes, acceptance criteria..." rows={4} />
+                <MarkdownHint />
               </div>
             </div>
 
