@@ -73,12 +73,17 @@ export async function getAuthContext(
       ),
     });
 
-    const customRoleInfo = mem ? await resolveCustomRole(mem) : {};
+    // Fail closed: a key whose owner is no longer a member must stop working.
+    // Defaulting to "member" here kept offboarded users' keys alive forever,
+    // because apiKey.expiresAt is optional.
+    if (!mem) throw new AuthError("API key owner is no longer a member", 401);
+
+    const customRoleInfo = await resolveCustomRole(mem);
 
     return {
       userId: key.createdBy,
       organizationId: key.organizationId,
-      role: (mem?.role ?? "member") as MemberRole,
+      role: mem.role as MemberRole,
       ...customRoleInfo,
     };
   }

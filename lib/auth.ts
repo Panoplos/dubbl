@@ -128,7 +128,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
       const existingUser = await db.query.users.findFirst({
         where: eq(users.email, email),
       });
-      if (existingUser) return true;
+      if (existingUser) {
+        // 2FA is a promise to the user. Google/Apple sign-in cannot ask for a
+        // code, so for an account that has it enabled we refuse the OAuth path
+        // and send them to password + code instead of silently skipping it.
+        if (await isTwoFactorEnabled(existingUser.id)) {
+          return "/sign-in?error=2fa_required";
+        }
+        return true;
+      }
 
       // New OAuth user = registration
       const [{ count: userCount }] = await db
