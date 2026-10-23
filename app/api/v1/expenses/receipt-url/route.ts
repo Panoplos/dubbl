@@ -4,7 +4,7 @@ import { expenseItem, expenseClaim } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { getAuthContext, AuthError } from "@/lib/api/auth-context";
 import { handleError } from "@/lib/api/response";
-import { getDownloadUrl } from "@/lib/s3";
+import { getDownloadUrl, isOrgOwnedKey } from "@/lib/s3";
 
 const EXT_MIME: Record<string, string> = {
   pdf: "application/pdf",
@@ -43,6 +43,12 @@ export async function GET(request: Request) {
       .limit(1);
 
     if (!row) {
+      return NextResponse.json({ error: "Receipt not found" }, { status: 404 });
+    }
+
+    // The expense row proves the key is *claimed* by this org, not that it is
+    // stored under it: receiptFileKey is client-supplied. Require the org prefix.
+    if (!isOrgOwnedKey(fileKey, ctx.organizationId)) {
       return NextResponse.json({ error: "Receipt not found" }, { status: 404 });
     }
 

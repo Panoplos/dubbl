@@ -66,6 +66,23 @@ export async function getUploadUrl(key: string, contentType: string, contentLeng
   return getSignedUrl(s3, command, { expiresIn: 3600 });
 }
 
+/**
+ * True when an object key lives inside one of the organisation's own prefixes.
+ * Object keys are assembled in three shapes across the codebase —
+ * `documents/<orgId>/...`, `<orgId>/<id>/...` (attachments) and
+ * `backups/<orgId>/...` — and a key that fits none of them belongs to another
+ * organisation or to no one. Checked before signing any read or delete: the
+ * caller can otherwise name any object in the bucket.
+ */
+export function isOrgOwnedKey(key: string, organizationId: string): boolean {
+  if (!key || key.includes("..")) return false;
+  return (
+    key.startsWith(`documents/${organizationId}/`) ||
+    key.startsWith(`${organizationId}/`) ||
+    key.startsWith(`backups/${organizationId}/`)
+  );
+}
+
 export async function getDownloadUrl(key: string, expiresIn = 300, opts?: { contentType?: string | null }) {
   const command = new GetObjectCommand({
     Bucket: bucket,
