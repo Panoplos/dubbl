@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { and, eq, isNull, isNotNull, ne, min } from "drizzle-orm";
+import { and, eq, isNull, ne, min, sql } from "drizzle-orm";
 import { bankAccount, bankTransaction, organization } from "@/lib/db/schema";
 import { notDeleted } from "@/lib/db/soft-delete";
 import { getAuthContext } from "@/lib/api/auth-context";
@@ -23,8 +23,13 @@ const bodySchema = z.object({
  * That is the range whose postings would otherwise fail for want of a rate.
  */
 async function deriveScope(organizationId: string, baseCurrency: string) {
+  // A transaction usually leaves currency_code null and inherits the account's,
+  // so the effective currency is the coalesce. Filtering on the column alone
+  // hides every such row, which is exactly the reported "nothing is waiting".
+  const effective = sql<string>`coalesce(${bankTransaction.currencyCode}, ${bankAccount.currencyCode})`;
+
   const rows = await db
-    .selectDistinct({ code: bankTransaction.currencyCode })
+    .selectDistinct({ code: effective })
     .from(bankTransaction)
     .innerJoin(bankAccount, eq(bankTransaction.bankAccountId, bankAccount.id))
     .where(
@@ -32,8 +37,7 @@ async function deriveScope(organizationId: string, baseCurrency: string) {
         eq(bankAccount.organizationId, organizationId),
         notDeleted(bankAccount.deletedAt),
         isNull(bankTransaction.journalEntryId),
-        isNotNull(bankTransaction.currencyCode),
-        ne(bankTransaction.currencyCode, baseCurrency)
+        ne(effective, baseCurrency)
       )
     );
 
@@ -48,8 +52,7 @@ async function deriveScope(organizationId: string, baseCurrency: string) {
         eq(bankAccount.organizationId, organizationId),
         notDeleted(bankAccount.deletedAt),
         isNull(bankTransaction.journalEntryId),
-        isNotNull(bankTransaction.currencyCode),
-        ne(bankTransaction.currencyCode, baseCurrency)
+        ne(effective, baseCurrency)
       )
     );
 

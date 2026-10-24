@@ -684,7 +684,7 @@ export default function SettingsPage() {
               }}
             />
           </div>
-          <Button size="sm" className="gap-1.5" disabled={ratesPulling} onClick={pullRates}>
+          <Button size="sm" className="ml-auto gap-1.5" disabled={ratesPulling} onClick={pullRates}>
             {ratesPulling ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCcw className="size-3.5" />}
             {ratesPulling ? "Fetching" : "Fetch rates"}
           </Button>
