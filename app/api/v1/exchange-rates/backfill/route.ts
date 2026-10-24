@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { and, eq, ne, isNull, isNotNull } from "drizzle-orm";
+import { and, eq, isNull, isNotNull, ne, min } from "drizzle-orm";
 import { bankAccount, bankTransaction, organization } from "@/lib/db/schema";
 import { notDeleted } from "@/lib/db/soft-delete";
 import { getAuthContext } from "@/lib/api/auth-context";
@@ -13,9 +13,75 @@ import { z } from "zod";
 const bodySchema = z.object({
   from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   to: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-  /** Defaults to every pair the organisation already tracks. */
+  /** Omit to cover every currency the books are waiting on. */
   currencies: z.array(currencyCodeSchema).optional(),
 });
+
+/**
+ * What the books actually need: the currencies sitting unreconciled in a
+ * currency other than the organisation's own, and the oldest date among them.
+ * That is the range whose postings would otherwise fail for want of a rate.
+ */
+async function deriveScope(organizationId: string, baseCurrency: string) {
+  const rows = await db
+    .selectDistinct({ code: bankTransaction.currencyCode })
+    .from(bankTransaction)
+    .innerJoin(bankAccount, eq(bankTransaction.bankAccountId, bankAccount.id))
+    .where(
+      and(
+        eq(bankAccount.organizationId, organizationId),
+        notDeleted(bankAccount.deletedAt),
+        isNull(bankTransaction.journalEntryId),
+        isNotNull(bankTransaction.currencyCode),
+        ne(bankTransaction.currencyCode, baseCurrency)
+      )
+    );
+
+  const currencies = rows.map((r) => r.code).filter((c): c is string => Boolean(c));
+
+  const [earliest] = await db
+    .select({ oldest: min(bankTransaction.date) })
+    .from(bankTransaction)
+    .innerJoin(bankAccount, eq(bankTransaction.bankAccountId, bankAccount.id))
+    .where(
+      and(
+        eq(bankAccount.organizationId, organizationId),
+        notDeleted(bankAccount.deletedAt),
+        isNull(bankTransaction.journalEntryId),
+        isNotNull(bankTransaction.currencyCode),
+        ne(bankTransaction.currencyCode, baseCurrency)
+      )
+    );
+
+  return { currencies, earliest: earliest?.oldest ?? null };
+}
+
+/** The range and pairs the screen should offer before the user touches anything. */
+export async function GET(request: Request) {
+  try {
+    const ctx = await getAuthContext(request);
+    requireRole(ctx, "manage:settings");
+
+    const org = await db.query.organization.findFirst({
+      where: eq(organization.id, ctx.organizationId),
+    });
+    if (!org) return NextResponse.json({ error: "Organization not found" }, { status: 404 });
+
+    const scope = await deriveScope(ctx.organizationId, org.defaultCurrency);
+    const today = new Date().toISOString().slice(0, 10);
+    const fallbackFrom = new Date(Date.now() - 90 * 86_400_000).toISOString().slice(0, 10);
+
+    return NextResponse.json({
+      baseCurrency: org.defaultCurrency,
+      derived: scope.earliest !== null,
+      from: scope.earliest ?? fallbackFrom,
+      to: today,
+      currencies: scope.currencies,
+    });
+  } catch (err) {
+    return handleError(err);
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -30,28 +96,9 @@ export async function POST(request: Request) {
     });
     if (!org) return NextResponse.json({ error: "Organization not found" }, { status: 404 });
 
-    // Default to the currencies the books are actually waiting on: anything
-    // sitting unreconciled in a currency other than the organisation's own is
-    // a posting that cannot happen until its rate exists.
     const currencies =
-      body.currencies ??
-      (
-        await db
-          .selectDistinct({ code: bankTransaction.currencyCode })
-          .from(bankTransaction)
-          .innerJoin(bankAccount, eq(bankTransaction.bankAccountId, bankAccount.id))
-          .where(
-            and(
-              eq(bankAccount.organizationId, ctx.organizationId),
-              notDeleted(bankAccount.deletedAt),
-              isNull(bankTransaction.journalEntryId),
-              isNotNull(bankTransaction.currencyCode),
-              ne(bankTransaction.currencyCode, org.defaultCurrency)
-            )
-          )
-      )
-        .map((r) => r.code)
-        .filter((c): c is string => Boolean(c));
+      body.currencies ?? (await deriveScope(ctx.organizationId, org.defaultCurrency)).currencies;
+
     const result = await backfillRates(ctx.organizationId, org.defaultCurrency, currencies, body.from, to);
 
     return NextResponse.json({

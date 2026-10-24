@@ -105,6 +105,28 @@ export default function SettingsPage() {
   const [ratesPulling, setRatesPulling] = useState(false);
   const [ratesResult, setRatesResult] = useState<{ stored: number; dates: number; skipped: string[] } | null>(null);
   const [ratesProgress, setRatesProgress] = useState<{ done: number; total: number; stored: number } | null>(null);
+  const [ratesSuggested, setRatesSuggested] = useState<{
+    from: string;
+    to: string;
+    currencies: string[];
+    derived: boolean;
+  } | null>(null);
+  const [ratesTouched, setRatesTouched] = useState(false);
+
+  useEffect(() => {
+    const orgId = localStorage.getItem("activeOrgId");
+    if (!orgId) return;
+    fetch("/api/v1/exchange-rates/backfill", { headers: { "x-organization-id": orgId } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!data) return;
+        setRatesSuggested(data);
+        setRatesFrom((prev) => (ratesTouched ? prev : data.from));
+        setRatesTo((prev) => (ratesTouched ? prev : data.to));
+      })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function pullRates() {
     const orgId = localStorage.getItem("activeOrgId");
@@ -642,17 +664,45 @@ export default function SettingsPage() {
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1.5">
             <Label className="text-xs">From</Label>
-            <Input type="date" value={ratesFrom} onChange={(e) => setRatesFrom(e.target.value)} />
+            <Input
+              type="date"
+              value={ratesFrom}
+              onChange={(e) => {
+                setRatesFrom(e.target.value);
+                setRatesTouched(true);
+              }}
+            />
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs">To</Label>
-            <Input type="date" value={ratesTo} onChange={(e) => setRatesTo(e.target.value)} />
+            <Input
+              type="date"
+              value={ratesTo}
+              onChange={(e) => {
+                setRatesTo(e.target.value);
+                setRatesTouched(true);
+              }}
+            />
           </div>
           <Button size="sm" className="gap-1.5" disabled={ratesPulling} onClick={pullRates}>
             {ratesPulling ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCcw className="size-3.5" />}
             {ratesPulling ? "Fetching" : "Fetch rates"}
           </Button>
         </div>
+        {ratesSuggested && (
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            {ratesTouched ? (
+              <>Using the range you picked.</>
+            ) : ratesSuggested.derived ? (
+              <>
+                Range worked out from your books: the oldest transaction still waiting to post is{" "}
+                {ratesSuggested.from}, in {ratesSuggested.currencies.join(", ") || "a foreign currency"}.
+              </>
+            ) : (
+              <>Nothing is waiting on a rate right now, so this defaults to the last 90 days.</>
+            )}
+          </p>
+        )}
         {ratesProgress ? (
           <div className="mt-3 max-w-md space-y-1.5">
             <div className="flex items-baseline justify-between text-xs">
