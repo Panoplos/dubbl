@@ -49,6 +49,7 @@ export function TransactionsSplit({
   onRefetch,
   onCreateExpense,
   onExclude,
+  onSettled,
 }: {
   transactions: Transaction[];
   cur: string;
@@ -57,6 +58,7 @@ export function TransactionsSplit({
   onCreateExpense: (tx: Transaction) => void;
   onCategorize: (tx: Transaction) => void;
   onExclude: (txId: string) => void;
+  onSettled: (txId: string) => void;
 }) {
   const [matches, setMatches] = useState<Record<string, Ranked[]>>({});
   const [linking, setLinking] = useState<string | null>(null);
@@ -137,12 +139,13 @@ export function TransactionsSplit({
             claimId: isClaim ? String(m.candidate.meta?.expenseClaimId ?? m.candidate.id) : undefined,
           },
         }));
+        onSettled(tx.id);
         toast.success("Reconciled", { description: split(m.candidate.description).payee });
       } finally {
         setLinking(null);
       }
     },
-    [orgId]
+    [orgId, onSettled]
   );
 
   return (
@@ -163,7 +166,10 @@ export function TransactionsSplit({
           onLink={(m) => link(tx, m)}
           onCreateExpense={() => onCreateExpense(tx)}
           onExclude={() => onExclude(tx.id)}
-          onResolve={(label: string) => setResolved((prev) => ({ ...prev, [tx.id]: { label } }))}
+          onResolve={(label: string) => {
+            setResolved((prev) => ({ ...prev, [tx.id]: { label } }));
+            onSettled(tx.id);
+          }}
         />
       ))}
     </div>

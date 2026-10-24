@@ -69,6 +69,8 @@ interface BankAccountContextValue {
   handleOpenMatchUnified: (tx: Transaction) => void;
   handleOpenTransfer: (tx: Transaction) => void;
   handleOpenSplit: (tx: Transaction) => void;
+  /** Settle a line locally so the counts above follow the row, without a refetch. */
+  markSettled: (txId: string) => void;
   bankAccounts: BankAccountSummary[];
   // Import
   openImport: () => void;
@@ -225,6 +227,12 @@ export default function BankAccountDetailLayout({ children }: { children: React.
       .reduce((sum, tx) => sum + Math.abs(tx.amount), 0);
     return { unreconciled, reconciled, excluded, credits, debits, total: transactions.length };
   }, [transactions]);
+
+  const markSettled = useCallback((txId: string) => {
+    setTransactions((prev) =>
+      prev.map((t) => (t.id === txId ? { ...t, status: "reconciled" as const } : t))
+    );
+  }, []);
 
   // Transaction actions
   async function handleReconcile(txId: string) {
@@ -457,6 +465,7 @@ export default function BankAccountDetailLayout({ children }: { children: React.
       handleOpenMatchUnified,
       handleOpenTransfer,
       handleOpenSplit,
+      markSettled,
       bankAccounts,
       openImport: () => setImportOpen(true),
       summary,
