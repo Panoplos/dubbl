@@ -110,11 +110,17 @@ const frankfurterProvider: RateProvider & DatedRateProvider = {
   },
 };
 
-/** The dated provider for the configured feed, or null when it cannot answer. */
-export function datedProvider(): DatedRateProvider | null {
-  return getRateProvider().name === "frankfurter"
-    ? frankfurterProvider
-    : null;
+/**
+ * The provider used for historical dates.
+ *
+ * `EXCHANGE_RATE_PROVIDER` chooses the *latest* feed, and only two of those can
+ * quote a past date: the ECB one does, the others don't. So a dated lookup
+ * always uses the ECB feed rather than failing whenever the latest feed happens
+ * to be a different one — which is how every default install behaved, since the
+ * default latest feed is not the ECB one.
+ */
+export function datedProvider(): DatedRateProvider {
+  return frankfurterProvider;
 }
 
 /** Open Exchange Rates — ~200 currencies incl. crypto/metals; needs an app id. */

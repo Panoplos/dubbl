@@ -44,9 +44,6 @@ export async function backfillRates(
   to: string
 ): Promise<BackfillResult> {
   const provider = datedProvider();
-  if (!provider) {
-    throw new Error("No dated rate provider is configured; set EXCHANGE_RATE_PROVIDER=frankfurter");
-  }
 
   const pairs = currencies.filter((c) => c && c !== baseCurrency);
   if (pairs.length === 0) return { requested: 0, stored: 0, dates: 0, skipped: [] };
