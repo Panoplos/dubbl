@@ -51,5 +51,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local secrets
+# Internal notes, handoffs and local credentials never belong in git.
+planning/
 /credentials/

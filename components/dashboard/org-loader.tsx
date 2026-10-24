@@ -1,5 +1,6 @@
 "use client";
 
+import { setActiveOrgId } from "@/lib/active-org";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/shared/logo";
@@ -30,6 +31,11 @@ export function OrgLoader({ children }: { children: React.ReactNode }) {
     const headers: Record<string, string> = {};
     if (orgId) headers["x-organization-id"] = orgId;
 
+    // A returning visitor already has an org in localStorage: reveal the shell
+    // immediately instead of holding the whole app behind another round trip.
+    // The lookup below still runs and still redirects if the org is gone.
+    if (orgId && !isInvitePage) startFadeOut();
+
     fetch("/api/v1/organization", { headers })
       .then((r) => r.json())
       .then((data) => {
@@ -39,10 +45,9 @@ export function OrgLoader({ children }: { children: React.ReactNode }) {
           ?? data.organizations?.[0];
 
         if (org) {
-          // Persist resolved org for OAuth users who don't have it set yet
-          if (!orgId && org.id) {
-            localStorage.setItem("activeOrgId", org.id);
-          }
+          // Persist the resolved org for both storage kinds. Idempotent, and it
+          // is what backfills the cookie that server components read.
+          if (org.id) setActiveOrgId(org.id);
           if (org.country === null && !isInvitePage) {
             window.location.href = "/onboarding";
             return;
