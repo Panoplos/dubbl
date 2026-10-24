@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import {
   ArrowLeft,
   Building2,
@@ -145,14 +146,14 @@ export default function ConsolidationPage({
   const firstGroup = initialData?.groups?.[0]?.id ?? null;
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [groups, setGroups] = useState<ConsolidationGroup[]>(initialData?.groups ?? []);
+  const [groups, setGroups] = useServerSeeded(initialData, initialData?.groups ?? []);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(firstGroup);
-  const [report, setReport] = useState<ConsolidatedReport | null>(initialData?.report ?? null);
+  const [report, setReport] = useServerSeeded(initialData, initialData?.report ?? null);
   const [reportLoading, setReportLoading] = useState(false);
   const [tab, setTab] = useState<"pnl" | "balance-sheet">("pnl");
 
   const [newGroupName, setNewGroupName] = useState("");
-  const [userOrgs, setUserOrgs] = useState<UserOrg[]>(initialData?.organizations ?? []);
+  const [userOrgs, setUserOrgs] = useServerSeeded(initialData, initialData?.organizations ?? []);
   const [orgPickerOpen, setOrgPickerOpen] = useState(false);
 
   const [startDate, setStartDate] = useState(`${now.getFullYear()}-01-01`);

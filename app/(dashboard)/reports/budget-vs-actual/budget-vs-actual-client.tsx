@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { ArrowLeft, DollarSign, Target } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
@@ -64,12 +65,12 @@ export default function BudgetVsActualPage({
   const firstBudgetId = initialData?.budgets?.[0]?.id ?? "";
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [budgets, setBudgets] = useState<Budget[]>(initialData?.budgets ?? []);
+  const [budgets, setBudgets] = useServerSeeded(initialData, initialData?.budgets ?? []);
   const [selectedBudgetId, setSelectedBudgetId] = useState<string>(firstBudgetId);
-  const [comparisons, setComparisons] = useState<Comparison[]>(initialData?.comparisons ?? []);
-  const [totalBudgeted, setTotalBudgeted] = useState(initialData?.totalBudgeted ?? 0);
-  const [totalActual, setTotalActual] = useState(initialData?.totalActual ?? 0);
-  const [totalVariance, setTotalVariance] = useState(initialData?.totalVariance ?? 0);
+  const [comparisons, setComparisons] = useServerSeeded(initialData, initialData?.comparisons ?? []);
+  const [totalBudgeted, setTotalBudgeted] = useServerSeeded(initialData, initialData?.totalBudgeted ?? 0);
+  const [totalActual, setTotalActual] = useServerSeeded(initialData, initialData?.totalActual ?? 0);
+  const [totalVariance, setTotalVariance] = useServerSeeded(initialData, initialData?.totalVariance ?? 0);
   const [reportLoading, setReportLoading] = useState(false);
 
   // Fetch budget list

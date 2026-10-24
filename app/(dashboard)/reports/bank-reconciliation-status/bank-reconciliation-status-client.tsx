@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
@@ -65,7 +66,7 @@ export default function BankReconciliationStatusPage({
 }) {
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<StatusData | null>(initialData);
+  const [data, setData] = useServerSeeded(initialData, initialData);
 
 
   if (initialLoad) return <ReportSkeleton />;

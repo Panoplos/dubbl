@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, AlertTriangle } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
@@ -33,7 +34,7 @@ export default function DuplicateDetectionPage({ initialData }: { initialData: D
   const router = useRouter();
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [groups, setGroups] = useState<DuplicateGroup[]>(initialData?.duplicateGroups ?? []);
+  const [groups, setGroups] = useServerSeeded(initialData, initialData?.duplicateGroups ?? []);
 
 
   if (initialLoad) return <ReportSkeleton />;

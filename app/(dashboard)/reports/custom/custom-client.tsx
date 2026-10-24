@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import {
   ArrowLeft,
   BarChart3,
@@ -85,7 +86,7 @@ export default function CustomReportsPage({ initialReports }: { initialReports: 
   const { confirm, dialog: confirmDialog } = useConfirm();
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [savedReports, setSavedReports] = useState<SavedReport[]>(initialReports);
+  const [savedReports, setSavedReports] = useServerSeeded(initialReports, initialReports);
 
   // Builder state
   const [builderOpen, setBuilderOpen] = useState(false);

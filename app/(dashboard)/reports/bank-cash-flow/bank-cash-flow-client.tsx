@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { ArrowDownToLine, ArrowUpFromLine, Wallet } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
@@ -60,8 +61,8 @@ export default function BankCashFlowPage({ initialData }: { initialData: BankCas
   const [endDate, setEndDate] = useState(now.toISOString().slice(0, 10));
   const [groupBy, setGroupBy] = useState("month");
   const [bankAccountId, setBankAccountId] = useState("");
-  const [accounts, setAccounts] = useState<BankAccount[]>(initialData?.bankAccounts ?? []);
-  const [data, setData] = useState<BankCashFlowData | null>(initialData?.data ?? null);
+  const [accounts, setAccounts] = useServerSeeded(initialData, initialData?.bankAccounts ?? []);
+  const [data, setData] = useServerSeeded(initialData, initialData?.data ?? null);
 
   // Load the org's bank accounts for the account picker.
   useEffect(() => {

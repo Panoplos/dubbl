@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
@@ -37,16 +38,16 @@ export interface PLInitialData {
 
 export default function ProfitAndLossPage({ initialData }: { initialData: PLInitialData | null }) {
   const now = new Date();
-  const [initialLoad, setInitialLoad] = useState(!initialData);
-  const [loading, setLoading] = useState(!initialData);
+  const [initialLoad, setInitialLoad] = useServerSeeded(initialData, !initialData);
+  const [loading, setLoading] = useServerSeeded(initialData, !initialData);
   const [startDate, setStartDate] = useState(`${now.getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(now.toISOString().slice(0, 10));
   const [basis, setBasis] = useState<"accrual" | "cash">("accrual");
-  const [revenue, setRevenue] = useState<AccountRow[]>(initialData?.revenue ?? []);
-  const [expenses, setExpenses] = useState<AccountRow[]>(initialData?.expenses ?? []);
-  const [totalRevenue, setTotalRevenue] = useState(initialData?.totalRevenue ?? 0);
-  const [totalExpenses, setTotalExpenses] = useState(initialData?.totalExpenses ?? 0);
-  const [netIncome, setNetIncome] = useState(initialData?.netIncome ?? 0);
+  const [revenue, setRevenue] = useServerSeeded(initialData, initialData?.revenue ?? []);
+  const [expenses, setExpenses] = useServerSeeded(initialData, initialData?.expenses ?? []);
+  const [totalRevenue, setTotalRevenue] = useServerSeeded(initialData, initialData?.totalRevenue ?? 0);
+  const [totalExpenses, setTotalExpenses] = useServerSeeded(initialData, initialData?.totalExpenses ?? 0);
+  const [netIncome, setNetIncome] = useServerSeeded(initialData, initialData?.netIncome ?? 0);
 
   const firstRender = useRef(true);
   useEffect(() => {
