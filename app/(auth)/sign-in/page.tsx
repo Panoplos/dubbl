@@ -1,5 +1,6 @@
 "use client";
 
+import { setActiveOrgId } from "@/lib/active-org";
 import { Suspense, useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -122,7 +123,7 @@ function SignInContent() {
       if (!seedRes.ok) throw new Error("Failed to seed dev user");
       const { credentials, organizationId } = await seedRes.json();
 
-      localStorage.setItem("activeOrgId", organizationId);
+      setActiveOrgId(organizationId);
 
       const res = await signIn("credentials", {
         email: credentials.email,

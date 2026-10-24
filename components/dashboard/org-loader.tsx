@@ -1,5 +1,6 @@
 "use client";
 
+import { setActiveOrgId } from "@/lib/active-org";
 import { useState, useEffect } from "react";
 import { Logo } from "@/components/shared/logo";
 
@@ -41,7 +42,7 @@ export function OrgLoader({ children }: { children: React.ReactNode }) {
         if (org) {
           // Persist resolved org for OAuth users who don't have it set yet
           if (!orgId && org.id) {
-            localStorage.setItem("activeOrgId", org.id);
+            setActiveOrgId(org.id);
           }
           if (org.country === null) {
             window.location.href = "/onboarding";
