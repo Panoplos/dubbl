@@ -42,6 +42,23 @@ so one failing panel does not blank the page. This is the mechanism for the
 the four steps (props, seeded state, skipped first fetch), which is the part
 that cannot be scripted safely because every page seeds different state.
 
+## Keeping the screen in sync after an action
+
+Seeded state is ordinary React state, so the rules are unchanged: after a
+mutation, re-run the page's own loader (`fetchInvoices()`, `setRefreshKey(k+1)`)
+or dispatch the `*-changed` window event the sibling screens already listen
+for. Two things to know:
+
+- **`useState(initialX)` never re-syncs from props.** `router.refresh()` would
+  re-run the server component and change the props, and the page would keep
+  showing the old rows. Nothing calls `router.refresh()` today; if something
+  starts to, the page needs an effect that copies props into state, or it must
+  fetch instead.
+- **You cannot delete a mount effect unless nothing can change the data.** Read-
+  only snapshots (the dashboard, duplicate detection, reconciliation status) can
+  lose theirs; lists with mutations must keep the loader even when the first
+  paint comes from the server.
+
 ## Two traps that cost time
 
 - **Dates.** Drizzle returns `Date` objects; the client interfaces are typed
