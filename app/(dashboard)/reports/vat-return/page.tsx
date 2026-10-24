@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DateRangeFilter } from "@/components/dashboard/date-range-filter";
@@ -91,7 +92,7 @@ export default function VatReturnPage() {
     return `/reports/general-ledger?${dr.toString()}`;
   }
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

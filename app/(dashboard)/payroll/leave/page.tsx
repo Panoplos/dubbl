@@ -18,7 +18,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";
@@ -131,7 +131,7 @@ export default function LeavePage() {
     if (res.ok) { toast.success("Request rejected"); fetchData(); }
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

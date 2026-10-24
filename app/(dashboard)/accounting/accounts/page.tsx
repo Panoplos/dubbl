@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 
 interface Account {
@@ -115,7 +115,7 @@ export default function AccountsPage() {
 
   const activeCount = accounts.filter((a) => a.isActive).length;
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   if (accounts.length === 0) {
     const TYPE_BG: Record<string, string> = {

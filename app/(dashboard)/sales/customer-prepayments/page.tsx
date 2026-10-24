@@ -23,6 +23,7 @@ import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 
 interface CustomerCredit {
@@ -258,7 +259,7 @@ export default function CustomerPrepaymentsPage() {
     [credits]
   );
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   if (!initialLoad && !refetching && credits.length === 0 && statusFilter === "all" && !hasFilters) {
     return (

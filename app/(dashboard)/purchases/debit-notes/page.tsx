@@ -23,6 +23,7 @@ import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 
 interface DebitNote {
@@ -256,7 +257,7 @@ export default function DebitNotesPage() {
     [debitNotes]
   );
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   if (!initialLoad && !refetching && debitNotes.length === 0 && statusFilter === "all" && !hasFilters) {
     return (

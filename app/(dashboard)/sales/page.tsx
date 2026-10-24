@@ -24,6 +24,7 @@ import { formatMoney } from "@/lib/money";
 import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ErrorState } from "@/components/dashboard/error-state";
 import { ContentReveal } from "@/components/ui/content-reveal";
 
@@ -470,7 +471,7 @@ export default function InvoicesPage() {
   };
   const agingTotal = (aging.current?.amount || 0) + (aging["1-30"]?.amount || 0) + (aging["31-60"]?.amount || 0) + (aging["60+"]?.amount || 0);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   if (error) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
 

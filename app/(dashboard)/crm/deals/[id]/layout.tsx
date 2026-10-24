@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
@@ -221,7 +221,7 @@ export default function DealDetailLayout({ children }: { children: React.ReactNo
     : pathname.endsWith("/settings") ? "settings"
     : "overview";
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!deal) {
     return (

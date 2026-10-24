@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { formatMoney } from "@/lib/money";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { BackToReports, ReportHelp } from "../_components";
@@ -68,7 +69,7 @@ export default function IncomeStatementPage() {
     return () => { cancelled = true; };
   }, [year]);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

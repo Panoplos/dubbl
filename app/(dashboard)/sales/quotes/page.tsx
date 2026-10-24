@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { formatMoney } from "@/lib/money";
 import { BlurReveal } from "@/components/ui/blur-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 
 interface Quote {
   id: string;
@@ -127,7 +127,7 @@ export default function QuotesPage() {
     .reduce((sum, q) => sum + q.total, 0);
 
   if (loading) {
-    return <BrandLoader />;
+    return <ListSkeleton />;
   }
 
   if (quotes.length === 0 && statusFilter === "all") {

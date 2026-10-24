@@ -33,6 +33,7 @@ import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { motion, MotionConfig } from "motion/react";
 
@@ -386,7 +387,7 @@ export default function BillsPage() {
     return c;
   }, [countsData]);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   if (!loading && (countsData?.total || 0) === 0 && statusFilter === "all" && !debouncedSearch && !hasFilters) {
     return (

@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/sheet";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
@@ -314,7 +314,7 @@ export default function TaxLiabilitiesPage() {
     [],
   );
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

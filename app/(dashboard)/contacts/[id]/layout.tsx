@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import {
   Dialog,
@@ -351,7 +351,7 @@ export default function ContactDetailLayout({ children }: { children: React.Reac
     : pathname.endsWith("/files") ? "files"
     : "details";
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!contact) {
     return (

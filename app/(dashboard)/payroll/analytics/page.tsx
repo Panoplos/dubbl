@@ -22,7 +22,7 @@ import { CurrencyInput } from "@/components/ui/currency-input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";
@@ -154,7 +154,7 @@ export default function AnalyticsPage() {
     )
   );
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   const hasData = summary && summary.totalRuns > 0;
 

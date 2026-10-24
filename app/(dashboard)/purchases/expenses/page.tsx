@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { formatMoney } from "@/lib/money";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { motion, MotionConfig } from "motion/react";
 
@@ -249,7 +250,7 @@ export default function ExpensesPage() {
   const pendingAmount = countsData?.counts.submitted?.amount || 0;
   const approvedAmount = countsData?.counts.approved?.amount || 0;
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   if (!loading && (countsData?.total || 0) === 0 && statusFilter === "all" && !debouncedSearch && !hasFilters) {
     return (

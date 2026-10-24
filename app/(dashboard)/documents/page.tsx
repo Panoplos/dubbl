@@ -60,7 +60,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { SearchInput } from "@/components/ui/search-input";
@@ -438,7 +438,7 @@ export default function DocumentsPage() {
   const viewKey = `${currentFolder ?? "root"}-${typeFilter}-${debouncedSearch}`;
   const hasResults = filteredFolders.length > 0 || filteredDocs.length > 0;
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   // Empty state when no folders and no documents at root level
   const isRootEmpty = !currentFolder && folders.length === 0 && documents.length === 0;

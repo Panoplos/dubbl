@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { formatMoney } from "@/lib/money";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 
 interface Employee {
@@ -76,7 +76,7 @@ export default function PayrollPage() {
       .finally(check);
   }, []);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   const activeEmployees = employees.filter((e) => e.isActive);
   const totalAnnualSalary = activeEmployees.reduce((sum, e) => sum + e.salary, 0);

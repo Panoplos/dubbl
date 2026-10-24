@@ -6,6 +6,7 @@ import { ArrowLeft, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatMoney } from "@/lib/money";
@@ -73,7 +74,7 @@ export default function CashFlowForecastPage() {
     cumulative: w.cumulativeNet / 100,
   }));
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

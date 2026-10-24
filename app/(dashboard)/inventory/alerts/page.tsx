@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/dashboard/empty-state";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
@@ -55,7 +55,7 @@ export default function AlertsPage() {
     return () => { cancelled = true; };
   }, [orgId]);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   const criticalCount = items.filter((i) => i.quantityOnHand === 0).length;
   const lowCount = items.length;

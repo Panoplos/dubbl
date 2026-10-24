@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { ArrowDownToLine, ArrowUpFromLine, Wallet } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DateRangeFilter } from "@/components/dashboard/date-range-filter";
@@ -102,7 +103,7 @@ export default function BankCashFlowPage() {
     };
   }, [startDate, endDate, groupBy, bankAccountId]);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   const periods = data?.periods ?? [];
   const totals = data?.totals ?? { inflows: 0, outflows: 0, net: 0 };

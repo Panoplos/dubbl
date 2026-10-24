@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -303,7 +303,7 @@ export default function TeamsPage() {
     )
   );
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   /* ── Empty state ── */
   if (teams.length === 0) {

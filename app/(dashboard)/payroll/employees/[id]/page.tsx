@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney } from "@/lib/money";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
@@ -311,7 +311,7 @@ export default function EmployeeDetailPage() {
     }
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!emp) {
     return (

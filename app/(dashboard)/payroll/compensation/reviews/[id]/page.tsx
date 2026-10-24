@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";
@@ -59,7 +59,7 @@ export default function ReviewDetailPage() {
       .finally(() => setLoading(false));
   }, [id, orgId]);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
   if (!review) {
     return (
       <ContentReveal>

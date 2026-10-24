@@ -20,7 +20,7 @@ import {
 import { DatePicker } from "@/components/ui/date-picker";
 import { ContactPicker } from "@/components/dashboard/contact-picker";
 import { AccountPicker } from "@/components/dashboard/account-picker";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
@@ -430,7 +430,7 @@ export default function PODetailPage() {
     }
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!po) {
     return (

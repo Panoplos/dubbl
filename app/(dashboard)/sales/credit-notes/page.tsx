@@ -23,6 +23,7 @@ import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 
 interface CreditNote {
@@ -264,7 +265,7 @@ export default function CreditNotesPage() {
   const totalApplied = summary?.totalApplied || 0;
   const totalRemaining = summary?.totalRemaining || 0;
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   if (!initialLoad && !refetching && creditNotes.length === 0 && statusFilter === "all" && !hasFilters) {
     return (

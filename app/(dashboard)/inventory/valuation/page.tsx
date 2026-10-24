@@ -18,7 +18,7 @@ import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";
@@ -185,7 +185,7 @@ export default function InventoryValuationPage() {
     toast.success("CSV exported");
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   const profitAmount = summary.totalRetailValue - summary.totalCost;
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -82,7 +83,7 @@ export default function BalanceSheetPage() {
     return () => { cancelled = true; };
   }, [asAt, showCompare, compareDate]);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   const dates = data?.dates ?? (data ? [data.asAt] : []);
   const sections: { label: string; data: SectionData }[] = data

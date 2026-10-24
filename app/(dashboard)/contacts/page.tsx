@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { motion, MotionConfig } from "motion/react";
 import { formatMoney } from "@/lib/money";
@@ -418,7 +418,7 @@ export default function ContactsPage() {
   );
   const taxExemptCount = contacts.filter((c) => c.isTaxExempt).length;
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   /* ---------- Empty state ---------- */
   const hasFilters = dateFrom || dateTo;

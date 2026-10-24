@@ -21,7 +21,7 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -121,7 +121,7 @@ export default function BankingPage() {
     return { active, balance };
   }, [accounts]);
 
-  if (loading && accounts.length === 0) return <BrandLoader />;
+  if (loading && accounts.length === 0) return <ListSkeleton />;
 
   // Empty state
   if (!loading && accounts.length === 0) {

@@ -31,6 +31,7 @@ import { formatMoney } from "@/lib/money";
 import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { ActivityFeed } from "@/components/dashboard/activity-feed";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
@@ -201,7 +202,7 @@ export default function TransactionsPage() {
     setContentKey((k) => k + 1);
   }, [debouncedSearch, statusFilter, sortBy]);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   if (!loading && entries.length === 0) {
     return (

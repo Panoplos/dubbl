@@ -6,6 +6,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Button } from "@/components/ui/button";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
@@ -83,7 +84,7 @@ export default function FinancialCalendarPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const selectedEvents = selectedDate ? (eventsByDate.get(selectedDate) || []) : [];
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

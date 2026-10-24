@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Receipt, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { StatCard } from "@/components/dashboard/stat-card";
@@ -76,7 +77,7 @@ export default function TaxSummaryPage() {
     return () => { cancelled = true; };
   }, [startDate, endDate]);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

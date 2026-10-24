@@ -44,7 +44,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { FormSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { cn } from "@/lib/utils";
@@ -234,7 +234,7 @@ export default function DocumentTemplatesPage() {
     URL.revokeObjectURL(url);
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <FormSkeleton />;
 
   return (
     <ContentReveal>

@@ -27,7 +27,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { formatMoney } from "@/lib/money";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { cn } from "@/lib/utils";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
@@ -293,7 +293,7 @@ export default function ReconcilePage() {
 
   const unreconciledTotal = transactions.reduce((sum, t) => sum + t.amount, 0);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

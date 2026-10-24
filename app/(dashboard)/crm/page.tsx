@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { CardsSkeleton } from "@/components/dashboard/skeletons";
 import { ErrorState } from "@/components/dashboard/error-state";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { ContentReveal } from "@/components/ui/content-reveal";
@@ -296,7 +297,7 @@ export default function CRMPage() {
     setSearch("");
   }
 
-  if (initialLoading) return <BrandLoader />;
+  if (initialLoading) return <CardsSkeleton count={6} />;
   if (error && deals.length === 0) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
 
   if (pipelines.length === 0 && deals.length === 0) {

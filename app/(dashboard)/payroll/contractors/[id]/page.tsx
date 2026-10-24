@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney } from "@/lib/money";
 import { CurrencySelect } from "@/components/ui/currency-select";
 import { useConfirm } from "@/lib/hooks/use-confirm";
@@ -188,7 +188,7 @@ export default function ContractorDetailPage() {
     }
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
   if (!contractor) {
     return (
       <ContentReveal>

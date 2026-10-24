@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/sheet";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { formatMoney } from "@/lib/money";
@@ -266,7 +267,7 @@ export default function CompensationPage() {
     )
   );
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   const hasData = bands.length > 0 || reviews.length > 0;
   const activeReviews = reviews.filter((r) => r.status === "in_progress" || r.status === "draft");

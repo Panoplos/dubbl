@@ -25,6 +25,11 @@ export function OrgLoader({ children }: { children: React.ReactNode }) {
     const headers: Record<string, string> = {};
     if (orgId) headers["x-organization-id"] = orgId;
 
+    // A returning visitor already has an org in localStorage: reveal the shell
+    // immediately instead of holding the whole app behind another round trip.
+    // The lookup below still runs and still redirects if the org is gone.
+    if (orgId && !isInvitePage) startFadeOut();
+
     fetch("/api/v1/organization", { headers })
       .then((r) => r.json())
       .then((data) => {

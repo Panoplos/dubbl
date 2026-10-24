@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, ArrowDownRight, ArrowUpRight, BookOpen, Hash, Settings2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
@@ -112,7 +112,7 @@ export default function AccountDetailLayout({ children }: { children: React.Reac
     fetchAccount();
   }, [fetchAccount]);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!account) {
     return <p className="text-muted-foreground">Account not found.</p>;

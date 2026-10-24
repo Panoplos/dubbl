@@ -15,6 +15,7 @@ import { formatMoney } from "@/lib/money";
 import { devDelay } from "@/lib/dev-delay";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import Link from "next/link";
 
@@ -236,7 +237,7 @@ export default function GoodsReceiptsPage() {
     [receipts]
   );
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   if (!initialLoad && !refetching && receipts.length === 0 && statusFilter === "all" && !hasFilters) {
     return (

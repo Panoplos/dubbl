@@ -56,7 +56,7 @@ import { formatMoney } from "@/lib/money";
 
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { CategoryPicker } from "@/components/dashboard/category-picker";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useConfirm } from "@/lib/hooks/use-confirm";
@@ -375,7 +375,7 @@ export default function InventoryPage() {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   const pendingSearch = search !== debouncedSearch;
 

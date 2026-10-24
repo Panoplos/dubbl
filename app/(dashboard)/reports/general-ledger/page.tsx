@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { BookOpen, ChevronDown, ChevronRight } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
@@ -152,7 +153,7 @@ export default function GeneralLedgerPage() {
     return () => { cancelled = true; };
   }, [startDate, endDate, dimension, drilldown.focusAccountId]);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

@@ -41,7 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { FormSkeleton } from "@/components/dashboard/skeletons";
 import { cn } from "@/lib/utils";
 
 interface AuditEntry {
@@ -301,7 +301,7 @@ export default function AuditLogPage() {
     return counts;
   }, [allEntries]);
 
-  if (loading && entries.length === 0) return <BrandLoader />;
+  if (loading && entries.length === 0) return <FormSkeleton />;
 
   return (
     <ContentReveal className="space-y-5">

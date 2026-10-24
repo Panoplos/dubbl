@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Fragment, useState, useEffect } from "react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -73,7 +74,7 @@ export default function TrialBalancePage() {
     return () => { cancelled = true; };
   }, [asAt, showCompare, compareDate]);
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   const accounts = data?.accounts ?? [];
   const dates = data?.dates ?? (data ? [data.asAt] : []);

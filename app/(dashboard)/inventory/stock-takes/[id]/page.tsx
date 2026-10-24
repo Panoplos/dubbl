@@ -21,7 +21,7 @@ import {
   X,
   ArrowUpDown,
 } from "lucide-react";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -520,7 +520,7 @@ export default function StockTakeDetailPage() {
     return result;
   }, [lines, debouncedSearch, lineFilter, sortBy, sortOrder]);
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!stockTake) {
     return (

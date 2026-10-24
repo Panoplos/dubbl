@@ -18,7 +18,7 @@ import {
   SheetDescription,
   SheetFooter,
 } from "@/components/ui/sheet";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { setEntityTitle } from "@/lib/hooks/use-entity-title";
@@ -185,7 +185,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
     }
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!item) {
     return (

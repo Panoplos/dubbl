@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowUpDown } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatMoney } from "@/lib/money";
@@ -74,7 +75,7 @@ export default function PnlComparisonPage() {
     netIncome: p.netIncome / 100,
   }));
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

@@ -27,6 +27,7 @@ import { DataTable, type Column } from "@/components/dashboard/data-table";
 import { formatMoney, parseMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -317,7 +318,7 @@ export default function AssetCategoriesPage() {
     },
   ];
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ListSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

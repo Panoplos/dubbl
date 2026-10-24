@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { FormSkeleton } from "@/components/dashboard/skeletons";
 import { Switch } from "@/components/ui/switch";
 import { CurrencySelect } from "@/components/ui/currency-select";
 import { cn } from "@/lib/utils";
@@ -354,7 +354,7 @@ export default function PayrollSettingsPage() {
     fetchAll();
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <FormSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

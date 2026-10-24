@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { ArrowDownUp, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
@@ -91,7 +92,7 @@ export default function CashFlowPage() {
     },
   ];
 
-  if (initialLoad) return <BrandLoader />;
+  if (initialLoad) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

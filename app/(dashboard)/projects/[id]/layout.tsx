@@ -17,7 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BlurReveal } from "@/components/ui/blur-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { cn } from "@/lib/utils";
 import {
   ProjectProvider,
@@ -34,7 +34,7 @@ function ProjectLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
   if (!proj) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh]">

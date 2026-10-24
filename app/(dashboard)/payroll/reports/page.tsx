@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";
@@ -59,7 +59,7 @@ export default function ReportsPage() {
     window.open(`/api/v1/payroll/reports/export?x-organization-id=${orgId}`, "_blank");
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

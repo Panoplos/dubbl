@@ -6,7 +6,7 @@ import { ArrowLeft, BarChart3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ContentReveal } from "@/components/ui/content-reveal";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { formatMoney } from "@/lib/money";
 
@@ -51,7 +51,7 @@ export default function ReportDetailPage() {
     yoy: "Year over Year",
   };
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ReportSkeleton />;
 
   return (
     <ContentReveal className="space-y-6">

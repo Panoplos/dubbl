@@ -14,7 +14,7 @@ import { formatMoney } from "@/lib/money";
 import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { CardsSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { cn } from "@/lib/utils";
 
@@ -197,7 +197,7 @@ export default function ProjectsPage() {
   const totalHours = projects.reduce((sum, p) => sum + p.totalHours, 0);
   const totalMembers = new Set(projects.flatMap(p => p.members.map(m => m.member.id))).size;
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <CardsSkeleton count={6} />;
 
   if (!loading && projects.length === 0 && statusFilter === "all") {
     return (

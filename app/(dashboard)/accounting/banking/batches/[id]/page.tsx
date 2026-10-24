@@ -24,7 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
@@ -260,7 +260,7 @@ export default function BatchDetailPage() {
     }
   }
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <DetailSkeleton />;
 
   if (!batch) {
     return (

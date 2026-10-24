@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
+import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { ContentReveal } from "@/components/ui/content-reveal";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { formatMoney } from "@/lib/money";
@@ -208,7 +209,7 @@ export default function PaymentsPage() {
   const totalAmount = filtered.reduce((sum, p) => sum + p.amount, 0);
   const hasFilters = search || methodFilter !== "all" || dateFrom || dateTo;
 
-  if (loading) return <BrandLoader />;
+  if (loading) return <ListSkeleton />;
 
   if (!loading && payments.length === 0) {
     return (
