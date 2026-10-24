@@ -61,12 +61,20 @@ that cannot be scripted safely because every page seeds different state.
 - `documents` library
 - `payroll` landing screen (employees + runs)
 - `crm` board (pipelines, first page of the default pipeline, summary)
+- 21 of the 30 `reports/*` screens, through `callRoute`: aged payables and
+  receivables, balance sheet, cash flow, cash flow forecast, comparative
+  balance sheet, executive summary, expense analytics, financial calendar,
+  financial ratios, income statement, 1099, payment performance, P&L
+  comparison, profitability, tax summary, tracking, trial balance, VAT return,
+  vendor spend
 
 ## Not converted, and why
 
-- `dashboard` home issues eight parallel report calls; it needs a single
-  server-side aggregation before it is worth moving.
-- The `reports/*` pages wrap bespoke report routes. Moving them means
-  extracting each route's shaping into a shared function first, otherwise the
-  computation is duplicated in two places.
+- `dashboard` home issues eight parallel report calls. `callRoute` handles the
+  server half; the remaining work is seeding ~20 state hooks across four
+  `.then` blocks, which needs hands, not a script.
+- Nine report screens fetch two or three endpoints (bank cash flow,
+  bank reconciliation status, budget vs actual, consolidation, custom, duplicate
+  detection, general ledger, saved, schedules). Convert the main fetch with the
+  script above after renaming, then seed the secondary ones by hand.
 - Everything else is mechanical: follow the four steps above.
