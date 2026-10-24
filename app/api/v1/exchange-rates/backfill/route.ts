@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { organization } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, ne, isNull, isNotNull } from "drizzle-orm";
+import { bankAccount, bankTransaction, organization } from "@/lib/db/schema";
+import { notDeleted } from "@/lib/db/soft-delete";
 import { getAuthContext } from "@/lib/api/auth-context";
 import { requireRole } from "@/lib/api/require-role";
 import { handleError } from "@/lib/api/response";
@@ -29,7 +30,28 @@ export async function POST(request: Request) {
     });
     if (!org) return NextResponse.json({ error: "Organization not found" }, { status: 404 });
 
-    const currencies = body.currencies ?? ["USD", "GBP"];
+    // Default to the currencies the books are actually waiting on: anything
+    // sitting unreconciled in a currency other than the organisation's own is
+    // a posting that cannot happen until its rate exists.
+    const currencies =
+      body.currencies ??
+      (
+        await db
+          .selectDistinct({ code: bankTransaction.currencyCode })
+          .from(bankTransaction)
+          .innerJoin(bankAccount, eq(bankTransaction.bankAccountId, bankAccount.id))
+          .where(
+            and(
+              eq(bankAccount.organizationId, ctx.organizationId),
+              notDeleted(bankAccount.deletedAt),
+              isNull(bankTransaction.journalEntryId),
+              isNotNull(bankTransaction.currencyCode),
+              ne(bankTransaction.currencyCode, org.defaultCurrency)
+            )
+          )
+      )
+        .map((r) => r.code)
+        .filter((c): c is string => Boolean(c));
     const result = await backfillRates(ctx.organizationId, org.defaultCurrency, currencies, body.from, to);
 
     return NextResponse.json({

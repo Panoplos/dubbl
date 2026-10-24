@@ -674,8 +674,9 @@ export default function SettingsPage() {
           </div>
         ) : (
           <p className="mt-2 text-[11px] text-muted-foreground">
-            Fetched one month at a time so you can watch it progress. Weekends use the last published
-            rate, and a rate you enter by hand always wins.
+            Covers every currency sitting unreconciled in your books, fetched one month at a time so
+            you can watch it progress. Weekends use the last published rate, and a rate you enter by
+            hand always wins.
           </p>
         )}
         {ratesResult && (
