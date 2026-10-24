@@ -37,8 +37,10 @@ anything not listed still uses the client fetch.
 - `purchases/expenses` list and `purchases/expenses/[id]` detail
 - `sales` (invoices) list and `sales/[id]` detail
 - `contacts` list
-- `accounting` manual entries list
+- `accounting` manual entries list and the chart of accounts
 - `documents` library
+- `payroll` landing screen (employees + runs)
+- `crm` board (pipelines, first page of the default pipeline, summary)
 
 ## Not converted, and why
 
