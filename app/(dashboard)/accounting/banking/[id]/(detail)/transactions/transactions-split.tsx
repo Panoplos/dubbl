@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AccountPicker } from "@/components/dashboard/account-picker";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "../../_components";
 
@@ -196,6 +197,9 @@ function Row({
           <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">{tx.date}</span>
         </div>
         {detail && <p className="mt-0.5 truncate text-xs text-muted-foreground">{detail}</p>}
+        <p className="mt-0.5 select-all font-mono text-[10px] text-muted-foreground/70" title={tx.id}>
+          {tx.id.slice(0, 8)}
+        </p>
         <p
           className={cn(
             "mt-1 text-sm tabular-nums",
@@ -209,17 +213,35 @@ function Row({
       {/* Right: what already exists, what might match, or a way to record it */}
       <div className="min-w-0">
         {done ? (
-          <div className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2">
-            <Check className="size-3.5 shrink-0 text-emerald-600" />
-            <div className="min-w-0">
-              <p className="truncate text-xs font-medium">
-                {tx.accountName || (tx.status === "excluded" ? "Ignored" : "Reconciled")}
-              </p>
-              <p className="text-[11px] text-muted-foreground">
-                {tx.journalEntryId ? "Recorded in your books" : "No ledger entry"}
-              </p>
+          tx.expenseClaimId ? (
+            <Link
+              href={`/purchases/expenses/${tx.expenseClaimId}`}
+              className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2 transition-colors hover:bg-accent"
+            >
+              <Check className="size-3.5 shrink-0 text-emerald-600" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-medium">
+                  {tx.accountName || "Reconciled"}
+                </p>
+                <p className="text-[11px] text-muted-foreground">
+                  Open the expense claim
+                </p>
+              </div>
+              <ArrowRight className="size-3.5 shrink-0 text-muted-foreground" />
+            </Link>
+          ) : (
+            <div className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2">
+              <Check className="size-3.5 shrink-0 text-emerald-600" />
+              <div className="min-w-0">
+                <p className="truncate text-xs font-medium">
+                  {tx.accountName || (tx.status === "excluded" ? "Ignored" : "Reconciled")}
+                </p>
+                <p className="text-[11px] text-muted-foreground">
+                  {tx.journalEntryId ? "Recorded in your books" : "No ledger entry"}
+                </p>
+              </div>
             </div>
-          </div>
+          )
         ) : candidates === undefined ? (
           <p className="flex items-center gap-2 px-1 py-2 text-xs text-muted-foreground">
             <Loader2 className="size-3.5 animate-spin" /> Looking for matches…
@@ -244,7 +266,14 @@ function Row({
                       </span>
                     </p>
                     <p className="truncate text-[11px] text-muted-foreground">
-                      {m.candidate.date} · {m.reasons.join(", ")}
+                      {m.candidate.date}
+                      {typeof m.candidate.meta?.itemCount === "number" &&
+                        ` · ${m.candidate.meta.itemCount} item${m.candidate.meta.itemCount === 1 ? "" : "s"}`}
+                      {typeof m.candidate.meta?.totalAmount === "number" &&
+                        ` · ${money(Number(m.candidate.meta.totalAmount), String(m.candidate.meta.currencyCode ?? cur))}`}
+                    </p>
+                    <p className="truncate text-[11px] text-muted-foreground">
+                      {m.reasons.join(", ")}
                     </p>
                   </div>
                   <Button

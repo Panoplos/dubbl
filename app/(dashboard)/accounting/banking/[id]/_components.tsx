@@ -172,6 +172,8 @@ export interface Transaction {
   accountId?: string | null;
   accountCode?: string | null;
   accountName?: string | null;
+  // Set when the line is linked to an expense claim, so the row can open it.
+  expenseClaimId?: string | null;
   // Set when categorized — used to pre-fill the sheet when editing the line.
   taxRateId?: string | null;
   contactId?: string | null;
