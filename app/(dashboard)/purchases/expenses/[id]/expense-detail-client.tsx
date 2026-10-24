@@ -106,6 +106,14 @@ const statusConfig: Record<string, { class: string; dot: string }> = {
     class: "border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-300",
     dot: "bg-purple-500",
   },
+  founder_funded: {
+    class: "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
+    dot: "bg-amber-500",
+  },
+};
+
+const statusLabels: Record<string, string> = {
+  founder_funded: "Founder funded",
 };
 
 function formatDate(dateStr: string) {
@@ -647,7 +655,23 @@ export default function ExpenseDetailPage({
             <div>
               <div className="flex items-center gap-2.5">
                 <h1 className="text-lg font-semibold tracking-tight">{claim.title}</h1>
-                <Badge variant="outline" className={sc.class}>{claim.status}</Badge>
+                <Badge variant="outline" className={sc.class}>
+                  {statusLabels[claim.status] || claim.status}
+                </Badge>
+
+                {claim.status === "founder_funded" && (
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950 p-4">
+                    <p className="text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">
+                      Paid personally by a founder
+                    </p>
+                    <p className="text-xs text-amber-800/80 dark:text-amber-200/80">
+                      This expense was matched to a bank line on a founder account: the company has booked
+                      the cost and still owes the founder — no reimbursement payment is needed. It
+                      can&apos;t be submitted, approved or paid. To undo the match, use Undo on the bank
+                      transaction&apos;s row.
+                    </p>
+                  </div>
+                )}
               </div>
               <p className="text-sm text-muted-foreground mt-0.5">
                 {claim.submittedByUser?.name || claim.submittedByUser?.email || "Unknown"}

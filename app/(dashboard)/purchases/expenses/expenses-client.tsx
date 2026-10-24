@@ -47,6 +47,12 @@ const statusColors: Record<string, string> = {
   rejected:
     "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
   paid: "border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-300",
+  founder_funded:
+    "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300",
+};
+
+const statusLabels: Record<string, string> = {
+  founder_funded: "Founder funded",
 };
 
 function buildColumns(): Column<ExpenseClaim>[] {
@@ -83,7 +89,7 @@ function buildColumns(): Column<ExpenseClaim>[] {
       className: "w-28",
       render: (r) => (
         <Badge variant="outline" className={statusColors[r.status] || ""}>
-          {r.status}
+          {statusLabels[r.status] || r.status}
         </Badge>
       ),
     },
