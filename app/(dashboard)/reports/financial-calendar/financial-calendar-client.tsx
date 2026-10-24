@@ -1,10 +1,5 @@
 "use client";
 
-/** Cast a payload field back to the type the setter expects. */
-function seed<T>(value: unknown, fallback: T): T {
-  return (value ?? fallback) as T;
-}
-
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
@@ -248,4 +243,9 @@ export default function FinancialCalendarPage({ initialData }: { initialData: Re
       )}
     </ContentReveal>
   );
+}
+
+/** Cast a payload field back to the type the setter expects. */
+function seed<T>(value: unknown, fallback: T): T {
+  return (value ?? fallback) as T;
 }
