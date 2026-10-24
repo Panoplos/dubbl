@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
-import { Check, ChevronsUpDown, Lock } from "lucide-react";
+import { Check, ChevronsUpDown, Lock, Loader2, RefreshCcw } from "lucide-react";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -92,6 +92,35 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [countryOpen, setCountryOpen] = useState(false);
   const [lockDate, setLockDate] = useState("");
+  const [ratesFrom, setRatesFrom] = useState(new Date(Date.now() - 90 * 86_400_000).toISOString().slice(0, 10));
+  const [ratesTo, setRatesTo] = useState(new Date().toISOString().slice(0, 10));
+  const [ratesPulling, setRatesPulling] = useState(false);
+  const [ratesResult, setRatesResult] = useState<{ stored: number; dates: number; skipped: string[] } | null>(null);
+
+  async function pullRates() {
+    const orgId = localStorage.getItem("activeOrgId");
+    if (!orgId) return;
+    setRatesPulling(true);
+    setRatesResult(null);
+    try {
+      const res = await fetch("/api/v1/exchange-rates/backfill", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-organization-id": orgId },
+        body: JSON.stringify({ from: ratesFrom, to: ratesTo }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Could not fetch rates");
+        return;
+      }
+      setRatesResult(data);
+      toast.success(`Stored ${data.stored} rates`);
+    } catch {
+      toast.error("Could not fetch rates");
+    } finally {
+      setRatesPulling(false);
+    }
+  }
   const [lockSaving, setLockSaving] = useState(false);
   const [peppolId, setPeppolId] = useState("");
   const [peppolScheme, setPeppolScheme] = useState("");
@@ -563,6 +592,38 @@ export default function SettingsPage() {
       </Section>
 
       <div className="h-px bg-border" />
+
+      {/* Exchange rates */}
+      <Section
+        title="Exchange rates"
+        description="Foreign-currency postings need a rate for their date. Fetch the published rates for a range here; they are kept per day, imported statements pull their own, and a rate you enter by hand always wins."
+      >
+        <div className="flex flex-wrap items-end gap-3">
+          <div className="space-y-1.5">
+            <Label className="text-xs">From</Label>
+            <Input type="date" value={ratesFrom} onChange={(e) => setRatesFrom(e.target.value)} />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs">To</Label>
+            <Input type="date" value={ratesTo} onChange={(e) => setRatesTo(e.target.value)} />
+          </div>
+          <Button size="sm" className="gap-1.5" disabled={ratesPulling} onClick={pullRates}>
+            {ratesPulling ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCcw className="size-3.5" />}
+            {ratesPulling ? "Fetching" : "Fetch rates"}
+          </Button>
+        </div>
+        <p className="mt-2 text-[11px] text-muted-foreground">
+          Fetched after the request returns, so the page stays responsive: the result appears when the
+          work is done. Weekends use the last published rate.
+        </p>
+        {ratesResult && (
+          <p className="mt-2 text-xs">
+            Stored {ratesResult.stored} rates across {ratesResult.dates} days
+            {ratesResult.skipped.length > 0 && `, ${ratesResult.skipped.length} days skipped`}
+            {ratesResult.skipped.length > 0 && ` (first: ${ratesResult.skipped[0]})`}.
+          </p>
+        )}
+      </Section>
 
       {/* Period Lock */}
       <Section title="Lock past dates" description="Lock past dates so they can't be changed. Once set, nothing dated on or before this day can be added or edited — useful after you've filed taxes or closed your books for a period.">
