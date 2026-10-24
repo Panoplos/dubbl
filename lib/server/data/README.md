@@ -22,6 +22,26 @@ anything not listed still uses the client fetch.
    only when nothing has been filtered yet. Without this the page fetches
    immediately and the server render bought nothing.
 
+## When the route is too big to mirror
+
+Report endpoints and the dashboard panels carry bespoke shaping: currency
+conversion, basis selection, bucket maths. Copying that into `lib/server/data`
+duplicates the most intricate code in the app. For those, invoke the handler
+itself from the server component with `callRoute` in `../call-route.ts`:
+
+```tsx
+import { GET } from "@/app/api/v1/reports/profit-and-loss/route";
+
+const pnl = await callRoute<{ totalRevenue: number }>(GET, ctx,
+  "reports/profit-and-loss", new URLSearchParams({ startDate, endDate, basis }));
+```
+
+No HTTP hop, no second implementation, and a handler that errors returns null
+so one failing panel does not blank the page. This is the mechanism for the
+`reports/*` family and the `dashboard` home; they still need the client side of
+the four steps (props, seeded state, skipped first fetch), which is the part
+that cannot be scripted safely because every page seeds different state.
+
 ## Two traps that cost time
 
 - **Dates.** Drizzle returns `Date` objects; the client interfaces are typed
