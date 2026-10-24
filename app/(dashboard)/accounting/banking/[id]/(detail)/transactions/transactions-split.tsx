@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ArrowRight, Check, Loader2, Plus, Sparkles } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { ArrowRight, Check, Loader2, Paperclip, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { AccountPicker } from "@/components/dashboard/account-picker";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "../../_components";
-
-type Tx = Transaction;
-
 
 type Candidate = {
   type: "existing_payment" | "existing_journal" | "transfer" | "existing_expense";
@@ -21,10 +20,7 @@ type Candidate = {
 
 type Ranked = { candidate: Candidate; confidence: number; reasons: string[] };
 
-/**
- * Ids in imported descriptions are noise to a reader: a statement line and a
- * matched claim should look the same at a glance, not differ by a uuid.
- */
+/** Imported descriptions carry uuids and claim references that mean nothing to a reader. */
 function clean(text: string): string {
   return text
     .replace(/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, "")
@@ -34,7 +30,6 @@ function clean(text: string): string {
     .replace(/\s{2,}/g, " ");
 }
 
-/** "Hetzner · Expense · Genba portion…" reads as payee + detail. */
 function split(text: string): { payee: string; detail: string } {
   const parts = clean(text).split(" · ").filter(Boolean);
   if (parts.length <= 1) return { payee: parts[0] || text, detail: "" };
@@ -50,70 +45,61 @@ export function TransactionsSplit({
   orgId,
   onRefetch,
   onCreateExpense,
-  onCategorize,
   onExclude,
 }: {
-  transactions: Tx[];
+  transactions: Transaction[];
   cur: string;
   orgId: string | null;
   onRefetch: () => void;
-  onCreateExpense: (tx: Tx) => void;
-  onCategorize: (tx: Tx) => void;
+  onCreateExpense: (tx: Transaction) => void;
+  onCategorize: (tx: Transaction) => void;
   onExclude: (txId: string) => void;
 }) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [matches, setMatches] = useState<Ranked[] | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [matches, setMatches] = useState<Record<string, Ranked[]>>({});
   const [linking, setLinking] = useState<string | null>(null);
 
-  // Default to the first line still to do, which is what the screen is for.
-  useEffect(() => {
-    if (selectedId && transactions.some((t) => t.id === selectedId)) return;
-    const first = transactions.find((t) => t.status === "unreconciled") ?? transactions[0];
-    setSelectedId(first?.id ?? null);
-  }, [transactions, selectedId]);
-
-  const selected = useMemo(
-    () => transactions.find((t) => t.id === selectedId) ?? null,
-    [transactions, selectedId]
-  );
+  // One lookup per line, in parallel: the row cannot say what it can do until
+  // the books have been asked, and asking per row on click would make every
+  // row feel unresponsive.
+  const unreconciled = transactions.filter((t) => t.status === "unreconciled");
+  const ids = unreconciled.map((t) => t.id).join(",");
 
   useEffect(() => {
-    if (!selected || !orgId || selected.status !== "unreconciled") {
-      setMatches(null);
-      return;
-    }
+    if (!orgId || !ids) return;
     let live = true;
-    setLoading(true);
-    setMatches(null);
-    fetch(`/api/v1/bank-transactions/${selected.id}/match`, {
-      headers: { "x-organization-id": orgId },
-    })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (!live) return;
-        const ranked: Ranked[] = (data?.existingMatches ?? [])
-          .filter((m: Ranked) => m.confidence >= 45)
-          .sort((a: Ranked, b: Ranked) => b.confidence - a.confidence);
-        setMatches(ranked);
-      })
-      .catch(() => live && setMatches([]))
-      .finally(() => live && setLoading(false));
+    Promise.all(
+      ids.split(",").map((id) =>
+        fetch(`/api/v1/bank-transactions/${id}/match`, {
+          headers: { "x-organization-id": orgId },
+        })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((data): [string, Ranked[]] => [
+            id,
+            ((data?.existingMatches ?? []) as Ranked[])
+              .filter((m) => m.confidence >= 45 && (m.candidate.journalEntryId || m.candidate.type === "existing_payment"))
+              .sort((a, b) => b.confidence - a.confidence)
+              .slice(0, 3),
+          ])
+          .catch((): [string, Ranked[]] => [id, []])
+      )
+    ).then((rows) => {
+      if (live) setMatches(Object.fromEntries(rows));
+    });
     return () => {
       live = false;
     };
-  }, [selected, orgId]);
+  }, [ids, orgId]);
 
   const link = useCallback(
-    async (m: Ranked) => {
-      if (!selected || !orgId) return;
-      setLinking(m.candidate.id);
+    async (tx: Transaction, m: Ranked) => {
+      if (!orgId) return;
+      setLinking(tx.id);
       try {
         const body =
           m.candidate.type === "existing_payment"
             ? { matchType: "existing_payment", paymentId: m.candidate.id }
-            : { matchType: "journal", journalEntryId: m.candidate.journalEntryId };
-        const res = await fetch(`/api/v1/bank-transactions/${selected.id}/match`, {
+            : { matchType: "existing_journal", journalEntryId: m.candidate.journalEntryId };
+        const res = await fetch(`/api/v1/bank-transactions/${tx.id}/match`, {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-organization-id": orgId },
           body: JSON.stringify(body),
@@ -129,168 +115,268 @@ export function TransactionsSplit({
         setLinking(null);
       }
     },
-    [selected, orgId, onRefetch]
+    [orgId, onRefetch]
   );
 
-  const best = matches?.[0];
-  const rest = matches?.slice(1) ?? [];
+  return (
+    <div className="overflow-hidden rounded-xl border">
+      <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,24rem)] gap-4 border-b bg-muted/40 px-4 py-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:grid">
+        <span>Transaction</span>
+        <span>Reconcile</span>
+      </div>
+      {transactions.map((tx) => (
+        <Row
+          key={tx.id}
+          tx={tx}
+          cur={cur}
+          orgId={orgId}
+          candidates={matches[tx.id]}
+          linking={linking === tx.id}
+          onLink={(m) => link(tx, m)}
+          onCreateExpense={() => onCreateExpense(tx)}
+          onExclude={() => onExclude(tx.id)}
+          onSaved={onRefetch}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Row({
+  tx,
+  cur,
+  orgId,
+  candidates,
+  linking,
+  onLink,
+  onCreateExpense,
+  onExclude,
+  onSaved,
+}: {
+  tx: Transaction;
+  cur: string;
+  orgId: string | null;
+  candidates: Ranked[] | undefined;
+  linking: boolean;
+  onLink: (m: Ranked) => void;
+  onCreateExpense: () => void;
+  onExclude: () => void;
+  onSaved: () => void;
+}) {
+  const { payee, detail } = split(tx.description);
+  const done = tx.status !== "unreconciled";
+  const best = candidates?.[0];
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
-      {/* Left: the statement as a reader sees it */}
-      <div className="overflow-hidden rounded-xl border">
-        <div className="grid grid-cols-[1fr_auto] items-center gap-3 border-b bg-muted/40 px-4 py-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-          <span>Transaction</span>
-          <span>Amount</span>
+    <div
+      className={cn(
+        "grid gap-4 border-b px-4 py-3 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] sm:items-start",
+        done && "bg-muted/20"
+      )}
+    >
+      {/* Left: the line as a person reads a statement */}
+      <div className="min-w-0 pt-0.5">
+        <div className="flex items-baseline gap-2">
+          <span className="truncate text-sm font-medium">{payee}</span>
+          <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">{tx.date}</span>
         </div>
-        <div className="max-h-[calc(100vh-20rem)] overflow-y-auto">
-          {transactions.map((tx) => {
-            const { payee, detail } = split(tx.description);
-            const isSelected = tx.id === selectedId;
-            const done = tx.status !== "unreconciled";
-            return (
-              <button
-                key={tx.id}
-                type="button"
-                onClick={() => setSelectedId(tx.id)}
-                aria-current={isSelected}
-                className={cn(
-                  "grid w-full grid-cols-[1fr_auto] items-center gap-3 border-b px-4 py-3 text-left transition-colors last:border-b-0",
-                  isSelected ? "bg-accent/60" : "hover:bg-accent/30",
-                  done && "opacity-60"
-                )}
-              >
-                <div className="min-w-0">
-                  <div className="flex items-baseline gap-2">
-                    <span className="truncate text-sm font-medium">{payee}</span>
-                    <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">
-                      {tx.date}
-                    </span>
-                  </div>
-                  {detail && (
-                    <p className="truncate text-xs text-muted-foreground">{detail}</p>
-                  )}
-                </div>
-                <span
-                  className={cn(
-                    "shrink-0 text-sm tabular-nums",
-                    tx.amount < 0 ? "text-foreground" : "text-emerald-600"
-                  )}
-                >
-                  {money(tx.amount, cur)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        {detail && <p className="mt-0.5 truncate text-xs text-muted-foreground">{detail}</p>}
+        <p
+          className={cn(
+            "mt-1 text-sm tabular-nums",
+            tx.amount < 0 ? "text-foreground" : "text-emerald-600"
+          )}
+        >
+          {money(tx.amount, cur)}
+        </p>
       </div>
 
-      {/* Right: what you can do with the selected line */}
-      <div className="lg:sticky lg:top-4 lg:self-start">
-        {!selected ? (
-          <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
-            Pick a transaction to reconcile it.
-          </div>
-        ) : (
-          <div className="space-y-4 rounded-xl border p-4">
-            <div>
-              <div className="flex items-baseline justify-between gap-3">
-                <p className="text-sm font-semibold">{split(selected.description).payee}</p>
-                <p className="shrink-0 text-sm tabular-nums">
-                  {money(selected.amount, cur)}
-                </p>
-              </div>
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                {selected.date}
-                {split(selected.description).detail && ` · ${split(selected.description).detail}`}
+      {/* Right: what already exists, what might match, or a way to record it */}
+      <div className="min-w-0">
+        {done ? (
+          <div className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2">
+            <Check className="size-3.5 shrink-0 text-emerald-600" />
+            <div className="min-w-0">
+              <p className="truncate text-xs font-medium">
+                {tx.accountName || (tx.status === "excluded" ? "Ignored" : "Reconciled")}
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                {tx.journalEntryId ? "Recorded in your books" : "No ledger entry"}
               </p>
             </div>
-
-            {selected.status !== "unreconciled" ? (
-              <p className="rounded-lg bg-muted/50 px-3 py-2 text-xs text-muted-foreground">
-                This line is already {selected.status === "reconciled" ? "reconciled" : "ignored"}.
-              </p>
-            ) : loading ? (
-              <p className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
-                <Loader2 className="size-3.5 animate-spin" /> Looking for matches in your books…
-              </p>
-            ) : best ? (
-              <div className="space-y-2">
-                <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-                  {best.confidence >= 70 ? "Suggested match" : "Possible matches"}
-                </p>
-                {[best, ...rest].map((m, index) => {
-                  const confident = m.confidence >= 70;
-                  return (
-                    <div
-                      key={m.candidate.id}
-                      className={cn(
-                        "rounded-lg border p-3",
-                        index === 0 && confident && "border-emerald-600/40 bg-emerald-600/5"
-                      )}
-                    >
-                      <div className="flex items-baseline justify-between gap-2">
-                        <span className="text-sm font-medium">
-                          {confident && index === 0 && (
-                            <Check className="mr-1 inline size-3.5 text-emerald-600" />
-                          )}
-                          {split(m.candidate.description).payee}
-                        </span>
-                        <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
-                          {m.confidence}%
-                        </span>
-                      </div>
-                      <p className="mt-0.5 text-xs text-muted-foreground">
-                        {m.candidate.date} · {m.reasons.join(", ")}
-                      </p>
-                      <Button
-                        size="sm"
-                        variant={confident ? "default" : "outline"}
-                        className="mt-2 w-full gap-1.5"
-                        loading={linking === m.candidate.id}
-                        onClick={() => link(m)}
-                      >
-                        Reconcile <ArrowRight className="size-3.5" />
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <p className="rounded-lg bg-muted/50 px-3 py-2 text-xs text-muted-foreground">
-                Nothing in your books matches this line yet.
-              </p>
-            )}
-
-            {selected.status === "unreconciled" && (
-              <div className="space-y-2 border-t pt-3">
-                <Button
-                  size="sm"
-                  className="w-full justify-start gap-1.5"
-                  onClick={() => onCreateExpense(selected)}
-                >
-                  <Plus className="size-3.5" /> Create an expense{best ? "" : " from this line"}
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="w-full justify-start gap-1.5"
-                  onClick={() => onCategorize(selected)}
-                >
-                  <Sparkles className="size-3.5" /> Categorize to an account
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="w-full justify-start text-xs text-muted-foreground"
-                  onClick={() => onExclude(selected.id)}
-                >
-                  Ignore this line
-                </Button>
-              </div>
-            )}
           </div>
+        ) : candidates === undefined ? (
+          <p className="flex items-center gap-2 px-1 py-2 text-xs text-muted-foreground">
+            <Loader2 className="size-3.5 animate-spin" /> Looking for matches…
+          </p>
+        ) : best ? (
+          <div className="space-y-1.5">
+            {candidates.map((m, index) => {
+              const confident = m.confidence >= 70;
+              return (
+                <div
+                  key={m.candidate.id}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg border px-3 py-2",
+                    index === 0 && confident && "border-emerald-600/40 bg-emerald-600/5"
+                  )}
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium">
+                      {split(m.candidate.description).payee}
+                      <span className="ml-1.5 font-normal tabular-nums text-muted-foreground">
+                        {m.confidence}%
+                      </span>
+                    </p>
+                    <p className="truncate text-[11px] text-muted-foreground">
+                      {m.candidate.date} · {m.reasons.join(", ")}
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant={confident && index === 0 ? "default" : "outline"}
+                    className="shrink-0 gap-1 px-2 text-xs"
+                    loading={linking}
+                    onClick={() => onLink(m)}
+                  >
+                    Link <ArrowRight className="size-3" />
+                  </Button>
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="w-full px-1 text-left text-[11px] text-muted-foreground hover:text-foreground"
+              onClick={onCreateExpense}
+            >
+              None of these — create a new expense
+            </button>
+          </div>
+        ) : (
+          <InlineExpense tx={tx} cur={cur} orgId={orgId} onSaved={onSaved} onFallback={onCreateExpense} onIgnore={onExclude} />
         )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Records the line as an expense without leaving the page: the amount, date and
+ * payee are already known, so the only decisions left are the account and the
+ * receipt.
+ */
+function InlineExpense({
+  tx,
+  cur,
+  orgId,
+  onSaved,
+  onFallback,
+  onIgnore,
+}: {
+  tx: Transaction;
+  cur: string;
+  orgId: string | null;
+  onSaved: () => void;
+  onFallback: () => void;
+  onIgnore: () => void;
+}) {
+  const { payee } = split(tx.description);
+  const [accountId, setAccountId] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  async function create() {
+    if (!orgId || !accountId) return;
+    setSaving(true);
+    try {
+      let receiptFileKey: string | undefined;
+      let receiptFileName: string | undefined;
+
+      if (file) {
+        const presign = await fetch("/api/v1/attachments/presign", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-organization-id": orgId },
+          body: JSON.stringify({ fileName: file.name, contentType: file.type || "application/octet-stream", fileSize: file.size }),
+        });
+        const signed = await presign.json().catch(() => ({}));
+        if (!presign.ok) throw new Error(signed.error || "Could not prepare the receipt upload");
+        const put = await fetch(signed.uploadUrl, {
+          method: "PUT",
+          headers: { "Content-Type": file.type || "application/octet-stream" },
+          body: file,
+        });
+        if (!put.ok) throw new Error("Receipt upload failed");
+        receiptFileKey = signed.attachment?.fileKey ?? signed.attachment?.key;
+        receiptFileName = file.name;
+      }
+
+      const res = await fetch("/api/v1/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-organization-id": orgId },
+        body: JSON.stringify({
+          title: payee,
+          currencyCode: cur,
+          items: [
+            {
+              date: tx.date,
+              description: clean(tx.description) || payee,
+              amount: Math.abs(tx.amount) / 100,
+              accountId: accountId || null,
+              receiptFileKey: receiptFileKey ?? null,
+              receiptFileName: receiptFileName ?? null,
+            },
+          ],
+        }),
+      });
+      const created = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(created.error || "Could not create the expense");
+      toast.success(`Recorded ${money(tx.amount, cur)} to ${payee}`, {
+        description: file ? "Receipt attached." : undefined,
+      });
+      onSaved();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not create the expense");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="rounded-lg border border-dashed p-2.5">
+      <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <AccountPicker value={accountId} onChange={setAccountId} allowCreate />
+        </div>
+        <label className="shrink-0 cursor-pointer rounded-md border px-2 py-1.5 text-xs text-muted-foreground hover:bg-accent" title="Attach the receipt or invoice">
+          <Paperclip className="size-3.5" />
+          <input
+            type="file"
+            className="hidden"
+            accept="image/*,application/pdf"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          />
+        </label>
+        <Button
+          size="sm"
+          className="shrink-0 gap-1 px-2 text-xs"
+          loading={saving}
+          disabled={!accountId}
+          onClick={create}
+        >
+          <Plus className="size-3" /> Record
+        </Button>
+      </div>
+      <div className="mt-1.5 flex items-center gap-2 px-1 text-[11px] text-muted-foreground">
+        <span className="truncate">
+          {file ? file.name : `Records ${money(tx.amount, cur)} as ${payee}`}
+        </span>
+        <span className="text-border">·</span>
+        <button type="button" className="shrink-0 hover:text-foreground" onClick={onFallback}>
+          More options
+        </button>
+        <button type="button" className="shrink-0 hover:text-foreground" onClick={onIgnore}>
+          Ignore
+        </button>
       </div>
     </div>
   );
