@@ -61,20 +61,17 @@ that cannot be scripted safely because every page seeds different state.
 - `documents` library
 - `payroll` landing screen (employees + runs)
 - `crm` board (pipelines, first page of the default pipeline, summary)
-- 21 of the 30 `reports/*` screens, through `callRoute`: aged payables and
-  receivables, balance sheet, cash flow, cash flow forecast, comparative
-  balance sheet, executive summary, expense analytics, financial calendar,
-  financial ratios, income statement, 1099, payment performance, P&L
-  comparison, profitability, tax summary, tracking, trial balance, VAT return,
-  vendor spend
+- **every** `reports/*` screen except the two that fetch nothing (the index and
+  the pack download), through `callRoute`
+- `dashboard` home: nine queries in one parallel server pass
+- opening balances, inventory alerts and valuation, payroll reports, sales
+  payments and quotes, tax BAS, sales tax, schedule C
 
 ## Not converted, and why
 
-- `dashboard` home issues eight parallel report calls. `callRoute` handles the
-  server half; the remaining work is seeding ~20 state hooks across four
-  `.then` blocks, which needs hands, not a script.
-- Nine report screens fetch two or three endpoints (bank cash flow,
-  bank reconciliation status, budget vs actual, consolidation, custom, duplicate
-  detection, general ledger, saved, schedules). Convert the main fetch with the
-  script above after renaming, then seed the secondary ones by hand.
+- The list screens whose fetch lives in a `useCallback` loader rather than an
+  effect: banking settings, bank transactions, reconcile, payment batches,
+  scheduled payments, stock takes, payroll employees, teams members and CRM
+  analytics. The pattern still applies, but the guard goes in the effect that
+  calls the loader and the setters read from the loader's `.then` blocks.
 - Everything else is mechanical: follow the four steps above.
