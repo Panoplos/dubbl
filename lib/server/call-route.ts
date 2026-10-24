@@ -21,22 +21,27 @@ import type { ServerContext } from "./context";
  * the page.
  */
 export async function callRoute<T = unknown>(
-  handler: (request: Request) => Promise<Response>,
+  handler: (...args: never[]) => Promise<Response>,
   ctx: ServerContext,
   path: string,
-  query?: URLSearchParams
+  query?: URLSearchParams,
+  params?: Record<string, string>
 ): Promise<T | null> {
   const qs = query?.toString();
   const url = `http://internal/api/v1/${path.replace(/^\/+/, "")}${qs ? `?${qs}` : ""}`;
 
-  const response = await handler(
+  const response = await (handler as (
+    request: Request,
+    extra?: { params: Promise<Record<string, string>> }
+  ) => Promise<Response>)(
     new Request(url, {
       headers: {
         "x-organization-id": ctx.organizationId,
         // The session cookie is read from the request context, not copied here.
         "content-type": "application/json",
       },
-    })
+    }),
+    params ? { params: Promise.resolve(params) } : undefined
   );
 
   if (!response.ok) return null;
