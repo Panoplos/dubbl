@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ArrowRight, Check, Loader2, Paperclip, Plus } from "lucide-react";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,6 +60,10 @@ export function TransactionsSplit({
 }) {
   const [matches, setMatches] = useState<Record<string, Ranked[]>>({});
   const [linking, setLinking] = useState<string | null>(null);
+  // What a line became, held locally so the row can settle immediately. The
+  // page used to refetch, which dropped a skeleton over the whole statement and
+  // made a one-click action feel like a reload.
+  const [resolved, setResolved] = useState<Record<string, { label: string; claimId?: string }>>({});
 
   // One lookup per line, in parallel: the row cannot say what it can do until
   // the books have been asked, and asking per row on click would make every
@@ -125,13 +130,19 @@ export function TransactionsSplit({
           toast.error(data.error || "Could not link this transaction");
           return;
         }
-        toast.success("Linked — this line is reconciled");
-        onRefetch();
+        setResolved((prev) => ({
+          ...prev,
+          [tx.id]: {
+            label: isClaim ? String(m.candidate.meta?.title ?? split(m.candidate.description).payee) : "Reconciled",
+            claimId: isClaim ? String(m.candidate.meta?.expenseClaimId ?? m.candidate.id) : undefined,
+          },
+        }));
+        toast.success("Reconciled", { description: split(m.candidate.description).payee });
       } finally {
         setLinking(null);
       }
     },
-    [orgId, onRefetch]
+    [orgId]
   );
 
   return (
@@ -147,11 +158,12 @@ export function TransactionsSplit({
           cur={cur}
           orgId={orgId}
           candidates={matches[tx.id]}
+          resolved={resolved[tx.id]}
           linking={linking === tx.id}
           onLink={(m) => link(tx, m)}
           onCreateExpense={() => onCreateExpense(tx)}
           onExclude={() => onExclude(tx.id)}
-          onSaved={onRefetch}
+          onResolve={(label: string) => setResolved((prev) => ({ ...prev, [tx.id]: { label } }))}
         />
       ))}
     </div>
@@ -163,21 +175,23 @@ function Row({
   cur,
   orgId,
   candidates,
+  resolved,
   linking,
   onLink,
   onCreateExpense,
   onExclude,
-  onSaved,
+  onResolve,
 }: {
   tx: Transaction;
   cur: string;
   orgId: string | null;
   candidates: Ranked[] | undefined;
+  resolved: { label: string; claimId?: string } | undefined;
   linking: boolean;
   onLink: (m: Ranked) => void;
   onCreateExpense: () => void;
   onExclude: () => void;
-  onSaved: () => void;
+  onResolve: (label: string) => void;
 }) {
   const { payee, detail } = split(tx.description);
   const done = tx.status !== "unreconciled";
@@ -212,7 +226,37 @@ function Row({
 
       {/* Right: what already exists, what might match, or a way to record it */}
       <div className="min-w-0">
-        {done ? (
+        {resolved ? (
+          <motion.div
+            initial={{ opacity: 0, y: 6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center gap-2 rounded-lg border border-emerald-600/40 bg-emerald-600/10 px-3 py-2"
+          >
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.06, type: "spring", stiffness: 500, damping: 22 }}
+              className="grid size-4 shrink-0 place-items-center rounded-full bg-emerald-600 text-white"
+            >
+              <Check className="size-2.5" strokeWidth={3} />
+            </motion.span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-medium text-emerald-700 dark:text-emerald-400">
+                {resolved.label}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Reconciled just now</p>
+            </div>
+            {resolved.claimId && (
+              <Link
+                href={`/purchases/expenses/${resolved.claimId}`}
+                className="shrink-0 text-[11px] text-muted-foreground hover:text-foreground"
+              >
+                Open
+              </Link>
+            )}
+          </motion.div>
+        ) : done ? (
           tx.expenseClaimId ? (
             <Link
               href={`/purchases/expenses/${tx.expenseClaimId}`}
@@ -297,7 +341,7 @@ function Row({
             </button>
           </div>
         ) : (
-          <InlineExpense tx={tx} cur={cur} orgId={orgId} onSaved={onSaved} onFallback={onCreateExpense} onIgnore={onExclude} />
+          <InlineExpense tx={tx} cur={cur} orgId={orgId} onSaved={() => onResolve(`Expense recorded · ${payee}`)} onFallback={onCreateExpense} onIgnore={onExclude} />
         )}
       </div>
     </div>
