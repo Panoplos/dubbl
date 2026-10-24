@@ -16,6 +16,7 @@ type Candidate = {
   date: string;
   description: string;
   amount: number;
+  meta?: Record<string, unknown>;
 };
 
 type Ranked = { candidate: Candidate; confidence: number; reasons: string[] };
@@ -76,7 +77,13 @@ export function TransactionsSplit({
           .then((data): [string, Ranked[]] => [
             id,
             ((data?.existingMatches ?? []) as Ranked[])
-              .filter((m) => m.confidence >= 45 && (m.candidate.journalEntryId || m.candidate.type === "existing_payment"))
+              .filter(
+                (m) =>
+                  m.confidence >= 45 &&
+                  (m.candidate.journalEntryId ||
+                    m.candidate.type === "existing_payment" ||
+                    m.candidate.type === "existing_expense")
+              )
               .sort((a, b) => b.confidence - a.confidence)
               .slice(0, 3),
           ])
@@ -95,15 +102,23 @@ export function TransactionsSplit({
       if (!orgId) return;
       setLinking(tx.id);
       try {
-        const body =
-          m.candidate.type === "existing_payment"
-            ? { matchType: "existing_payment", paymentId: m.candidate.id }
-            : { matchType: "existing_journal", journalEntryId: m.candidate.journalEntryId };
-        const res = await fetch(`/api/v1/bank-transactions/${tx.id}/match`, {
+        // A recorded-but-unposted expense claim is matched through its own
+        // endpoint, which posts the liability; everything else links a journal.
+        const isClaim = m.candidate.type === "existing_expense";
+        const res = await fetch(
+          `/api/v1/bank-transactions/${tx.id}/${isClaim ? "match-expense" : "match"}`,
+          {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-organization-id": orgId },
-          body: JSON.stringify(body),
-        });
+            body: JSON.stringify(
+              isClaim
+                ? { expenseClaimId: String(m.candidate.meta?.expenseClaimId ?? m.candidate.id) }
+                : m.candidate.type === "existing_payment"
+                  ? { matchType: "existing_payment", paymentId: m.candidate.id }
+                  : { matchType: "existing_journal", journalEntryId: m.candidate.journalEntryId }
+            ),
+          }
+        );
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
           toast.error(data.error || "Could not link this transaction");
