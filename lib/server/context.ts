@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { and, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { member } from "@/lib/db/schema";
@@ -25,32 +25,50 @@ export async function getServerContext(): Promise<ServerContext> {
   const session = await auth();
   if (!session?.user?.id) redirect("/sign-in");
 
-  const organizationId = (await cookies()).get(ACTIVE_ORG_COOKIE)?.value;
-  if (!organizationId) redirect("/onboarding");
+  const cookieOrgId = (await cookies()).get(ACTIVE_ORG_COOKIE)?.value;
 
-  const mem = await db.query.member.findFirst({
-    where: and(
-      eq(member.organizationId, organizationId),
-      eq(member.userId, session.user.id)
-    ),
-  });
+  // Existing sessions predate the cookie: it only appears once the client has
+  // run. Falling back to the user's first membership matches what the client
+  // loader does anyway (`organizations[0]`), and avoids bouncing every current
+  // user to onboarding on the first request after deploy.
+  const mem = cookieOrgId
+    ? await db.query.member.findFirst({
+        where: and(
+          eq(member.organizationId, cookieOrgId),
+          eq(member.userId, session.user.id)
+        ),
+      })
+    : await db.query.member.findFirst({
+        where: eq(member.userId, session.user.id),
+        orderBy: asc(member.createdAt),
+      });
 
   if (!mem) redirect("/onboarding");
 
-  return { userId: session.user.id, organizationId, role: mem.role };
+  return {
+    userId: session.user.id,
+    organizationId: mem.organizationId,
+    role: mem.role,
+  };
 }
 
 /** Same, but returns null instead of redirecting — for optional data. */
 export async function tryGetServerContext(): Promise<ServerContext | null> {
   const session = await auth();
   if (!session?.user?.id) return null;
-  const organizationId = (await cookies()).get(ACTIVE_ORG_COOKIE)?.value;
-  if (!organizationId) return null;
-  const mem = await db.query.member.findFirst({
-    where: and(
-      eq(member.organizationId, organizationId),
-      eq(member.userId, session.user.id)
-    ),
-  });
-  return mem ? { userId: session.user.id, organizationId, role: mem.role } : null;
+  const cookieOrgId = (await cookies()).get(ACTIVE_ORG_COOKIE)?.value;
+  const mem = cookieOrgId
+    ? await db.query.member.findFirst({
+        where: and(
+          eq(member.organizationId, cookieOrgId),
+          eq(member.userId, session.user.id)
+        ),
+      })
+    : await db.query.member.findFirst({
+        where: eq(member.userId, session.user.id),
+        orderBy: asc(member.createdAt),
+      });
+  return mem
+    ? { userId: session.user.id, organizationId: mem.organizationId, role: mem.role }
+    : null;
 }

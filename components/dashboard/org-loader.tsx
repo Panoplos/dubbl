@@ -2,11 +2,16 @@
 
 import { setActiveOrgId } from "@/lib/active-org";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Logo } from "@/components/shared/logo";
 
 export function OrgLoader({ children }: { children: React.ReactNode }) {
   const FADE_DURATION_MS = 400;
   const [state, setState] = useState<"loading" | "ready" | "fading">("loading");
+  // Invite acceptance happens before the user has any org; don't bounce
+  // brand-new invitees to onboarding mid-invite.
+  const pathname = usePathname();
+  const isInvitePage = pathname?.startsWith("/invite/") ?? false;
 
   useEffect(() => {
     let isMounted = true;
@@ -40,15 +45,14 @@ export function OrgLoader({ children }: { children: React.ReactNode }) {
           ?? data.organizations?.[0];
 
         if (org) {
-          // Persist resolved org for OAuth users who don't have it set yet
-          if (!orgId && org.id) {
-            setActiveOrgId(org.id);
-          }
-          if (org.country === null) {
+          // Persist the resolved org for both storage kinds. Idempotent, and it
+          // is what backfills the cookie for sessions that predate it.
+          if (org.id) setActiveOrgId(org.id);
+          if (org.country === null && !isInvitePage) {
             window.location.href = "/onboarding";
             return;
           }
-        } else {
+        } else if (!isInvitePage) {
           // User has no orgs at all, redirect to onboarding
           window.location.href = "/onboarding";
           return;
@@ -63,7 +67,7 @@ export function OrgLoader({ children }: { children: React.ReactNode }) {
       isMounted = false;
       if (readyTimer) window.clearTimeout(readyTimer);
     };
-  }, []);
+  }, [isInvitePage]);
 
   return (
     <>
