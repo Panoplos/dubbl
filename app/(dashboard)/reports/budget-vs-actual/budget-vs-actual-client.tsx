@@ -11,7 +11,7 @@ import { BudgetProgressBar } from "@/components/dashboard/budget-progress-bar";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatMoney } from "@/lib/money";
 

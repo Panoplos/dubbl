@@ -6,7 +6,7 @@ import { useParams, useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, Target, TrendingUp, TrendingDown, BarChart3, Settings2, Flame, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
 import { cn } from "@/lib/utils";

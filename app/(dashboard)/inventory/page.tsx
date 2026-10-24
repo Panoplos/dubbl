@@ -57,7 +57,7 @@ import { formatMoney } from "@/lib/money";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { CategoryPicker } from "@/components/dashboard/category-picker";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDebounce } from "@/lib/hooks/use-debounce";

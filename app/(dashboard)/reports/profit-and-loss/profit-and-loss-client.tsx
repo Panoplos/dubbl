@@ -5,7 +5,7 @@ import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
 import { StatCard } from "@/components/dashboard/stat-card";

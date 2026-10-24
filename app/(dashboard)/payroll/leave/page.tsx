@@ -17,7 +17,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";

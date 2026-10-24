@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";

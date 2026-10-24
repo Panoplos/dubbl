@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 

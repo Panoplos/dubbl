@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { formatMoney } from "@/lib/money";
-import { BlurReveal } from "@/components/ui/blur-reveal";
+import { BlurReveal } from "@/components/shared/blur-reveal";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 
 interface Quote {

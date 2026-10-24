@@ -22,7 +22,7 @@ import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 
 interface RecurringJournal {
   id: string;

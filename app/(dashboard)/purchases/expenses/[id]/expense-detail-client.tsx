@@ -23,7 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CurrencyInput } from "@/components/ui/currency-input";
+import { CurrencyInput } from "@/components/shared/currency-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -43,7 +43,7 @@ import {
 import { FileUploader } from "@/components/dashboard/file-uploader";
 import { AccountPicker } from "@/components/dashboard/account-picker";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { Markdown, MarkdownHint } from "@/components/shared/markdown";

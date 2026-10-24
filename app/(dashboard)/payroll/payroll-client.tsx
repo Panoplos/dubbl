@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";

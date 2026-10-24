@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BlurReveal } from "@/components/ui/blur-reveal";
+import { BlurReveal } from "@/components/shared/blur-reveal";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { cn } from "@/lib/utils";
 import { ProjectProvider, useProject,

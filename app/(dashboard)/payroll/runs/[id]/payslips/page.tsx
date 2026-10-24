@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, FileText, ChevronDown, ScrollText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";

@@ -10,7 +10,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from "@/components/shared/date-picker";
 import {
   Select,
   SelectContent,
@@ -21,7 +21,7 @@ import {
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { formatMoney } from "@/lib/money";
 import { devDelay } from "@/lib/dev-delay";

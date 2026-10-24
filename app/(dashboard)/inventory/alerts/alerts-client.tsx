@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";

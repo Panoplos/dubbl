@@ -19,7 +19,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { cn } from "@/lib/utils";
 import { formatMoney } from "@/lib/money";

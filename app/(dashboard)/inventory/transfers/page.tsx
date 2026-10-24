@@ -36,7 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDebounce } from "@/lib/hooks/use-debounce";

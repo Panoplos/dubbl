@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CurrencyInput } from "@/components/ui/currency-input";
+import { CurrencyInput } from "@/components/shared/currency-input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -33,13 +33,13 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from "@/components/shared/date-picker";
 import { formatMoney, minorUnitsToDecimal } from "@/lib/money";
-import { DualAmount } from "@/components/ui/dual-amount";
-import { RateNote, type RateInfo } from "@/components/ui/rate-note";
+import { DualAmount } from "@/components/shared/dual-amount";
+import { RateNote, type RateInfo } from "@/components/shared/rate-note";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { SendDocumentDialog } from "@/components/dashboard/send-document-dialog";
 import { EmailHistory } from "@/components/dashboard/email-history";
 import { ReceiptAttachments } from "@/components/dashboard/receipt-attachments";

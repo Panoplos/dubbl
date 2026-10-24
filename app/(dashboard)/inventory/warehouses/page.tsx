@@ -45,7 +45,7 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";

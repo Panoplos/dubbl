@@ -63,8 +63,8 @@ import {
 } from "@/components/ui/sheet";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { ContentReveal } from "@/components/ui/content-reveal";
-import { SearchInput } from "@/components/ui/search-input";
+import { ContentReveal } from "@/components/shared/content-reveal";
+import { SearchInput } from "@/components/shared/search-input";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";

@@ -15,7 +15,7 @@ import { formatMoney } from "@/lib/money";
 import { devDelay } from "@/lib/dev-delay";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { cn } from "@/lib/utils";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { BarChart3, Target, TrendingUp, DollarSign } from "lucide-react";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { CardsSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 

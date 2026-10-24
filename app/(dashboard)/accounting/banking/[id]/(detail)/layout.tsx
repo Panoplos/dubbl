@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { useEntityTitle } from "@/lib/hooks/use-entity-title";
 import { cn } from "@/lib/utils";

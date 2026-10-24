@@ -4,9 +4,9 @@ import Link from "next/link";
 import { Fragment, useState, useEffect, useRef } from "react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Table,

@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 

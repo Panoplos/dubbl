@@ -8,7 +8,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { DateRangeFilter } from "@/components/dashboard/date-range-filter";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
 

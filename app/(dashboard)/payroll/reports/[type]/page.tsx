@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, BarChart3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { formatMoney } from "@/lib/money";

@@ -6,7 +6,7 @@ import { useParams, useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, ArrowDownRight, ArrowUpRight, BookOpen, Hash, Settings2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
 

@@ -16,9 +16,9 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CurrencyInput } from "@/components/ui/currency-input";
+import { CurrencyInput } from "@/components/shared/currency-input";
 import { Label } from "@/components/ui/label";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from "@/components/shared/date-picker";
 import {
   Sheet,
   SheetContent,
@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/sheet";
 import { formatMoney } from "@/lib/money";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { cn } from "@/lib/utils";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { ReconciliationReport, type ReconciliationData } from "../_components";

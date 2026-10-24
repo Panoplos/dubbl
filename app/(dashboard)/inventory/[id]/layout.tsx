@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CurrencyInput } from "@/components/ui/currency-input";
+import { CurrencyInput } from "@/components/shared/currency-input";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
@@ -20,7 +20,7 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { DetailSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { setEntityTitle } from "@/lib/hooks/use-entity-title";
 import { cn } from "@/lib/utils";

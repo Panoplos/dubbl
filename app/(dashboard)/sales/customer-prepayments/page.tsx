@@ -10,7 +10,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from "@/components/shared/date-picker";
 import {
   Select,
   SelectContent,
@@ -24,7 +24,7 @@ import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 
 interface CustomerCredit {
   id: string;

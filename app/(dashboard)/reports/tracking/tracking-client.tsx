@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { Layers } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DateRangeFilter } from "@/components/dashboard/date-range-filter";
 import { Button } from "@/components/ui/button";

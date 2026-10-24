@@ -15,8 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { CurrencyInput } from "@/components/ui/currency-input";
-import { DatePicker } from "@/components/ui/date-picker";
+import { CurrencyInput } from "@/components/shared/currency-input";
+import { DatePicker } from "@/components/shared/date-picker";
 import {
   Select,
   SelectContent,
@@ -35,7 +35,7 @@ import {
 import { StatCard } from "@/components/dashboard/stat-card";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { formatMoney } from "@/lib/money";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 

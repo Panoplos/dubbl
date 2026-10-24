@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { formatMoney, parseMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";

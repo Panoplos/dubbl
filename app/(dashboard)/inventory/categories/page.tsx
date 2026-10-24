@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { useConfirm } from "@/lib/hooks/use-confirm";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 

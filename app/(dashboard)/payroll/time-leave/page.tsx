@@ -35,7 +35,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ListSkeleton } from "@/components/dashboard/skeletons";
 import { useDebounce } from "@/lib/hooks/use-debounce";

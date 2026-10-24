@@ -16,7 +16,7 @@ import { devDelay } from "@/lib/dev-delay";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { CardsSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { cn } from "@/lib/utils";
 
 interface ProjectMember {

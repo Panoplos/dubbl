@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
-import { ContentReveal } from "@/components/ui/content-reveal";
+import { ContentReveal } from "@/components/shared/content-reveal";
 import { ExportButton } from "@/components/dashboard/export-button";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
