@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { Receipt, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";

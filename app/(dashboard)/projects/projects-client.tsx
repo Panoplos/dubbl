@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useRouter } from "next/navigation";
 import { Plus, FolderKanban, Clock, DollarSign, Target, Users } from "lucide-react";
 import { Section } from "@/components/dashboard/section";
@@ -172,7 +173,7 @@ export default function ProjectsPage({
 }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [projects, setProjects] = useServerSeeded(initialProjects, initialProjects);
   // The server already rendered the unfiltered list, so start settled and
   // only fetch when a filter changes.
   const [loading, setLoading] = useState(false);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Plus, Users, DollarSign, FileText, CalendarDays, BarChart3, ArrowRight } from "lucide-react";
@@ -55,8 +56,8 @@ export default function PayrollPage({
 }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
-  const [runs, setRuns] = useState<PayrollRun[]>(initialRuns);
+  const [employees, setEmployees] = useServerSeeded(initialEmployees, initialEmployees);
+  const [runs, setRuns] = useServerSeeded(initialRuns, initialRuns);
   const [loading, setLoading] = useState(false);
   useDocumentTitle("Payroll · Overview");
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { BookOpen, ChevronDown, ChevronRight } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
@@ -81,7 +82,7 @@ export default function GeneralLedgerPage({ initialData }: { initialData: GLPayl
   const [startDate, setStartDate] = useState(drilldown.startDate || `${now.getFullYear()}-01-01`);
   const [endDate, setEndDate] = useState(drilldown.endDate || now.toISOString().slice(0, 10));
   const [dimension] = useState<Record<string, string>>(() => drilldown.dimension || {});
-  const [accounts, setAccounts] = useState<AccountLedger[]>(srv.accounts ?? []);
+  const [accounts, setAccounts] = useServerSeeded(initialData, srv.accounts ?? []);
   const [expandedAccounts, setExpandedAccounts] = useState<Set<string>>(
     new Set((srv.accounts ?? []).map((a) => a.accountId))
   );

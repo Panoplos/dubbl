@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useRouter } from "next/navigation";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { motion } from "motion/react";
@@ -122,9 +123,9 @@ export default function CRMPage({
   const { open: openDrawer } = useCreateDrawer();
 
   // Data
-  const [pipelines, setPipelines] = useState<Pipeline[]>(initialPipelines);
-  const [deals, setDeals] = useState<Deal[]>(initialDeals);
-  const [summary, setSummary] = useState<Summary | null>(initialSummary);
+  const [pipelines, setPipelines] = useServerSeeded(initialPipelines, initialPipelines);
+  const [deals, setDeals] = useServerSeeded(initialDeals, initialDeals);
+  const [summary, setSummary] = useServerSeeded(initialSummary, initialSummary);
   const [activePipeline, setActivePipeline] = useState<Pipeline | null>(
     initialPipelines.find((p) => p.isDefault) ?? initialPipelines[0] ?? null
   );
@@ -138,8 +139,8 @@ export default function CRMPage({
 
   // Pagination
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialDeals.length < initialTotal);
-  const [total, setTotal] = useState(initialTotal);
+  const [hasMore, setHasMore] = useServerSeeded(initialDeals, initialDeals.length < initialTotal);
+  const [total, setTotal] = useServerSeeded(initialTotal, initialTotal);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   // Filters

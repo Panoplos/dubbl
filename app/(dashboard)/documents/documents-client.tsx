@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { motion, AnimatePresence } from "motion/react";
 import {
   FileText,
@@ -117,8 +118,8 @@ export default function DocumentsPage({
   initialDocuments: Doc[];
 }) {
   const { confirm, dialog: confirmDialog } = useConfirm();
-  const [folders, setFolders] = useState<DocFolder[]>(initialFolders);
-  const [documents, setDocuments] = useState<Doc[]>(initialDocuments);
+  const [folders, setFolders] = useServerSeeded(initialFolders, initialFolders);
+  const [documents, setDocuments] = useServerSeeded(initialDocuments, initialDocuments);
   const [loading, setLoading] = useState(false);
   const [currentFolder, setCurrentFolder] = useState<string | null>(null);
   const [newFolderOpen, setNewFolderOpen] = useState(false);

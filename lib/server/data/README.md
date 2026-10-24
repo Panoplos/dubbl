@@ -49,11 +49,13 @@ mutation, re-run the page's own loader (`fetchInvoices()`, `setRefreshKey(k+1)`)
 or dispatch the `*-changed` window event the sibling screens already listen
 for. Two things to know:
 
-- **`useState(initialX)` never re-syncs from props.** `router.refresh()` would
-  re-run the server component and change the props, and the page would keep
-  showing the old rows. Nothing calls `router.refresh()` today; if something
-  starts to, the page needs an effect that copies props into state, or it must
-  fetch instead.
+- **Seeded state must follow the payload, not just start from it.** Back and
+  forward re-render the server component without remounting the client one, so
+  plain `useState(initialX)` kept the rows it was first painted with while the
+  fresh data sat unused in the props. Use `useServerSeeded(payload, value)` from
+  `lib/hooks/use-server-seeded.ts` for every hook that reads the payload; it
+  re-seeds when the payload object changes identity, which only happens on a
+  server render. Loading flags and filters stay plain `useState`.
 - **You cannot delete a mount effect unless nothing can change the data.** Read-
   only snapshots (the dashboard, duplicate detection, reconciliation status) can
   lose theirs; lists with mutations must keep the loader even when the first

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import {
   ArrowLeft,
   BarChart3,
@@ -91,7 +92,7 @@ export default function SavedReportsPage({
   const { confirm, dialog: confirmDialog } = useConfirm();
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [reports, setReports] = useState<SavedReport[]>(initialReports);
+  const [reports, setReports] = useServerSeeded(initialReports, initialReports);
   // Last-run lives on report schedules, not on the saved report itself.
   // Map savedReportId -> most recent lastRunAt across its schedules.
   const [lastRunByReport, setLastRunByReport] = useState<Record<string, string | null>>(

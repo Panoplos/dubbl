@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useRouter } from "next/navigation";
 import { Plus, Receipt, Search, X, Loader2 } from "lucide-react";
@@ -111,8 +112,8 @@ export default function ExpensesPage({
 }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [claims, setClaims] = useState<ExpenseClaim[]>(initialClaims);
-  const [countsData, setCountsData] = useState<{ counts: Record<string, { count: number; amount: number }>; total: number } | null>(initialCounts);
+  const [claims, setClaims] = useServerSeeded(initialClaims, initialClaims);
+  const [countsData, setCountsData] = useServerSeeded(initialCounts, initialCounts);
   // First page came from the server; only later filter changes load.
   const [loading, setLoading] = useState(false);
   const [refetching, setRefetching] = useState(false);
@@ -125,7 +126,7 @@ export default function ExpensesPage({
   const [dateTo, setDateTo] = useState("");
   const [fetchKey, setFetchKey] = useState(0);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [hasMore, setHasMore] = useServerSeeded(initialHasMore, initialHasMore);
   const [loadingMore, setLoadingMore] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 

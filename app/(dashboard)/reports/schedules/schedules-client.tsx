@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { Plus, Mail, Clock, X, CalendarClock, Loader2 } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
 import { ReportSkeleton } from "@/components/dashboard/skeletons";
@@ -104,8 +105,8 @@ export default function ReportSchedulesPage({
   const firstRender = useRef(true);
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [schedules, setSchedules] = useState<ReportSchedule[]>(initialSchedules);
-  const [savedReports, setSavedReports] = useState<SavedReport[]>(initialSavedReports);
+  const [schedules, setSchedules] = useServerSeeded(initialSchedules, initialSchedules);
+  const [savedReports, setSavedReports] = useServerSeeded(initialSavedReports, initialSavedReports);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [dialogOpen, setDialogOpen] = useState(false);

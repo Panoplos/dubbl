@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, Send, DollarSign, Ban, Copy, Clock, Mail, Banknote, Download, AlertTriangle, X, Pencil, Loader2, FileX, Percent, Wallet, ThumbsUp, Bell } from "lucide-react";
@@ -191,9 +192,9 @@ export default function InvoiceDetailPage({
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { confirm, dialog: confirmDialog } = useConfirm();
-  const [inv, setInv] = useState<InvoiceDetail | null>(initialInvoice);
-  const [base, setBase] = useState<BaseAmounts | null>(initialBase);
-  const [payments, setPayments] = useState<PaymentRecord[]>(initialPayments);
+  const [inv, setInv] = useServerSeeded(initialInvoice, initialInvoice);
+  const [base, setBase] = useServerSeeded(initialBase, initialBase);
+  const [payments, setPayments] = useServerSeeded(initialPayments, initialPayments);
   // The server rendered the invoice, its payments and base amounts.
   const [loading, setLoading] = useState(false);
   const [payAmount, setPayAmount] = useState("");

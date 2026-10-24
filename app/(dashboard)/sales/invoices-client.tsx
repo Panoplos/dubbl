@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useRouter } from "next/navigation";
 import { Plus, FileText, X, Banknote, Search, Loader2, Send, CheckCircle2 } from "lucide-react";
@@ -211,21 +212,16 @@ export default function InvoicesPage({
 }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [invoices, setInvoices] = useState<Invoice[]>(initialInvoices);
-  const [payments, setPayments] = useState<PaymentRecord[]>(initialPayments);
+  const [invoices, setInvoices] = useServerSeeded(initialInvoices, initialInvoices);
+  const [payments, setPayments] = useServerSeeded(initialPayments, initialPayments);
   // The server rendered the first page already.
   const [initialLoad, setInitialLoad] = useState(false);
   const [refetching, setRefetching] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(initialTotal);
+  const [totalCount, setTotalCount] = useServerSeeded(initialTotal, initialTotal);
   const [fetchKey, setFetchKey] = useState(0);
-  const [summary, setSummary] = useState<{
-    totalCount: number;
-    outstanding: number;
-    overdue: number;
-    aging: Record<string, { count: number; amount: number }>;
-  } | null>(initialSummary);
+  const [summary, setSummary] = useServerSeeded(initialSummary, initialSummary);
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("created");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");

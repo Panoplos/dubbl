@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
@@ -284,41 +285,26 @@ export default function DashboardPage({
   const firstName = session?.user?.name?.split(" ")[0] || "";
   const [greeting] = useState(() => pickGreeting());
   const srv = initialData ?? {};
-  const [entries, setEntries] = useState<Entry[]>(srv.entries ?? []);
-  const [pnl, setPnl] = useState<PnLData>(
+  const [entries, setEntries] = useServerSeeded(initialData, srv.entries ?? []);
+  const [pnl, setPnl] = useServerSeeded<PnLData>(
+    initialData,
     srv.pnl ?? { totalRevenue: 0, totalExpenses: 0, netIncome: 0, expenses: [] }
   );
-  const [receivables, setReceivables] = useState<AgingData>(
+  const [receivables, setReceivables] = useServerSeeded<AgingData>(
+    initialData,
     srv.receivables ?? { buckets: [], grandTotal: 0 }
   );
-  const [payables, setPayables] = useState<AgingData>(
+  const [payables, setPayables] = useServerSeeded<AgingData>(
+    initialData,
     srv.payables ?? { buckets: [], grandTotal: 0 }
   );
-  const [error, setError] = useState<string | null>(initialError);
-  const [sparklines, setSparklines] = useState<{
-    revenue: number[];
-    expenses: number[];
-    netIncome: number[];
-  }>(srv.sparklines ?? { revenue: [], expenses: [], netIncome: [] });
-  const [budgetAlerts, setBudgetAlerts] = useState<
-    { accountName: string; pct: number; budgeted: number; actual: number }[]
-  >(srv.budgetAlerts ?? []);
-  const [ratios, setRatios] = useState<{
-    currentRatio: number | null;
-    quickRatio: number | null;
-    grossMargin: number | null;
-    netMargin: number | null;
-    dso: number | null;
-    dpo: number | null;
-  } | null>(srv.ratios ?? null);
-  const [actionAlerts, setActionAlerts] = useState<{
-    overdueInvoices: { count: number; total: number };
-    overdueBills: { count: number; total: number };
-    uncategorizedTransactions: number;
-    accountsNeedingReconciliation: { bankAccountName: string; lastReconDate: string | null }[];
-  } | null>(srv.actionAlerts ?? null);
+  const [error, setError] = useServerSeeded(initialError, initialError);
+  const [sparklines, setSparklines] = useServerSeeded(initialData, srv.sparklines ?? { revenue: [], expenses: [], netIncome: [] });
+  const [budgetAlerts, setBudgetAlerts] = useServerSeeded(initialData, srv.budgetAlerts ?? []);
+  const [ratios, setRatios] = useServerSeeded(initialData, srv.ratios ?? null);
+  const [actionAlerts, setActionAlerts] = useServerSeeded(initialData, srv.actionAlerts ?? null);
   // Getting-started checklist: show while the org has never completed onboarding.
-  const [showOnboarding, setShowOnboarding] = useState(srv.showOnboarding ?? false);
+  const [showOnboarding, setShowOnboarding] = useServerSeeded(initialData, srv.showOnboarding ?? false);
   const [dismissingOnboarding, setDismissingOnboarding] = useState(false);
 
   useDocumentTitle("Dashboard \u00B7 Overview");

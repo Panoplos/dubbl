@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useRouter } from "next/navigation";
 import {
@@ -189,9 +190,9 @@ export default function BillsPage({
 }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [bills, setBills] = useState<Bill[]>(initialBills);
-  const [allBills, setAllBills] = useState<Bill[]>(initialAllBills);
-  const [countsData, setCountsData] = useState<{ counts: Record<string, { count: number; amount: number }>; total: number } | null>(initialCounts);
+  const [bills, setBills] = useServerSeeded(initialBills, initialBills);
+  const [allBills, setAllBills] = useServerSeeded(initialAllBills, initialAllBills);
+  const [countsData, setCountsData] = useServerSeeded(initialCounts, initialCounts);
   const [loading, setLoading] = useState(false);
   const [refetching, setRefetching] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -203,7 +204,7 @@ export default function BillsPage({
   const [dateTo, setDateTo] = useState("");
   const [fetchKey, setFetchKey] = useState(0);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [hasMore, setHasMore] = useServerSeeded(initialHasMore, initialHasMore);
   const [loadingMore, setLoadingMore] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 

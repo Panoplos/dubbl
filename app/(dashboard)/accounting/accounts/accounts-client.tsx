@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useRouter } from "next/navigation";
 import { ChevronRight, Lock, Plus, Search, X } from "lucide-react";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
@@ -43,7 +44,7 @@ const ALL_TYPES = ["asset", "liability", "equity", "revenue", "expense"] as cons
 export default function AccountsPage({ initialAccounts }: { initialAccounts: Account[] }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [accounts, setAccounts] = useState<Account[]>(initialAccounts);
+  const [accounts, setAccounts] = useServerSeeded(initialAccounts, initialAccounts);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");

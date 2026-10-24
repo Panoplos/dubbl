@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useRouter } from "next/navigation";
 import {
@@ -115,7 +116,7 @@ const columns: Column<Entry>[] = [
 export default function TransactionsPage({ initialEntries }: { initialEntries: Entry[] }) {
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
-  const [entries, setEntries] = useState<Entry[]>(initialEntries);
+  const [entries, setEntries] = useServerSeeded(initialEntries, initialEntries);
   const [loading, setLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");

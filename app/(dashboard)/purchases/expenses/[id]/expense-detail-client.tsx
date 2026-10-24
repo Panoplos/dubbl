@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -450,7 +451,7 @@ export default function ExpenseDetailPage({
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { confirm, dialog: confirmDialog } = useConfirm();
-  const [claim, setClaim] = useState<ExpenseDetail | null>(initialClaim);
+  const [claim, setClaim] = useServerSeeded(initialClaim, initialClaim);
   // The server rendered this claim.
   const [loading, setLoading] = useState(false);
   const [editOpen, setEditOpen] = useState(false);

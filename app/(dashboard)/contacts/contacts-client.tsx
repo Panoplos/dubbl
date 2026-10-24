@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useServerSeeded } from "@/lib/hooks/use-server-seeded";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { useRouter } from "next/navigation";
@@ -275,7 +276,7 @@ export default function ContactsPage({
   const router = useRouter();
   const { open: openDrawer } = useCreateDrawer();
   const { confirm, dialog: confirmDialog } = useConfirm();
-  const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+  const [contacts, setContacts] = useServerSeeded(initialContacts, initialContacts);
   // First page came from the server.
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -289,9 +290,9 @@ export default function ContactsPage({
   const [refetching, setRefetching] = useState(false);
   const [fetchKey, setFetchKey] = useState(0);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [hasMore, setHasMore] = useServerSeeded(initialHasMore, initialHasMore);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [total, setTotal] = useState(initialTotal);
+  const [total, setTotal] = useServerSeeded(initialTotal, initialTotal);
   const sentinelRef = useRef<HTMLDivElement>(null);
   useDocumentTitle("Contacts · All Contacts");
 
