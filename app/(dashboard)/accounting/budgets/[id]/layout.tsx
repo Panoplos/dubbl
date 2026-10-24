@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, Target, TrendingUp, TrendingDown, BarChart3, Settings2, Flame, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -287,9 +288,9 @@ export default function BudgetDetailLayout({ children }: { children: React.React
             const tabHref = t.href(id);
             const active = activeTab === t.value;
             return (
-              <button
+              <Link
                 key={t.value}
-                onClick={() => router.push(tabHref)}
+                href={tabHref}
                 className={cn(
                   "flex shrink-0 items-center gap-1.5 border-b-2 px-2.5 pb-2.5 text-[13px] font-medium transition-colors",
                   active
@@ -299,7 +300,7 @@ export default function BudgetDetailLayout({ children }: { children: React.React
               >
                 <Icon className="size-3.5" />
                 {t.label}
-              </button>
+              </Link>
             );
           })}
         </nav>

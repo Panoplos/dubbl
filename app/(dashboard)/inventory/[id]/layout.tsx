@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { ArrowLeft, Package, ArrowUpDown, Power, PowerOff, Settings2, Clock, Truck, Layers, TrendingDown } from "lucide-react";
@@ -384,9 +385,9 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
             const Icon = t.icon;
             const tabHref = t.href(id);
             return (
-              <button
+              <Link
                 key={t.value}
-                onClick={() => router.push(tabHref)}
+                href={tabHref}
                 className={cn(
                   "flex shrink-0 items-center gap-1.5 border-b-2 px-2.5 pb-2.5 text-[13px] font-medium transition-colors",
                   activeTab === t.value
@@ -396,7 +397,7 @@ export default function InventoryItemLayout({ children }: { children: React.Reac
               >
                 <Icon className="size-3.5" />
                 {t.label}
-              </button>
+              </Link>
             );
           })}
         </nav>

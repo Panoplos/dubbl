@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -494,9 +495,9 @@ export default function ContactDetailLayout({ children }: { children: React.Reac
             const tabHref = t.value === "details" ? `/contacts/${id}` : `/contacts/${id}/${t.value}`;
             const active = activeTab === t.value;
             return (
-              <button
+              <Link
                 key={t.value}
-                onClick={() => router.push(tabHref)}
+                href={tabHref}
                 className={cn(
                   "flex shrink-0 items-center gap-1.5 border-b-2 px-2.5 pb-2.5 text-[13px] font-medium transition-colors",
                   active
@@ -511,7 +512,7 @@ export default function ContactDetailLayout({ children }: { children: React.Reac
                     {peopleCount}
                   </span>
                 )}
-              </button>
+              </Link>
             );
           })}
         </nav>
