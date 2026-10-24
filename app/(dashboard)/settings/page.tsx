@@ -109,6 +109,7 @@ export default function SettingsPage() {
     from: string;
     to: string;
     currencies: string[];
+    baseCurrency: string;
     derived: boolean;
   } | null>(null);
   const [ratesTouched, setRatesTouched] = useState(false);
@@ -689,6 +690,19 @@ export default function SettingsPage() {
             {ratesPulling ? "Fetching" : "Fetch rates"}
           </Button>
         </div>
+        {ratesSuggested && ratesSuggested.currencies.length > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] text-muted-foreground">Pairs to sync:</span>
+            {ratesSuggested.currencies.map((code) => (
+              <span
+                key={code}
+                className="rounded-full border px-2 py-0.5 text-[11px] font-medium tabular-nums"
+              >
+                {code} → {ratesSuggested.baseCurrency}
+              </span>
+            ))}
+          </div>
+        )}
         {ratesSuggested && (
           <p className="mt-2 text-[11px] text-muted-foreground">
             {ratesTouched ? (
