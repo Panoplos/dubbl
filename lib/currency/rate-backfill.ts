@@ -1,6 +1,6 @@
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { exchangeRate } from "@/lib/db/schema";
+import { exchangeRate, organization } from "@/lib/db/schema";
 import { datedProvider } from "./rate-provider";
 
 /** Rate stored as an integer with this many decimal places (1.000000 = 1000000). */
@@ -101,6 +101,35 @@ export async function backfillRates(
   }
 
   return { requested: dates.length * pairs.length, stored, dates: dates.length, skipped };
+}
+
+/**
+ * Pull today's rates for every pair the organisation tracks, plus any currency
+ * that has just appeared. Used after a statement import, off the request path:
+ * one call covers the whole set instead of one per row.
+ */
+export async function ensureRateSuite(organizationId: string, extraCurrency?: string): Promise<void> {
+  const org = await db.query.organization.findFirst({
+    where: eq(organization.id, organizationId),
+    columns: { defaultCurrency: true },
+  });
+  if (!org) return;
+
+  const known = await db
+    .selectDistinct({ code: exchangeRate.targetCurrency })
+    .from(exchangeRate)
+    .where(eq(exchangeRate.organizationId, organizationId));
+
+  const currencies = [...new Set([...known.map((k) => k.code), extraCurrency])]
+    .filter((c): c is string => Boolean(c) && c !== org.defaultCurrency);
+
+  if (currencies.length === 0) return;
+
+  // Two years back covers any statement a user is likely to import, and the
+  // lookup carries each rate forward from its date.
+  const today = new Date().toISOString().slice(0, 10);
+  const from = new Date(Date.now() - 730 * 86_400_000).toISOString().slice(0, 10);
+  await backfillRates(organizationId, org.defaultCurrency, currencies, from, today);
 }
 
 /**

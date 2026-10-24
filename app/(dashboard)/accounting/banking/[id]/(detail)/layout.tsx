@@ -398,7 +398,18 @@ export default function BankAccountDetailLayout({ children }: { children: React.
       });
       const data = await res.json();
       if (!res.ok) throw new Error(typeof data.error === "string" ? data.error : "Request failed");
-      toast.success(`Imported ${data.import.imported} transactions`);
+      const imported = data.import.imported as number;
+      const currencies: string[] = data.import.ratesNeeded ?? [];
+      toast.success(`Imported ${imported} transactions`);
+      if (currencies.length > 0) {
+        // Rates arrive in the background, so say so: the rows are in, but they
+        // cannot be posted to the books until their dated rate exists.
+        toast.info(
+          `Fetching ${currencies.join(", ")} exchange rates for these dates. ` +
+            `You can categorise the rows now; postings use the rates once they land.`,
+          { duration: 8000 }
+        );
+      }
       setImportOpen(false);
       setSelectedFile(null);
       setManualContent("");
