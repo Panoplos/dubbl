@@ -1,10 +1,5 @@
 "use client";
 
-/** Cast a payload field back to the type the setter expects. */
-function seed<T>(value: unknown, fallback: T): T {
-  return (value ?? fallback) as T;
-}
-
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, ArrowUpDown } from "lucide-react";
@@ -261,4 +256,9 @@ function ChangeCell({ amount, pct, inverted }: { amount: number; pct: number; in
       <span className="ml-1 text-[10px]">({pct > 0 ? "+" : ""}{pct}%)</span>
     </div>
   );
+}
+
+/** Cast a payload field back to the type the setter expects. */
+function seed<T>(value: unknown, fallback: T): T {
+  return (value ?? fallback) as T;
 }

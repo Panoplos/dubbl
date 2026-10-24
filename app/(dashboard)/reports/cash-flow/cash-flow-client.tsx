@@ -1,10 +1,5 @@
 "use client";
 
-/** Cast a payload field back to the type the setter expects. */
-function seed<T>(value: unknown, fallback: T): T {
-  return (value ?? fallback) as T;
-}
-
 import { useState, useEffect, useRef } from "react";
 import { ArrowDownUp, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { BrandLoader } from "@/components/dashboard/brand-loader";
@@ -173,4 +168,9 @@ export default function CashFlowPage({ initialData }: { initialData: Record<stri
       )}
     </ContentReveal>
   );
+}
+
+/** Cast a payload field back to the type the setter expects. */
+function seed<T>(value: unknown, fallback: T): T {
+  return (value ?? fallback) as T;
 }

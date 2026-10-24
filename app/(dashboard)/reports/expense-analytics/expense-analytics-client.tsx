@@ -1,10 +1,5 @@
 "use client";
 
-/** Cast a payload field back to the type the setter expects. */
-function seed<T>(value: unknown, fallback: T): T {
-  return (value ?? fallback) as T;
-}
-
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, PieChart, TrendingDown } from "lucide-react";
@@ -213,4 +208,9 @@ export default function ExpenseAnalyticsPage({ initialData }: { initialData: Rec
       )}
     </ContentReveal>
   );
+}
+
+/** Cast a payload field back to the type the setter expects. */
+function seed<T>(value: unknown, fallback: T): T {
+  return (value ?? fallback) as T;
 }
