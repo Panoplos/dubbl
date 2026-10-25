@@ -61,6 +61,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatMoney, centsToDecimal } from "@/lib/money";
+import { splitDescription } from "@/lib/format/description";
 import { cn } from "@/lib/utils";
 import { AccountPicker } from "@/components/dashboard/account-picker";
 import { ContactPicker } from "@/components/dashboard/contact-picker";
@@ -381,37 +382,43 @@ export function TransactionRow({
     !!tx.accountId &&
     !tx.transferTransactionId &&
     !tx.reconciliationId;
+  const { payee, detail } = splitDescription(tx.description);
+  const day = new Date(`${tx.date}T00:00:00Z`);
+
   return (
+    <>
     <div
       className={cn(
-        "group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/30",
+        "group grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-start gap-x-3 px-4 py-3 transition-colors hover:bg-muted/30",
         !isLast && "border-b"
       )}
     >
-      {selectable && (
-        <Checkbox
-          checked={!!selected}
-          onCheckedChange={(c) => onSelectChange?.(tx.id, c === true)}
-          aria-label="Select transaction"
-          className="shrink-0"
-        />
-      )}
-      <div className={cn(
-        "flex size-8 shrink-0 items-center justify-center rounded-lg",
-        isCredit ? "bg-emerald-50 dark:bg-emerald-950/40" : "bg-red-50 dark:bg-red-950/40"
-      )}>
-        {isCredit
-          ? <ArrowDownRight className="size-4 text-emerald-600 dark:text-emerald-400" />
-          : <ArrowUpRight className="size-4 text-red-600 dark:text-red-400" />
-        }
+      {/* When */}
+      <div className="shrink-0 pt-0.5 text-[11px] leading-tight tabular-nums text-muted-foreground">
+        <div className="font-medium text-foreground">
+          {day.toLocaleString("en", { day: "2-digit", month: "short", timeZone: "UTC" })}
+        </div>
+        <div>{day.getUTCFullYear()}</div>
       </div>
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-medium truncate">{tx.description}</p>
+      {/* What */}
+      <div className="min-w-0">
+        <div className="flex min-w-0 items-center gap-2">
+          {selectable && (
+            <Checkbox
+              checked={!!selected}
+              onCheckedChange={(c) => onSelectChange?.(tx.id, c === true)}
+              aria-label="Select transaction"
+              className="shrink-0"
+            />
+          )}
+          <p className="truncate text-sm font-medium">{payee}</p>
           {derived === "categorized" && tx.accountName && (
-            <span className="text-xs text-muted-foreground truncate shrink min-w-0" title={`Assigned to ${tx.accountName}`}>
-              &rarr; {tx.accountName}
+            <span className="hidden shrink-0 items-center gap-1 text-xs text-muted-foreground sm:inline-flex">
+              <span aria-hidden>&rarr;</span>
+              <span className="max-w-[10rem] truncate" title={`Assigned to ${tx.accountName}`}>
+                {tx.accountName}
+              </span>
             </span>
           )}
           {tx.expenseClaimId && onOpenClaim ? (
@@ -429,41 +436,48 @@ export function TransactionRow({
           ) : (
             <Badge
               variant="outline"
-              className={cn("text-[10px] shrink-0", stateMeta.className)}
+              className={cn("shrink-0 text-[10px]", stateMeta.className)}
               title={stateMeta.title}
             >
               {stateMeta.label}
             </Badge>
           )}
         </div>
-        <p className="text-xs text-muted-foreground truncate mt-0.5">
-          {tx.date}
-          {tx.reference && <> · {tx.reference}</>}
-          {tx.payee && <> · {tx.payee}</>}
+        <p className="mt-0.5 truncate text-xs text-muted-foreground">
+          {detail || tx.reference || tx.payee || "No description"}
         </p>
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
+      {/* How much, and what you can do about it */}
+      <div className="flex shrink-0 flex-col items-end gap-1">
+        <span
+          className={cn(
+            "text-sm font-medium tabular-nums",
+            isCredit ? "text-emerald-600 dark:text-emerald-400" : ""
+          )}
+        >
+          {isCredit ? "+" : "−"}
+          {formatMoney(Math.abs(tx.amount), cur)}
+        </span>
         <div className="flex items-center gap-1.5">
           {tx.status === "unreconciled" && (
             <>
-              {/* Surfaced primary action — the most common thing to do with a line */}
               <Button
                 size="sm"
-                variant="outline"
-                className="h-7 px-2.5 text-xs"
+                variant="ghost"
+                className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
                 onClick={() => onCategorize(tx)}
-                title="Choose what this money was for (the category or account it belongs to)"
+                title="Choose what this money was for"
               >
-                <Tags className="mr-1.5 size-3.5" />Categorize
+                <Tags className="mr-1.5 size-3.5" />
+                Categorize
               </Button>
-              {/* Everything else, one level down */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-7 px-2 text-xs opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100"
+                    className="h-7 px-1.5 text-xs opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100"
                     title="More actions"
                   >
                     <MoreHorizontal className="size-3.5" />
@@ -471,25 +485,25 @@ export function TransactionRow({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   {onMatch && (
-                    <DropdownMenuItem onClick={() => onMatch(tx)} title="Find a matching invoice, bill, or recorded payment and link this line to it">
+                    <DropdownMenuItem onClick={() => onMatch(tx)}>
                       <Link2 className="mr-2 size-3.5" />Find a match…
                     </DropdownMenuItem>
                   )}
                   {onSplit && (
-                    <DropdownMenuItem onClick={() => onSplit(tx)} title="Divide this one transaction across more than one category">
+                    <DropdownMenuItem onClick={() => onSplit(tx)}>
                       <Split className="mr-2 size-3.5" />Split across categories
                     </DropdownMenuItem>
                   )}
                   {onTransfer && (
-                    <DropdownMenuItem onClick={() => onTransfer(tx)} title="Record this as money moved between your own accounts (not income or expense)">
-                      <ArrowLeftRight className="mr-2 size-3.5" />Record a transfer between accounts
+                    <DropdownMenuItem onClick={() => onTransfer(tx)}>
+                      <ArrowLeftRight className="mr-2 size-3.5" />Record a transfer
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => setConfirmClear(true)} title="Confirms this matches your bank — moves no money and records no bookkeeping">
+                  <DropdownMenuItem onClick={() => setConfirmClear(true)}>
                     <CheckCircle className="mr-2 size-3.5" />Mark as cleared
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onExclude(tx.id)} className="text-muted-foreground" title="Hide this line and leave it out of your books">
+                  <DropdownMenuItem onClick={() => onExclude(tx.id)} className="text-muted-foreground">
                     <XCircle className="mr-2 size-3.5" />Ignore this transaction
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -497,18 +511,23 @@ export function TransactionRow({
             </>
           )}
           {tx.status === "excluded" && (
-            <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => onExclude(tx.id)} title="Bring this transaction back into your books">Stop ignoring</Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2 text-xs"
+              onClick={() => onExclude(tx.id)}
+              title="Bring this transaction back into your books"
+            >
+              Stop ignoring
+            </Button>
           )}
-          {/* A line you've already dealt with: let the user fix it. Plain
-              categorizations can be edited in place; everything else (matches,
-              transfers, cleared) can be undone back to the to-do list. */}
           {tx.status === "reconciled" && (
             <>
               {canEditCategory ? (
                 <Button
                   size="sm"
-                  variant="outline"
-                  className="h-7 px-2.5 text-xs"
+                  variant="ghost"
+                  className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => onCategorize(tx)}
                   title="Change the category, tax or contact for this line"
                 >
@@ -517,8 +536,8 @@ export function TransactionRow({
               ) : derived === "cleared" ? (
                 <Button
                   size="sm"
-                  variant="outline"
-                  className="h-7 px-2.5 text-xs"
+                  variant="ghost"
+                  className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => onCategorize(tx)}
                   title="Record what this money was actually for"
                 >
@@ -528,45 +547,20 @@ export function TransactionRow({
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="h-7 px-2.5 text-xs text-muted-foreground hover:text-foreground"
+                  className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => setConfirmUndo(true)}
                   title="Reverse this and move the line back to your to-do list"
                 >
                   <Undo2 className="mr-1.5 size-3.5" />Undo
                 </Button>
               ) : null}
-              {/* When a primary action is shown, tuck Undo into the menu. */}
-              {onUndo && (canEditCategory || derived === "cleared") && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="h-7 px-2 text-xs opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100"
-                      title="More actions"
-                    >
-                      <MoreHorizontal className="size-3.5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem onClick={() => setConfirmUndo(true)} title="Reverse this and move the line back to your to-do list so you can redo it">
-                      <Undo2 className="mr-2 size-3.5" />Undo — move back to to-do
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
             </>
           )}
         </div>
-        <span className={cn(
-          "font-mono text-sm font-medium tabular-nums w-24 text-right",
-          isCredit ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
-        )}>
-          {isCredit ? "+" : ""}{formatMoney(tx.amount, cur)}
-        </span>
       </div>
+    </div>
 
-      <Dialog open={confirmClear} onOpenChange={setConfirmClear}>
+    <Dialog open={confirmClear} onOpenChange={setConfirmClear}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Mark as cleared?</DialogTitle>
@@ -643,7 +637,7 @@ export function TransactionRow({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 

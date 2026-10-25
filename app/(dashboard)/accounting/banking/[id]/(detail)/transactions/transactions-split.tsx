@@ -11,6 +11,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "../../_components";
 import { ExpenseDrawer } from "@/components/dashboard/expense-drawer";
+import { cleanDescription as clean, splitDescription as split } from "@/lib/format/description";
 
 type Candidate = {
   type: "existing_payment" | "existing_journal" | "transfer" | "existing_expense";
@@ -23,22 +24,6 @@ type Candidate = {
 };
 
 type Ranked = { candidate: Candidate; confidence: number; reasons: string[] };
-
-/** Imported descriptions carry uuids and claim references that mean nothing to a reader. */
-function clean(text: string): string {
-  return text
-    .replace(/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, "")
-    .replace(/\bET-[0-9a-f]{16,}\b/gi, "")
-    .replace(/\s*\|\s*(\|\s*)*/g, " · ")
-    .replace(/^[\s·]+|[\s·]+$/g, "")
-    .replace(/\s{2,}/g, " ");
-}
-
-function split(text: string): { payee: string; detail: string } {
-  const parts = clean(text).split(" · ").filter(Boolean);
-  if (parts.length <= 1) return { payee: parts[0] || text, detail: "" };
-  return { payee: parts[0], detail: parts.slice(1).join(" · ") };
-}
 
 const money = (cents: number, cur: string) =>
   new Intl.NumberFormat("en", { style: "currency", currency: cur }).format(cents / 100);

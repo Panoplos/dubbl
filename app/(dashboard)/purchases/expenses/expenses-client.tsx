@@ -8,8 +8,8 @@ import { Plus, Receipt, Search, X, Loader2 } from "lucide-react";
 import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { DataTable, type Column } from "@/components/dashboard/data-table";
 import { ExpenseDrawer } from "@/components/dashboard/expense-drawer";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,69 +56,6 @@ const statusLabels: Record<string, string> = {
   founder_funded: "Founder funded",
 };
 
-function buildColumns(onOpenClaim: (id: string) => void): Column<ExpenseClaim>[] {
-  return [
-    {
-      key: "title",
-      header: "Title",
-      sortKey: "title",
-      render: (r) => (
-        <button
-          type="button"
-          onClick={() => onOpenClaim(r.id)}
-          className="group/title -mx-1 flex min-w-0 flex-col rounded px-1 py-0.5 text-left transition-colors hover:bg-accent/60"
-        >
-          <span className="truncate text-sm font-medium group-hover/title:underline">{r.title}</span>
-          <span className="truncate text-[11px] text-muted-foreground">
-            {r.submittedAt ? `Submitted ${new Date(r.submittedAt).toLocaleDateString()}` : "Not submitted yet"}
-          </span>
-        </button>
-      ),
-    },
-    {
-      key: "submittedBy",
-      header: "Submitted By",
-      render: (r) => (
-        <span className="text-sm">
-          {r.submittedByUser?.name || r.submittedByUser?.email || "-"}
-        </span>
-      ),
-    },
-    {
-      key: "date",
-      header: "Date",
-      sortKey: "date",
-      className: "w-28",
-      render: (r) => (
-        <span className="text-sm">
-          {new Date(r.createdAt).toLocaleDateString()}
-        </span>
-      ),
-    },
-    {
-      key: "status",
-      header: "Status",
-      className: "w-28",
-      render: (r) => (
-        <Badge variant="outline" className={statusColors[r.status] || ""}>
-          {statusLabels[r.status] || r.status}
-        </Badge>
-      ),
-    },
-    {
-      key: "total",
-      header: "Amount",
-      sortKey: "total",
-      className: "w-28 text-right",
-      render: (r) => (
-        <span className="font-mono text-sm tabular-nums">
-          {formatMoney(r.totalAmount, r.currencyCode)}
-        </span>
-      ),
-    },
-  ];
-}
-
 export default function ExpensesPage({
   initialClaims,
   initialCounts,
@@ -153,7 +90,6 @@ export default function ExpensesPage({
   useDocumentTitle("Purchases · Expenses");
 
   const [drawerClaim, setDrawerClaim] = useState<string | null>(null);
-  const columns = useMemo(() => buildColumns(setDrawerClaim), []);
 
   const buildParams = useCallback((pg: number) => {
     const params = new URLSearchParams();
@@ -526,18 +462,48 @@ export default function ExpensesPage({
               }}
               style={{ willChange: "opacity, transform, filter" }}
             >
-              <DataTable
-                columns={columns}
-                data={claims}
-                loading={loading}
-                emptyMessage="No expense claims match your filters."
-                onRowClick={(r) =>
-                  router.push(`/purchases/expenses/${r.id}`)
-                }
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-                onSort={handleSort}
-              />
+              <div className="overflow-hidden rounded-xl border">
+                <div className="hidden grid-cols-[minmax(0,1fr)_9rem_7rem] items-center gap-4 border-b bg-muted/40 px-4 py-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:grid">
+                  <span>Expense</span>
+                  <span>Amount</span>
+                  <span>Status</span>
+                </div>
+                {claims.length === 0 ? (
+                  <p className="px-4 py-12 text-center text-sm text-muted-foreground">
+                    No expense claims match your filters.
+                  </p>
+                ) : (
+                  claims.map((claim) => (
+                    <button
+                      key={claim.id}
+                      type="button"
+                      onClick={() => setDrawerClaim(claim.id)}
+                      className="group/row grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-accent/40 sm:grid-cols-[minmax(0,1fr)_9rem_7rem]"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium group-hover/row:underline">
+                          {claim.title}
+                        </p>
+                        <p className="truncate text-[11px] text-muted-foreground">
+                          {claim.submittedAt
+                            ? `Submitted ${new Date(claim.submittedAt).toLocaleDateString()}`
+                            : "Not submitted yet"}
+                          {claim.submittedByUser &&
+                            ` · ${claim.submittedByUser.name || claim.submittedByUser.email}`}
+                        </p>
+                      </div>
+                      <span className="shrink-0 text-right text-sm tabular-nums sm:text-left">
+                        {formatMoney(claim.totalAmount, claim.currencyCode)}
+                      </span>
+                      <span className="col-span-2 sm:col-span-1">
+                        <Badge variant="outline" className={cn(statusColors[claim.status] || "")}>
+                          {statusLabels[claim.status] || claim.status}
+                        </Badge>
+                      </span>
+                    </button>
+                  ))
+                )}
+              </div>
             </motion.div>
           </MotionConfig>
         )}
