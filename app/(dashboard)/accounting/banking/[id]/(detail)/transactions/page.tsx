@@ -42,6 +42,7 @@ export default function BankTransactionsPage() {
     handleOpenTransfer,
     handleOpenSplit,
     markSettled,
+    markUnsettled,
   } = useBankAccountContext();
 
   const cur = account.currencyCode;
@@ -334,6 +335,7 @@ export default function BankTransactionsPage() {
           onCategorize={handleOpenCategorize}
           onExclude={handleExclude}
           onSettled={markSettled}
+          onUnsettled={markUnsettled}
         />
       )}
       </div>

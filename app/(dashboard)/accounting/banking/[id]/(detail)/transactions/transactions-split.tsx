@@ -10,6 +10,7 @@ import { AccountPicker } from "@/components/dashboard/account-picker";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "../../_components";
+import { ExpenseDrawer } from "../../_expense-drawer";
 
 type Candidate = {
   type: "existing_payment" | "existing_journal" | "transfer" | "existing_expense";
@@ -50,6 +51,7 @@ export function TransactionsSplit({
   onCreateExpense,
   onExclude,
   onSettled,
+  onUnsettled,
 }: {
   transactions: Transaction[];
   cur: string;
@@ -59,6 +61,7 @@ export function TransactionsSplit({
   onCategorize: (tx: Transaction) => void;
   onExclude: (txId: string) => void;
   onSettled: (txId: string) => void;
+  onUnsettled: (txId: string) => void;
 }) {
   const [matches, setMatches] = useState<Record<string, Ranked[]>>({});
   const [linking, setLinking] = useState<string | null>(null);
@@ -66,6 +69,7 @@ export function TransactionsSplit({
   // page used to refetch, which dropped a skeleton over the whole statement and
   // made a one-click action feel like a reload.
   const [resolved, setResolved] = useState<Record<string, { label: string; claimId?: string }>>({});
+  const [drawerClaim, setDrawerClaim] = useState<string | null>(null);
 
   // One lookup per line, in parallel: the row cannot say what it can do until
   // the books have been asked, and asking per row on click would make every
@@ -149,6 +153,8 @@ export function TransactionsSplit({
   );
 
   return (
+    <>
+    <ExpenseDrawer claimId={drawerClaim} orgId={orgId} onClose={() => setDrawerClaim(null)} />
     <div className="overflow-hidden rounded-xl border">
       <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,24rem)] gap-4 border-b bg-muted/40 px-4 py-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:grid">
         <span>Transaction</span>
@@ -166,6 +172,15 @@ export function TransactionsSplit({
           onLink={(m) => link(tx, m)}
           onCreateExpense={() => onCreateExpense(tx)}
           onExclude={() => onExclude(tx.id)}
+          onOpenClaim={(id) => setDrawerClaim(id)}
+          onUnresolve={() => {
+            setResolved((prev) => {
+              const next = { ...prev };
+              delete next[tx.id];
+              return next;
+            });
+            onUnsettled(tx.id);
+          }}
           onResolve={(label: string) => {
             setResolved((prev) => ({ ...prev, [tx.id]: { label } }));
             onSettled(tx.id);
@@ -173,6 +188,7 @@ export function TransactionsSplit({
         />
       ))}
     </div>
+    </>
   );
 }
 
@@ -187,6 +203,8 @@ function Row({
   onCreateExpense,
   onExclude,
   onResolve,
+  onOpenClaim,
+  onUnresolve,
 }: {
   tx: Transaction;
   cur: string;
@@ -198,10 +216,33 @@ function Row({
   onCreateExpense: () => void;
   onExclude: () => void;
   onResolve: (label: string) => void;
+  onOpenClaim: (id: string) => void;
+  onUnresolve: () => void;
 }) {
   const { payee, detail } = split(tx.description);
   const done = tx.status !== "unreconciled";
   const best = candidates?.[0];
+  const [undoing, setUndoing] = useState(false);
+
+  async function undo(id: string) {
+    if (!orgId) return;
+    setUndoing(true);
+    try {
+      const res = await fetch(`/api/v1/bank-transactions/${id}/match-expense`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", "x-organization-id": orgId },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Could not undo this link");
+      toast.success("Link removed", { description: "The transaction is back to do" });
+      onUnresolve();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not undo this link");
+    } finally {
+      setUndoing(false);
+    }
+  }
 
   return (
     <div
@@ -253,20 +294,34 @@ function Row({
               </p>
               <p className="text-[11px] text-muted-foreground">Reconciled just now</p>
             </div>
-            {resolved.claimId && (
-              <Link
-                href={`/purchases/expenses/${resolved.claimId}`}
-                className="shrink-0 text-[11px] text-muted-foreground hover:text-foreground"
-              >
-                Open
-              </Link>
-            )}
+            <div className="flex shrink-0 items-center gap-2">
+              {resolved.claimId && (
+                <button
+                  type="button"
+                  onClick={() => onOpenClaim(resolved.claimId!)}
+                  className="text-[11px] text-muted-foreground hover:text-foreground"
+                >
+                  Open
+                </button>
+              )}
+              {resolved.claimId && (
+                <button
+                  type="button"
+                  onClick={() => undo(tx.id)}
+                  disabled={undoing}
+                  className="text-[11px] text-muted-foreground hover:text-destructive disabled:opacity-50"
+                >
+                  {undoing ? "Undoing…" : "Undo"}
+                </button>
+              )}
+            </div>
           </motion.div>
         ) : done ? (
           tx.expenseClaimId ? (
-            <Link
-              href={`/purchases/expenses/${tx.expenseClaimId}`}
-              className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2 transition-colors hover:bg-accent"
+            <button
+              type="button"
+              onClick={() => onOpenClaim(tx.expenseClaimId!)}
+              className="flex w-full items-center gap-2 rounded-lg bg-muted/50 px-3 py-2 text-left transition-colors hover:bg-accent"
             >
               <Check className="size-3.5 shrink-0 text-emerald-600" />
               <div className="min-w-0 flex-1">
@@ -278,7 +333,7 @@ function Row({
                 </p>
               </div>
               <ArrowRight className="size-3.5 shrink-0 text-muted-foreground" />
-            </Link>
+            </button>
           ) : (
             <div className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2">
               <Check className="size-3.5 shrink-0 text-emerald-600" />
