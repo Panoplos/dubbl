@@ -68,7 +68,9 @@ export function TransactionsSplit({
   // What a line became, held locally so the row can settle immediately. The
   // page used to refetch, which dropped a skeleton over the whole statement and
   // made a one-click action feel like a reload.
-  const [resolved, setResolved] = useState<Record<string, { label: string; claimId?: string }>>({});
+  const [resolved, setResolved] = useState<
+    Record<string, { label: string; claimId?: string }>
+  >({});
   const [drawerClaim, setDrawerClaim] = useState<string | null>(null);
 
   // One lookup per line, in parallel: the row cannot say what it can do until
@@ -139,8 +141,12 @@ export function TransactionsSplit({
         setResolved((prev) => ({
           ...prev,
           [tx.id]: {
-            label: isClaim ? String(m.candidate.meta?.title ?? split(m.candidate.description).payee) : "Reconciled",
-            claimId: isClaim ? String(m.candidate.meta?.expenseClaimId ?? m.candidate.id) : undefined,
+            label: isClaim
+              ? String(m.candidate.meta?.title ?? split(m.candidate.description).payee)
+              : "Reconciled",
+            claimId: isClaim
+              ? String(m.candidate.meta?.expenseClaimId ?? m.candidate.id)
+              : undefined,
           },
         }));
         onSettled(tx.id);
@@ -224,14 +230,14 @@ function Row({
   const best = candidates?.[0];
   const [undoing, setUndoing] = useState(false);
 
-  async function undo(id: string) {
+  async function undo(id: string, claimId: string) {
     if (!orgId) return;
     setUndoing(true);
     try {
       const res = await fetch(`/api/v1/bank-transactions/${id}/match-expense`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", "x-organization-id": orgId },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ expenseClaimId: claimId, reason: "Unlinked from the bank statement" }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Could not undo this link");
@@ -307,7 +313,7 @@ function Row({
               {resolved.claimId && (
                 <button
                   type="button"
-                  onClick={() => undo(tx.id)}
+                  onClick={() => undo(tx.id, resolved.claimId!)}
                   disabled={undoing}
                   className="text-[11px] text-muted-foreground hover:text-destructive disabled:opacity-50"
                 >
