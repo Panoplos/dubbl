@@ -10,7 +10,7 @@ import { AccountPicker } from "@/components/dashboard/account-picker";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "../../_components";
-import { ExpenseDrawer } from "../../_expense-drawer";
+import { ExpenseDrawer } from "@/components/dashboard/expense-drawer";
 
 type Candidate = {
   type: "existing_payment" | "existing_journal" | "transfer" | "existing_expense";

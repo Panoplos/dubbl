@@ -9,6 +9,7 @@ import { useCreateDrawer } from "@/components/dashboard/create-drawer";
 import { useDocumentTitle } from "@/lib/hooks/use-document-title";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { DataTable, type Column } from "@/components/dashboard/data-table";
+import { ExpenseDrawer } from "@/components/dashboard/expense-drawer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,13 +56,24 @@ const statusLabels: Record<string, string> = {
   founder_funded: "Founder funded",
 };
 
-function buildColumns(): Column<ExpenseClaim>[] {
+function buildColumns(onOpenClaim: (id: string) => void): Column<ExpenseClaim>[] {
   return [
     {
       key: "title",
       header: "Title",
       sortKey: "title",
-      render: (r) => <span className="text-sm font-medium">{r.title}</span>,
+      render: (r) => (
+        <button
+          type="button"
+          onClick={() => onOpenClaim(r.id)}
+          className="group/title -mx-1 flex min-w-0 flex-col rounded px-1 py-0.5 text-left transition-colors hover:bg-accent/60"
+        >
+          <span className="truncate text-sm font-medium group-hover/title:underline">{r.title}</span>
+          <span className="truncate text-[11px] text-muted-foreground">
+            {r.submittedAt ? `Submitted ${new Date(r.submittedAt).toLocaleDateString()}` : "Not submitted yet"}
+          </span>
+        </button>
+      ),
     },
     {
       key: "submittedBy",
@@ -140,7 +152,8 @@ export default function ExpensesPage({
 
   useDocumentTitle("Purchases · Expenses");
 
-  const columns = useMemo(() => buildColumns(), []);
+  const [drawerClaim, setDrawerClaim] = useState<string | null>(null);
+  const columns = useMemo(() => buildColumns(setDrawerClaim), []);
 
   const buildParams = useCallback((pg: number) => {
     const params = new URLSearchParams();
@@ -360,6 +373,11 @@ export default function ExpensesPage({
 
   return (
     <ContentReveal>
+      <ExpenseDrawer
+        claimId={drawerClaim}
+        orgId={typeof window !== "undefined" ? localStorage.getItem("activeOrgId") : null}
+        onClose={() => setDrawerClaim(null)}
+      />
       <div className="space-y-3 sm:space-y-6">
         {/* Header */}
         <PageHeader

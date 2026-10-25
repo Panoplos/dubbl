@@ -284,8 +284,8 @@ export const DERIVED_STATE_META: Record<
   },
   categorized: {
     label: "in your books",
-    className: "border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-300",
-    title: "Recorded in your books — assigned to a category",
+    className: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+    title: "Recorded in your books",
   },
   cleared: {
     label: "cleared",
@@ -341,6 +341,7 @@ export function TransactionRow({
   onUndo,
   selected,
   onSelectChange,
+  onOpenClaim,
 }: {
   tx: Transaction;
   cur: string;
@@ -363,6 +364,8 @@ export function TransactionRow({
   // Batch selection (optional). When provided, an unreconciled row shows a checkbox.
   selected?: boolean;
   onSelectChange?: (id: string, checked: boolean) => void;
+  // When the line is backed by an expense claim, its pill opens that claim.
+  onOpenClaim?: (claimId: string) => void;
 }) {
   const isCredit = tx.amount > 0;
   const selectable = !!onSelectChange && tx.status === "unreconciled";
@@ -411,13 +414,27 @@ export function TransactionRow({
               &rarr; {tx.accountName}
             </span>
           )}
-          <Badge
-            variant="outline"
-            className={cn("text-[10px] shrink-0", stateMeta.className)}
-            title={stateMeta.title}
-          >
-            {stateMeta.label}
-          </Badge>
+          {tx.expenseClaimId && onOpenClaim ? (
+            <button
+              type="button"
+              onClick={() => onOpenClaim(tx.expenseClaimId!)}
+              className={cn(
+                "shrink-0 rounded-full border px-2 py-0.5 text-[10px] transition-colors hover:brightness-95",
+                stateMeta.className
+              )}
+              title="Open the expense claim"
+            >
+              {stateMeta.label}
+            </button>
+          ) : (
+            <Badge
+              variant="outline"
+              className={cn("text-[10px] shrink-0", stateMeta.className)}
+              title={stateMeta.title}
+            >
+              {stateMeta.label}
+            </Badge>
+          )}
         </div>
         <p className="text-xs text-muted-foreground truncate mt-0.5">
           {tx.date}
